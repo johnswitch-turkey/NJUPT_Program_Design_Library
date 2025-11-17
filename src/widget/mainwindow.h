@@ -1,3 +1,4 @@
+// mainwindow.h
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -30,7 +31,7 @@ private slots:
     void onBorrow();
     void onReturn();
     void onShowAll();
-    void onSwitchMode(); // <--- 恢复这个声明
+    void onSwitchMode();
     void onHeaderSectionClicked(int section);
 
     // 数据管理
@@ -47,6 +48,7 @@ private:
     void setupStyles();
     void applyTheme(bool isDark);
     QString getThemeStyles(bool isDark);
+    QString getMenuStyles(bool isDark); // 新增菜单样式函数
     void rebuildFilterMenus();
     void updateHeaderLabels();
     void showFilterMenu(QMenu *menu, int section);

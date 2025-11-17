@@ -1,3 +1,4 @@
+// mainwindow.cpp
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -21,9 +22,6 @@
 #include <QActionGroup>
 #include <algorithm>
 #include <QHeaderView>
-
-
-
 
 // ============================================================================
 // 构造函数
@@ -94,9 +92,9 @@ void MainWindow::loadSampleData()
 
         // 文学类图书
         Book{"LIT001", "红楼梦", "三牌楼图书馆", "文学", 8, 35.60, QDate(2023, 1, 10), QDate(), 25, true},
-        Book{"LIT002", "百年孤独", "仙林图书馆", "文学", 4, 42.80, QDate(2023, 2, 15), QDate(), 18, true},
+        Book{"LIT002", "百年孤独", "三牌楼图书馆", "文学", 4, 42.80, QDate(2023, 2, 15), QDate(), 18, true},
         Book{"LIT003", "活着", "三牌楼图书馆", "文学", 6, 28.90, QDate(2023, 3, 1), QDate(), 22, true},
-        Book{"LIT004", "平凡的世界", "仙林图书馆", "文学", 5, 55.00, QDate(2023, 1, 20), QDate(), 16, true},
+        Book{"LIT004", "平凡的世界", "三牌楼图书馆", "文学", 5, 55.00, QDate(2023, 1, 20), QDate(), 16, true},
         Book{"LIT005", "围城", "三牌楼图书馆", "文学", 3, 38.50, QDate(2023, 2, 28), QDate(), 14, true},
 
         // 历史类图书
@@ -109,7 +107,7 @@ void MainWindow::loadSampleData()
         Book{"SCI001", "时间简史", "仙林图书馆", "科学", 3, 52.00, QDate(2023, 1, 30), QDate(), 9, true},
         Book{"SCI002", "物种起源", "三牌楼图书馆", "科学", 2, 68.80, QDate(2023, 3, 20), QDate(), 5, true},
         Book{"SCI003", "相对论", "仙林图书馆", "科学", 1, 75.50, QDate(2023, 2, 25), QDate(), 3, true},
-        Book{"SCI004", "量子力学原理", "三牌楼图书馆", "科学", 2, 88.00, QDate(2023, 4, 10), QDate(), 4, true},
+        Book{"SCI004", "量子力学原理", "仙林图书馆", "科学", 2, 88.00, QDate(2023, 4, 10), QDate(), 4, true},
 
         // 外语类图书
         Book{"ENG001", "新概念英语", "仙林图书馆", "外语", 10, 32.50, QDate(2023, 1, 12), QDate(), 35, true},
@@ -119,19 +117,19 @@ void MainWindow::loadSampleData()
 
         // 艺术类图书
         Book{"ART001", "西方美术史", "仙林图书馆", "艺术", 3, 72.50, QDate(2023, 2, 5), QDate(), 8, true},
-        Book{"ART002", "中国书法艺术", "三牌楼图书馆", "艺术", 2, 55.80, QDate(2023, 3, 12), QDate(), 6, true},
+        Book{"ART002", "中国书法艺术", "仙林图书馆", "艺术", 2, 55.80, QDate(2023, 3, 12), QDate(), 6, true},
         Book{"ART003", "音乐理论基础", "仙林图书馆", "艺术", 4, 48.00, QDate(2023, 1, 18), QDate(), 10, true},
 
         // 哲学类图书
         Book{"PHI001", "论语", "三牌楼图书馆", "哲学", 5, 25.80, QDate(2023, 1, 8), QDate(), 17, true},
-        Book{"PHI002", "道德经", "仙林图书馆", "哲学", 4, 22.50, QDate(2023, 2, 22), QDate(), 14, true},
+        Book{"PHI002", "道德经", "三牌楼图书馆", "哲学", 4, 22.50, QDate(2023, 2, 22), QDate(), 14, true},
         Book{"PHI003", "苏菲的世界", "三牌楼图书馆", "哲学", 3, 38.80, QDate(2023, 3, 25), QDate(), 11, true},
 
         // 一些已借出的图书
         Book{"CS006", "人工智能导论", "仙林图书馆", "计算机科学", 2, 95.00, QDate(2023, 4, 15), QDate(2024, 1, 15), 3, false},
         Book{"LIT006", "1984", "三牌楼图书馆", "文学", 3, 36.50, QDate(2023, 2, 8), QDate(2024, 1, 20), 7, false},
         Book{"ENG005", "英语语法大全", "仙林图书馆", "外语", 5, 52.80, QDate(2023, 3, 18), QDate(2024, 1, 25), 9, false},
-        Book{"SCI005", "宇宙的奥秘", "三牌楼图书馆", "科学", 2, 68.00, QDate(2023, 1, 22), QDate(2024, 1, 30), 5, false}};
+        Book{"SCI005", "宇宙的奥秘", "仙林图书馆", "科学", 2, 68.00, QDate(2023, 1, 22), QDate(2024, 1, 30), 5, false}};
 
     // 将示例图书添加到数据管理器
     for (const auto &book : sampleBooks) {
@@ -167,6 +165,9 @@ void MainWindow::setupTable()
     tableView_->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch); // 名称列拉伸
     tableView_->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch); // 名称列拉伸
     tableView_->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch); // 馆藏地址列拉伸
+
+    // 设置类别和状态列的最小宽度，确保有足够空间显示换行内容
+    tableView_->horizontalHeader()->setMinimumSectionSize(120);
 
     tableView_->horizontalHeader()->setSectionsClickable(true);
     connect(tableView_->horizontalHeader(), &QHeaderView::sectionClicked,
@@ -210,7 +211,7 @@ void MainWindow::refreshTable()
         rowItems << new QStandardItem(b.inDate.toString("yyyy-MM-dd"));
         rowItems << new QStandardItem(b.returnDate.isValid() ? b.returnDate.toString("yyyy-MM-dd") : "");
         rowItems << new QStandardItem(QString::number(b.borrowCount));
-        rowItems << new QStandardItem(b.available ? "✅ 可借" : "❌ 已借出");
+        rowItems << new QStandardItem(b.available ? "可借" : "已借出");
 
         model_->appendRow(rowItems);
     }
@@ -333,7 +334,6 @@ void MainWindow::onSearch()
 
     const Book *b = library_.findByName(name);
     if (b) {
-        // 找到了，只显示这一本
         model_->removeRows(0, model_->rowCount());
         QList<QStandardItem*> rowItems;
         rowItems << new QStandardItem(b->indexId);
@@ -345,7 +345,7 @@ void MainWindow::onSearch()
         rowItems << new QStandardItem(b->inDate.toString("yyyy-MM-dd"));
         rowItems << new QStandardItem(b->returnDate.isValid() ? b->returnDate.toString("yyyy-MM-dd") : "");
         rowItems << new QStandardItem(QString::number(b->borrowCount));
-        rowItems << new QStandardItem(b->available ? "✅ 可借" : "❌ 已借出");
+        rowItems << new QStandardItem(b->available ? "可借" : "已借出");
         model_->appendRow(rowItems);
     } else {
         QMessageBox::information(this, "未找到", QStringLiteral("没有找到名称为 \"%1\" 的图书").arg(name));
@@ -406,16 +406,16 @@ void MainWindow::setupActions()
     // 只添加需要的动作
     auto borrowAct = bar->addAction(QStringLiteral("📖 借书"));
     auto returnAct = bar->addAction(QStringLiteral("📤 还书"));
-    bar->addSeparator();
-    auto openAct = bar->addAction(QStringLiteral("📂 打开"));
-    auto saveAct = bar->addAction(QStringLiteral("💾 保存"));
-    auto allAct = bar->addAction(QStringLiteral("📋 显示全部"));
+    // bar->addSeparator();
+    // auto openAct = bar->addAction(QStringLiteral("📂 打开"));
+    // auto saveAct = bar->addAction(QStringLiteral("💾 保存"));
+    // auto allAct = bar->addAction(QStringLiteral("📋 显示全部"));
 
     connect(borrowAct, &QAction::triggered, this, &MainWindow::onBorrow);
     connect(returnAct, &QAction::triggered, this, &MainWindow::onReturn);
-    connect(openAct, &QAction::triggered, this, &MainWindow::onOpen);
-    connect(saveAct, &QAction::triggered, this, &MainWindow::onSave);
-    connect(allAct, &QAction::triggered, this, &MainWindow::onShowAll);
+    // connect(openAct, &QAction::triggered, this, &MainWindow::onOpen);
+    // connect(saveAct, &QAction::triggered, this, &MainWindow::onSave);
+    // connect(allAct, &QAction::triggered, this, &MainWindow::onShowAll);
 }
 
 void MainWindow::setupMenuBar()
@@ -503,6 +503,91 @@ void MainWindow::applyTheme(bool isDark)
 {
     QString styles = getThemeStyles(isDark);
     setStyleSheet(styles);
+
+    // 同时应用菜单样式
+    QString menuStyles = getMenuStyles(isDark);
+    if (categoryFilterMenu_) {
+        categoryFilterMenu_->setStyleSheet(menuStyles);
+    }
+    if (statusFilterMenu_) {
+        statusFilterMenu_->setStyleSheet(menuStyles);
+    }
+}
+
+// 新增菜单样式函数
+QString MainWindow::getMenuStyles(bool isDark)
+{
+    if (isDark) {
+        return QStringLiteral(
+            "QMenu {"
+            "    background-color: #22333B;"
+            "    border: 2px solid #3A4A52;"
+            "    border-radius: 8px;"
+            "    padding: 8px 0px;"
+            "    color: #D1E7DD;"
+            "    font-size: 14px;"
+            "    font-weight: 500;"
+            "}"
+            "QMenu::item {"
+            "    background-color: transparent;"
+            "    padding: 12px 24px;"
+            "    border: none;"
+            "    min-height: 20px;"
+            "}"
+            "QMenu::item:selected {"
+            "    background-color: #52B788;"
+            "    color: #1A252F;"
+            "    border-radius: 4px;"
+            "    margin: 0px 8px;"
+            "}"
+            "QMenu::item:checked {"
+            "    background-color: #52B788;"
+            "    color: #1A252F;"
+            "    border-radius: 4px;"
+            "    margin: 0px 8px;"
+            "}"
+            "QMenu::separator {"
+            "    height: 1px;"
+            "    background-color: #3A4A52;"
+            "    margin: 8px 16px;"
+            "}"
+        );
+    } else {
+        return QStringLiteral(
+            "QMenu {"
+            "    background-color: #FFFFFF;"
+            "    border: 2px solid #F8D7DC;"
+            "    border-radius: 8px;"
+            "    padding: 8px 0px;"
+            "    color: #5A4B56;"
+            "    font-size: 14px;"
+            "    font-weight: 500;"
+            "}"
+            "QMenu::item {"
+            "    background-color: transparent;"
+            "    padding: 12px 24px;"
+            "    border: none;"
+            "    min-height: 20px;"
+            "}"
+            "QMenu::item:selected {"
+            "    background-color: #F9A8D4;"
+            "    color: #FFFFFF;"
+            "    border-radius: 4px;"
+            "    margin: 0px 8px;"
+            "}"
+            "QMenu::item:checked {"
+            "    background-color: #F9A8D4;"
+            "    color: #FFFFFF;"
+            "    border-radius: 4px;"
+            "    margin: 0px 8px;"
+            "}"
+            "QMenu::separator {"
+            "    height: 1px;"
+            "    background-color: #F8D7DC;"
+            "    margin: 8px 16px;"
+            "}"
+        );
+    }
 }
 
 // 这里 getThemeStyles 函数保持不变，直接使用你之前的完整版本
@@ -586,7 +671,7 @@ QString MainWindow::getThemeStyles(bool isDark)
         "    border: none;"
         "    font-weight: 600;"
         "    font-size: 15px;"
-        "    min-height: 44px;"
+        "    min-height: 60px;" /* 增加高度以容纳换行内容 */
         "    border-bottom: 2px solid #F4A261;" /* 琥珀橙下边框 */
         "}"
         "QHeaderView::section:hover {"
@@ -720,7 +805,7 @@ QString MainWindow::getThemeStyles(bool isDark)
         "    border: none;"
         "    font-weight: 600;"
         "    font-size: 15px;"
-        "    min-height: 44px;"
+        "    min-height: 60px;" /* 增加高度以容纳换行内容 */
         "    border-bottom: 2px solid #F9A8D4;" /* 亮粉色下边框 */
         "}"
         "QHeaderView::section:hover {"
@@ -870,23 +955,27 @@ void MainWindow::rebuildFilterMenus()
         statusFilter_ = action->data().toString();
         refreshTable();
     });
+
+    // 应用菜单样式
+    applyTheme(isDarkMode_);
 }
 
 void MainWindow::updateHeaderLabels()
 {
     if (!model_) return;
 
-    QString categoryLabel = QStringLiteral("类别");
+    // 修改：使用换行显示筛选信息，并添加倒三角符号
+    QString categoryLabel = QStringLiteral("类别\n▼");
     if (!categoryFilter_.isEmpty()) {
-        categoryLabel += QStringLiteral(" · %1").arg(categoryFilter_);
+        categoryLabel = QStringLiteral("类别\n%1\n▼").arg(categoryFilter_);
     }
     model_->setHeaderData(3, Qt::Horizontal, categoryLabel);
 
-    QString statusLabel = QStringLiteral("状态");
+    QString statusLabel = QStringLiteral("状态\n▼");
     if (statusFilter_ == "available") {
-        statusLabel += QStringLiteral(" · 可借");
+        statusLabel = QStringLiteral("状态\n可借\n▼");
     } else if (statusFilter_ == "borrowed") {
-        statusLabel += QStringLiteral(" · 已借出");
+        statusLabel = QStringLiteral("状态\n已借出\n▼");
     }
     model_->setHeaderData(9, Qt::Horizontal, statusLabel);
 }
@@ -914,4 +1003,3 @@ void MainWindow::showFilterMenu(QMenu *menu, int section)
     QPoint globalPos = header->mapToGlobal(sectionRect.bottomLeft());
     menu->popup(globalPos);
 }
-
