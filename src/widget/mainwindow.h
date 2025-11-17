@@ -4,17 +4,8 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTableView>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QDockWidget>
-#include <QMenuBar>
-#include <QMenu>
-#include <QAction>
-
-// 前向声明，避免在头文件中包含Qt的头文件
-class QToolBar;
-class QScrollArea;
-class QStatusBar;
+#include <QPushButton> // <--- 添加这个头文件
+#include "../utils/librarymanager.h" // 核心数据管理器
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,50 +16,26 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
-    // UI交互相关的槽函数
+    // UI交互
     void toggleTheme();
     void onSearch();
 
-    // --- 以下是缺失的函数声明 ---
-    void onAdd();
-    void onEdit();
-    void onRemove();
+    // 核心业务功能
     void onBorrow();
     void onReturn();
-    void onShowDue();
-    void onSortByBorrow();
+    void onShowAll();
+    void onSwitchMode(); // <--- 恢复这个声明
+
+    // 数据管理
     void onOpen();
     void onSave();
-    void onShowAll();
-    void onSwitchMode();
-    void onFilterByCategory();
-    void onFilterByLocation();
-    void onShowAvailable();
-    void onShowBorrowed();
-    void onShowTopBorrowed();
-    void onShowRecentlyAdded();
-    void onShowExpensiveBooks();
-    void onShowCheapBooks();
-    void onShowStatistics();
-    void onSortByName();
-    void onSortByCategory();
-    void onSortByLocation();
-    void onSortByPrice();
-    void onSortByDate();
-    void onSortByBorrowCount();
-    void onAdvancedSearch();
-    void onExportData();
-    void onImportData();
-    void onBackupData();
-    void onRestoreData();
-
 
 private:
-    // UI设置函数
+    // UI设置
     void setupTable();
     void setupMenuBar();
     void setupSearchBar();
@@ -77,29 +44,26 @@ private:
     void setupStyles();
     void applyTheme(bool isDark);
     QString getThemeStyles(bool isDark);
-    QDockWidget* createDockWidgetFromScrollArea(QScrollArea *scrollArea);
+    QDockWidget* createDockWidgetFromScrollArea(class QScrollArea *scrollArea);
 
-    // UI更新函数
-    void updateUIForUserMode();
+    // 数据与显示
+    void loadSampleData(); // 加载示例数据
+    void refreshTable();   // 刷新表格显示
+
+    // UI更新
     void updateStatusBar();
 
-    // UI成员变量
+    // UI成员
     Ui::MainWindow *ui;
-    QStandardItemModel *model_;
-    QTableView *tableView_;
+    LibraryManager library_;       // 核心数据管理器
+    QStandardItemModel *model_;     // 表格模型
+    QTableView *tableView_;         // 表格视图
     QLineEdit *searchEdit_;
-    QPushButton *searchButton_;
-    QPushButton *themeToggleButton_;
-
-    // 菜单和工具栏
-    QMenuBar* menuBar_;
-    QMenu* bookMenu_;
-    QMenu* queryMenu_;
-    QMenu* sortMenu_;
-    QMenu* dataMenu_;
-    QMenu* systemMenu_;
+    QPushButton *searchButton_;      // <--- 恢复这个声明
+    QPushButton *themeToggleButton_; // <--- 恢复这个声明
 
     // 状态和主题
     bool isDarkMode_;
 };
+
 #endif // MAINWINDOW_H

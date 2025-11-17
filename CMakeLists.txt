@@ -18,7 +18,12 @@ add_executable(clion_test src/main.cpp
         src/widget/mainwindow.cpp
         src/widget/mainwindow.h
         src/widget/ui_mainwindow.cpp
-        src/widget/ui_mainwindow.h)
+        src/widget/ui_mainwindow.h
+        src/utils/bookdisplay.cpp
+        src/utils/bookdisplay.h
+        src/utils/book.h
+        src/utils/librarymanager.cpp
+        src/utils/librarymanager.h)
 target_link_libraries(clion_test
         Qt::Core
         Qt::Gui
