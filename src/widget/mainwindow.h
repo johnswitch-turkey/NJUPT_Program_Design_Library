@@ -4,7 +4,9 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTableView>
-#include <QPushButton> // <--- 添加这个头文件
+#include <QPushButton>
+#include <QMenu>
+#include <QActionGroup>
 #include "../utils/librarymanager.h" // 核心数据管理器
 
 QT_BEGIN_NAMESPACE
@@ -29,6 +31,7 @@ private slots:
     void onReturn();
     void onShowAll();
     void onSwitchMode(); // <--- 恢复这个声明
+    void onHeaderSectionClicked(int section);
 
     // 数据管理
     void onOpen();
@@ -44,6 +47,9 @@ private:
     void setupStyles();
     void applyTheme(bool isDark);
     QString getThemeStyles(bool isDark);
+    void rebuildFilterMenus();
+    void updateHeaderLabels();
+    void showFilterMenu(QMenu *menu, int section);
     QDockWidget* createDockWidgetFromScrollArea(class QScrollArea *scrollArea);
 
     // 数据与显示
@@ -59,8 +65,14 @@ private:
     QStandardItemModel *model_;     // 表格模型
     QTableView *tableView_;         // 表格视图
     QLineEdit *searchEdit_;
-    QPushButton *searchButton_;      // <--- 恢复这个声明
-    QPushButton *themeToggleButton_; // <--- 恢复这个声明
+    QPushButton *searchButton_;
+    QPushButton *themeToggleButton_;
+    QMenu *categoryFilterMenu_;
+    QMenu *statusFilterMenu_;
+    QActionGroup *categoryActionGroup_;
+    QActionGroup *statusActionGroup_;
+    QString categoryFilter_;
+    QString statusFilter_;
 
     // 状态和主题
     bool isDarkMode_;

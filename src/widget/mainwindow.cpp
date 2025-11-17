@@ -17,6 +17,13 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDate>
+#include <QSet>
+#include <QActionGroup>
+#include <algorithm>
+#include <QHeaderView>
+
+
+
 
 // ============================================================================
 // 构造函数
@@ -29,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
     , searchEdit_(nullptr)
     , searchButton_(nullptr)
     , themeToggleButton_(nullptr)
+    , categoryFilterMenu_(nullptr)
+    , statusFilterMenu_(nullptr)
+    , categoryActionGroup_(nullptr)
+    , statusActionGroup_(nullptr)
+    , categoryFilter_()
+    , statusFilter_()
     , isDarkMode_(false)
 {
     ui->setupUi(this);
@@ -38,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 2. 准备数据
     loadSampleData();
+
+    // 2.5 构建筛选菜单
+    rebuildFilterMenus();
 
     // 3. 填充数据
     refreshTable();
@@ -152,6 +168,10 @@ void MainWindow::setupTable()
     tableView_->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch); // 名称列拉伸
     tableView_->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch); // 馆藏地址列拉伸
 
+    tableView_->horizontalHeader()->setSectionsClickable(true);
+    connect(tableView_->horizontalHeader(), &QHeaderView::sectionClicked,
+            this, &MainWindow::onHeaderSectionClicked);
+
     // 将表格添加到中央布局
     ui->centralLayout->addWidget(tableView_);
 }
@@ -170,6 +190,16 @@ void MainWindow::refreshTable()
     // 3. 遍历图书数据，填充到模型中
     for (int row = 0; row < books.size(); ++row) {
         const Book &b = books[row];
+
+        if (!categoryFilter_.isEmpty() && b.category != categoryFilter_) {
+            continue;
+        }
+        if (statusFilter_ == "available" && !b.available) {
+            continue;
+        }
+        if (statusFilter_ == "borrowed" && b.available) {
+            continue;
+        }
         QList<QStandardItem*> rowItems;
         rowItems << new QStandardItem(b.indexId);
         rowItems << new QStandardItem(b.name);
@@ -187,6 +217,7 @@ void MainWindow::refreshTable()
 
     // 4. 更新状态栏
     updateStatusBar();
+    updateHeaderLabels();
 }
 
 // ============================================================================
@@ -327,6 +358,7 @@ void MainWindow::onOpen()
     if (!path.isEmpty()) {
         QString error;
         if (library_.loadFromFile(path, &error)) {
+            rebuildFilterMenus();
             refreshTable();
             QMessageBox::information(this, "成功", "数据加载成功！");
         } else {
@@ -747,3 +779,139 @@ QString MainWindow::getThemeStyles(bool isDark)
         );
     }
 }
+
+void MainWindow::rebuildFilterMenus()
+{
+    delete categoryFilterMenu_;
+    delete statusFilterMenu_;
+    delete categoryActionGroup_;
+    delete statusActionGroup_;
+
+    categoryFilterMenu_ = new QMenu(this);
+    categoryFilterMenu_->setMinimumWidth(200);
+    categoryActionGroup_ = new QActionGroup(categoryFilterMenu_);
+    categoryActionGroup_->setExclusive(true);
+
+    auto addCategoryAction = [this](const QString &label, const QString &value, bool separator = false) {
+        if (separator) {
+            categoryFilterMenu_->addSeparator();
+            return static_cast<QAction*>(nullptr);
+        }
+        QAction *action = categoryFilterMenu_->addAction(label);
+        action->setCheckable(true);
+        action->setData(value);
+        categoryActionGroup_->addAction(action);
+        if (value == categoryFilter_) {
+            action->setChecked(true);
+        }
+        return action;
+    };
+
+    QAction *allCategoryAction = addCategoryAction(QStringLiteral("全部类别"), QString());
+    if (categoryFilter_.isEmpty() && allCategoryAction) {
+        allCategoryAction->setChecked(true);
+    }
+
+    QSet<QString> categorySet;
+    for (const Book &book : library_.getAll()) {
+        if (!book.category.isEmpty()) {
+            categorySet.insert(book.category);
+        }
+    }
+    if (!categoryFilter_.isEmpty() && !categorySet.contains(categoryFilter_)) {
+        categoryFilter_.clear();
+    }
+    QList<QString> categories = QList<QString>(categorySet.begin(), categorySet.end());
+    std::sort(categories.begin(), categories.end(), [](const QString &a, const QString &b) {
+        return a.localeAwareCompare(b) < 0;
+    });
+
+    if (!categories.isEmpty()) {
+        addCategoryAction(QString(), QString(), true);
+    }
+    for (const QString &category : categories) {
+        addCategoryAction(category, category);
+    }
+
+    connect(categoryActionGroup_, &QActionGroup::triggered, this, [this](QAction *action) {
+        categoryFilter_ = action->data().toString();
+        refreshTable();
+    });
+
+    statusFilterMenu_ = new QMenu(this);
+    statusFilterMenu_->setMinimumWidth(200);
+    statusActionGroup_ = new QActionGroup(statusFilterMenu_);
+    statusActionGroup_->setExclusive(true);
+
+    auto addStatusAction = [this](const QString &label, const QString &value) {
+        QAction *action = statusFilterMenu_->addAction(label);
+        action->setCheckable(true);
+        action->setData(value);
+        statusActionGroup_->addAction(action);
+        if (statusFilter_ == value) {
+            action->setChecked(true);
+        }
+        return action;
+    };
+
+    QAction *allStatusAction = addStatusAction(QStringLiteral("全部状态"), QString());
+    QAction *availableAction = addStatusAction(QStringLiteral("仅可借"), QStringLiteral("available"));
+    QAction *borrowedAction = addStatusAction(QStringLiteral("仅已借出"), QStringLiteral("borrowed"));
+
+    if (statusFilter_.isEmpty() && allStatusAction) {
+        allStatusAction->setChecked(true);
+    } else if (statusFilter_ == "available" && availableAction) {
+        availableAction->setChecked(true);
+    } else if (statusFilter_ == "borrowed" && borrowedAction) {
+        borrowedAction->setChecked(true);
+    }
+
+    connect(statusActionGroup_, &QActionGroup::triggered, this, [this](QAction *action) {
+        statusFilter_ = action->data().toString();
+        refreshTable();
+    });
+}
+
+void MainWindow::updateHeaderLabels()
+{
+    if (!model_) return;
+
+    QString categoryLabel = QStringLiteral("类别");
+    if (!categoryFilter_.isEmpty()) {
+        categoryLabel += QStringLiteral(" · %1").arg(categoryFilter_);
+    }
+    model_->setHeaderData(3, Qt::Horizontal, categoryLabel);
+
+    QString statusLabel = QStringLiteral("状态");
+    if (statusFilter_ == "available") {
+        statusLabel += QStringLiteral(" · 可借");
+    } else if (statusFilter_ == "borrowed") {
+        statusLabel += QStringLiteral(" · 已借出");
+    }
+    model_->setHeaderData(9, Qt::Horizontal, statusLabel);
+}
+
+void MainWindow::onHeaderSectionClicked(int section)
+{
+    if (section == 3) {
+        showFilterMenu(categoryFilterMenu_, section);
+    } else if (section == 9) {
+        showFilterMenu(statusFilterMenu_, section);
+    }
+}
+
+void MainWindow::showFilterMenu(QMenu *menu, int section)
+{
+    if (!menu || !tableView_) return;
+    QHeaderView *header = tableView_->horizontalHeader();
+
+    // 修复：使用 sectionPosition() 和 sectionSize() 替代不存在的 sectionRect()
+    int x = header->sectionPosition(section);
+    int width = header->sectionSize(section);
+    int height = header->height();
+
+    QRect sectionRect(x, 0, width, height);
+    QPoint globalPos = header->mapToGlobal(sectionRect.bottomLeft());
+    menu->popup(globalPos);
+}
+
