@@ -57,6 +57,9 @@ void Log::setupUI()
 {
     mainLayout_ = new QVBoxLayout(this);
 
+    // 为整个对话框设置一个现代化的背景色
+    this->setStyleSheet("Log { background-color: #f0f2f5; }");
+
     // 标题
     titleLabel_ = new QLabel("登录", this);
     titleLabel_->setAlignment(Qt::AlignCenter);
@@ -64,17 +67,45 @@ void Log::setupUI()
     titleFont.setPointSize(16);
     titleFont.setBold(true);
     titleLabel_->setFont(titleFont);
+    // 设置标题样式
+    titleLabel_->setStyleSheet("color: #2c3e50; margin-top: 10px; margin-bottom: 20px;");
     mainLayout_->addWidget(titleLabel_);
 
     // 用户名输入框
     usernameEdit_ = new QLineEdit(this);
     usernameEdit_->setPlaceholderText("请输入用户名");
+    // 设置输入框样式
+    usernameEdit_->setStyleSheet(
+        "QLineEdit {"
+        "   border: 1px solid #cccccc;"
+        "   border-radius: 8px;"
+        "   padding: 10px;"
+        "   font-size: 14px;"
+        "   background-color: white;"
+        "}"
+        "QLineEdit:focus {"
+        "   border: 2px solid #3498db;"
+        "}"
+    );
     mainLayout_->addWidget(usernameEdit_);
 
     // 密码输入框
     passwordEdit_ = new QLineEdit(this);
     passwordEdit_->setPlaceholderText("请输入密码");
     passwordEdit_->setEchoMode(QLineEdit::Password);
+    // 设置密码框样式（与用户名框保持一致）
+    passwordEdit_->setStyleSheet(
+        "QLineEdit {"
+        "   border: 1px solid #cccccc;"
+        "   border-radius: 8px;"
+        "   padding: 10px;"
+        "   font-size: 14px;"
+        "   background-color: white;"
+        "}"
+        "QLineEdit:focus {"
+        "   border: 2px solid #3498db;"
+        "}"
+    );
     mainLayout_->addWidget(passwordEdit_);
 
     // 按钮布局
@@ -83,11 +114,44 @@ void Log::setupUI()
     // 登录/注册按钮
     actionButton_ = new QPushButton("登录", this);
     actionButton_->setDefault(true);
+    // 设置主按钮样式
+    actionButton_->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #3498db;"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 8px;"
+        "   padding: 10px;"
+        "   font-size: 14px;"
+        "   font-weight: bold;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #2980b9;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #21618c;"
+        "}"
+    );
     connect(actionButton_, &QPushButton::clicked, this, &Log::performLogin);
     buttonLayout->addWidget(actionButton_);
 
     // 取消按钮
     cancelButton_ = new QPushButton("取消", this);
+    // 设置取消按钮样式
+    cancelButton_->setStyleSheet(
+        "QPushButton {"
+        "   background-color: transparent;"
+        "   color: #7f8c8d;"
+        "   border: 1px solid #bdc3c7;"
+        "   border-radius: 8px;"
+        "   padding: 10px;"
+        "   font-size: 14px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #ecf0f1;"
+        "   border-color: #95a5a6;"
+        "}"
+    );
     connect(cancelButton_, &QPushButton::clicked, this, &QDialog::reject);
     buttonLayout->addWidget(cancelButton_);
 
@@ -96,11 +160,23 @@ void Log::setupUI()
     // 切换按钮（切换到注册/登录）
     switchButton_ = new QPushButton("点击注册", this);
     switchButton_->setFlat(true);
+    // 设置切换按钮样式（像超链接）
+    switchButton_->setStyleSheet(
+        "QPushButton {"
+        "   color: #3498db;"
+        "   text-decoration: underline;"
+        "   padding: 5px;"
+        "}"
+        "QPushButton:hover {"
+        "   color: #2980b9;"
+        "}"
+    );
     connect(switchButton_, &QPushButton::clicked, this, &Log::switchToRegister);
     mainLayout_->addWidget(switchButton_);
 
     setLayout(mainLayout_);
 }
+
 
 void Log::switchToRegister()
 {
