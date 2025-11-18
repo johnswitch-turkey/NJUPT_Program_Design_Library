@@ -77,6 +77,8 @@ private:
     QString currentUsername_;        // 当前登录的用户名
     QString usersFilePath_;          // 用户数据文件路径
 
+    QString getMessageBoxStyle() const;
+
     // 状态
     bool isRegisterMode_;            // 是否为注册模式
     bool isAdminMode_ = false;       // 当前是否以管理员模式登录

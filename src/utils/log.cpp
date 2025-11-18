@@ -1,3 +1,4 @@
+// log.cpp
 #include "log.h"
 #include <QApplication>
 #include <QStandardPaths>
@@ -113,7 +114,7 @@ Log::Log(QWidget *parent)
     // 设置窗口属性
     setWindowTitle("登录");
     setModal(true);
-    setFixedSize(350, 250);
+    setFixedSize(300, 330);
 }
 
 Log::~Log()
@@ -178,6 +179,31 @@ void Log::setupUI()
     // 管理员模式勾选框
     adminCheckBox_ = new QCheckBox(QStringLiteral("以管理员模式登录"), this);
     adminCheckBox_->setToolTip(QStringLiteral("勾选后，将尝试以管理员身份登录（仅限管理员账号）"));
+
+    // --- 优化勾选框样式 ---
+    adminCheckBox_->setStyleSheet(
+        "QCheckBox {"
+        "    spacing: 10px;" // 增加文字和勾选框之间的间距
+        "    font-size: 14px;" // 字体大小与输入框保持一致
+        "    color: #2c3e50;"   // 文字颜色，与标题一致
+        "}"
+        "QCheckBox::indicator {"
+        "    width: 18px;"      // 勾选框的宽度
+        "    height: 18px;"     // 勾选框的高度
+        "    border: 2px solid #cccccc;" // 边框样式，与输入框默认边框一致
+        "    border-radius: 4px;" // 圆角
+        "    background-color: #ffffff;" // 背景色
+        "}"
+        "QCheckBox::indicator:hover {"
+        "    border: 2px solid #3498db;" // 鼠标悬停时的边框颜色，与输入框焦点颜色一致
+        "}"
+        "QCheckBox::indicator:checked {"
+        "    background-color: #3498db;" // 选中时的背景色
+        "    border-color: #3498db;"    // 选中时的边框色
+        "    image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDEyIDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDQuNUw0LjUgOEwxMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K);" // 选中时的白色对勾图标
+        "}"
+    );
+
     mainLayout_->addWidget(adminCheckBox_);
 
     // 按钮布局
@@ -282,6 +308,37 @@ void Log::switchToLogin()
     connect(switchButton_, &QPushButton::clicked, this, &Log::switchToRegister);
 }
 
+// --- 新增辅助函数 ---
+QString Log::getMessageBoxStyle() const
+{
+    // 登录窗口默认使用浅色主题
+    return QString(
+        "QMessageBox {"
+        "    background-color: #FFFFFF;"
+        "    color: #5A4B56;"
+        "    border: 2px solid #F8D7DC;"
+        "    border-radius: 12px;"
+        "}"
+        "QMessageBox QLabel {"
+        "    color: #5A4B56;"
+        "    font-size: 14px;"
+        "}"
+        "QMessageBox QPushButton {"
+        "    background-color: #F9A8D4;"
+        "    color: #FFFFFF;"
+        "    border: none;"
+        "    border-radius: 8px;"
+        "    padding: 8px 20px;"
+        "    font-size: 13px;"
+        "    font-weight: bold;"
+        "    min-width: 80px;"
+        "}"
+        "QMessageBox QPushButton:hover {"
+        "    background-color: #E11D48;"
+        "}"
+    );
+}
+
 void Log::performLogin()
 {
     QString username = usernameEdit_->text().trimmed();
@@ -289,20 +346,35 @@ void Log::performLogin()
 
     // 验证输入
     if (username.isEmpty()) {
-        QMessageBox::warning(this, "登录失败", "请输入用户名！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("登录失败");
+        msgBox.setText("请输入用户名！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         usernameEdit_->setFocus();
         return;
     }
 
     if (password.isEmpty()) {
-        QMessageBox::warning(this, "登录失败", "请输入密码！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("登录失败");
+        msgBox.setText("请输入密码！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         passwordEdit_->setFocus();
         return;
     }
 
     // 验证用户名和密码
     if (!validateUser(username, password)) {
-        QMessageBox::warning(this, "登录失败", "用户名或密码错误！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("登录失败");
+        msgBox.setText("用户名或密码错误！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         passwordEdit_->clear();
         passwordEdit_->setFocus();
         return;
@@ -322,7 +394,12 @@ void Log::performLogin()
     // 根据勾选情况决定是否以管理员模式登录
     if (adminCheckBox_ && adminCheckBox_->isChecked()) {
         if (role != QStringLiteral("admin")) {
-            QMessageBox::warning(this, "登录失败", "该账号不是管理员，不能以管理员模式登录！");
+            QMessageBox msgBox(this);
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setWindowTitle("登录失败");
+            msgBox.setText("该账号不是管理员，不能以管理员模式登录！");
+            msgBox.setStyleSheet(getMessageBoxStyle());
+            msgBox.exec();
             return;
         }
         isAdminMode_ = true;
@@ -334,7 +411,14 @@ void Log::performLogin()
     QString welcome = isAdminMode_
                       ? QStringLiteral("欢迎管理员 %1！").arg(username)
                       : QStringLiteral("欢迎，%1！").arg(username);
-    QMessageBox::information(this, "登录成功", welcome);
+
+    QMessageBox msgBox(this);
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setWindowTitle("登录成功");
+    msgBox.setText(welcome);
+    msgBox.setStyleSheet(getMessageBoxStyle());
+    msgBox.exec();
+
     accept(); // 返回Accepted，允许主程序继续执行
 }
 
@@ -345,19 +429,34 @@ void Log::performRegister()
 
     // 验证输入
     if (username.isEmpty()) {
-        QMessageBox::warning(this, "注册失败", "请输入用户名！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("注册失败");
+        msgBox.setText("请输入用户名！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         usernameEdit_->setFocus();
         return;
     }
 
     if (password.isEmpty()) {
-        QMessageBox::warning(this, "注册失败", "请输入密码！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("注册失败");
+        msgBox.setText("请输入密码！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         passwordEdit_->setFocus();
         return;
     }
 
     if (password.length() < 3) {
-        QMessageBox::warning(this, "注册失败", "密码长度至少为3个字符！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("注册失败");
+        msgBox.setText("密码长度至少为3个字符！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         passwordEdit_->clear();
         passwordEdit_->setFocus();
         return;
@@ -365,7 +464,12 @@ void Log::performRegister()
 
     // 检查用户名是否已存在
     if (userExists(username)) {
-        QMessageBox::warning(this, "注册失败", "该用户名已存在，请选择其他用户名！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle("注册失败");
+        msgBox.setText("该用户名已存在，请选择其他用户名！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         usernameEdit_->clear();
         usernameEdit_->setFocus();
         return;
@@ -382,13 +486,24 @@ void Log::performRegister()
 
     // 保存用户数据
     if (saveUsers()) {
-        QMessageBox::information(this, "注册成功", "账户注册成功！请登录。");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.setWindowTitle("注册成功");
+        msgBox.setText("账户注册成功！请登录。");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
+
         // 切换到登录界面
         switchToLogin();
         usernameEdit_->setText(username); // 保留用户名，方便用户直接输入密码
         passwordEdit_->setFocus();
     } else {
-        QMessageBox::critical(this, "注册失败", "保存用户数据失败！");
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setWindowTitle("注册失败");
+        msgBox.setText("保存用户数据失败！");
+        msgBox.setStyleSheet(getMessageBoxStyle());
+        msgBox.exec();
         // 移除刚才添加的用户
         usersArray_.removeAt(usersArray_.size() - 1);
     }
@@ -463,5 +578,3 @@ bool Log::validateUser(const QString &username, const QString &password)
     }
     return false;
 }
-
-

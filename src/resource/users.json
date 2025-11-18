@@ -6,8 +6,32 @@
                 "borrowDate": "2025-11-18",
                 "dueDate": "2025-11-19",
                 "indexId": "CS001",
-                "returnDate": "",
-                "returned": false
+                "returnDate": "2025-11-18",
+                "returned": true
+            },
+            {
+                "bookName": "C++程序设计教程",
+                "borrowDate": "2025-11-18",
+                "dueDate": "2025-12-18",
+                "indexId": "CS001",
+                "returnDate": "2025-11-18",
+                "returned": true
+            },
+            {
+                "bookName": "C++程序设计教程",
+                "borrowDate": "2025-11-18",
+                "dueDate": "2025-12-18",
+                "indexId": "CS001",
+                "returnDate": "2025-11-18",
+                "returned": true
+            },
+            {
+                "bookName": "C++程序设计教程",
+                "borrowDate": "2025-11-18",
+                "dueDate": "2025-11-19",
+                "indexId": "CS001",
+                "returnDate": "2025-11-18",
+                "returned": true
             }
         ],
         "password": "111",
@@ -56,5 +80,14 @@
         "password": "123",
         "role": "student",
         "username": "S24010002"
+    },
+    {
+        "allowedCategories": [
+        ],
+        "borrows": [
+        ],
+        "password": "444",
+        "role": "student",
+        "username": "444"
     }
 ]

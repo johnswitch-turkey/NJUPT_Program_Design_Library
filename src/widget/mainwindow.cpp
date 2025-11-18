@@ -123,8 +123,17 @@ void MainWindow::setupTable()
     tableView_->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     // 2. 再单独设置需要拉伸的列
-    tableView_->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch); // 名称列拉伸
-    tableView_->horizontalHeader()->setSectionResizeMode(10, QHeaderView::Stretch); // 借阅次数列拉伸
+    tableView_->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(7, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(9, QHeaderView::Stretch);
+    tableView_->horizontalHeader()->setSectionResizeMode(10, QHeaderView::Stretch);
 
     // 设置类别、状态和馆藏地址列的最小宽度，确保有足够空间显示换行内容
     tableView_->horizontalHeader()->setMinimumSectionSize(120);
@@ -213,6 +222,12 @@ void MainWindow::onBorrow()
     QString indexId = model_->item(row, 0)->text();
     QString bookName = model_->item(row, 1)->text();
 
+    // 检查该学生是否已借过此书
+    if (currentUserHasBorrowed(indexId)) {
+        QMessageBox::warning(this, "借书失败", "你已经借过该图书，请先归还再借。");
+        return;
+    }
+
     // 检查图书是否可借
     const Book* bookPtr = library_.findByIndexId(indexId);
     if (!bookPtr || !bookPtr->available || bookPtr->quantity <= 0) {
@@ -273,8 +288,13 @@ void MainWindow::onReturn()
 
     // 检查图书是否已借出
     const Book* bookPtr = library_.findByIndexId(indexId);
-    if (!bookPtr || bookPtr->available) {
-        QMessageBox::warning(this, "还书失败", "该图书未被借出，无需归还！");
+    if (!bookPtr) {
+        QMessageBox::warning(this, "还书失败", "未找到该图书信息！");
+        return;
+    }
+
+    if (!currentUserHasBorrowed(indexId)) {
+        QMessageBox::warning(this, "还书失败", "你当前没有借阅该图书，无法归还。");
         return;
     }
 
@@ -1281,24 +1301,24 @@ void MainWindow::updateHeaderLabels()
     if (!model_) return;
 
     // 修改：使用换行显示筛选信息，并添加倒三角符号
-    QString categoryLabel = QStringLiteral("类别\n  ▼");
+    QString categoryLabel = QStringLiteral("类别 ▼");
     if (!categoryFilter_.isEmpty()) {
-        categoryLabel = QStringLiteral("类别\n%1\n  ▼").arg(categoryFilter_);
+        categoryLabel = QStringLiteral("类别 ▼\n%1").arg(categoryFilter_);
     }
     model_->setHeaderData(5, Qt::Horizontal, categoryLabel);
 
     // 新增：馆藏地址表头（列索引调整）
-    QString locationLabel = QStringLiteral("馆藏地址\n  ▼");
+    QString locationLabel = QStringLiteral("馆藏地址 ▼");
     if (!locationFilter_.isEmpty()) {
-        locationLabel = QStringLiteral("馆藏地址\n%1\n  ▼").arg(locationFilter_);
+        locationLabel = QStringLiteral("馆藏地址 ▼\n%1").arg(locationFilter_);
     }
     model_->setHeaderData(4, Qt::Horizontal, locationLabel);
 
-    QString statusLabel = QStringLiteral("状态\n  ▼");
+    QString statusLabel = QStringLiteral("状态 ▼");
     if (statusFilter_ == "available") {
-        statusLabel = QStringLiteral("状态\n可借\n  ▼");
+        statusLabel = QStringLiteral("状态 ▼\n可借");
     } else if (statusFilter_ == "borrowed") {
-        statusLabel = QStringLiteral("状态\n已借出\n  ▼");
+        statusLabel = QStringLiteral("状态 ▼\n已借出");
     }
     model_->setHeaderData(11, Qt::Horizontal, statusLabel);
 }
@@ -1319,14 +1339,23 @@ void MainWindow::showFilterMenu(QMenu *menu, int section)
     if (!menu || !tableView_) return;
     QHeaderView *header = tableView_->horizontalHeader();
 
-    int x = header->sectionPosition(section);
+    // 获取表头部分在视口中的位置和大小
+    int x = header->sectionViewportPosition(section);
     int width = header->sectionSize(section);
     int height = header->height();
 
+    // 构建一个准确的矩形
     QRect sectionRect(x, 0, width, height);
-    QPoint globalPos = header->mapToGlobal(sectionRect.bottomLeft());
+
+    // 将视口坐标映射到全局屏幕坐标
+    QPoint globalPos = header->viewport()->mapToGlobal(sectionRect.bottomLeft());
+
+    // 弹出菜单
     menu->popup(globalPos);
 }
+
+
+
 
 
 void MainWindow::displayBooks(const QVector<Book> &booksToShow)
