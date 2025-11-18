@@ -24,7 +24,9 @@ add_executable(clion_test src/main.cpp
         src/utils/librarymanager.cpp
         src/utils/librarymanager.h
         src/utils/log.cpp
-        src/utils/log.h)
+        src/utils/log.h
+        src/utils/databasemanager.cpp
+        src/utils/databasemanager.h)
 target_link_libraries(clion_test
         Qt::Core
         Qt::Gui

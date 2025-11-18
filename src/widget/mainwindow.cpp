@@ -1,12 +1,9 @@
 // mainwindow.cpp
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "../utils/bookdisplay.h"
+#include "../utils/librarymanager.h"
 
-#include <QToolBar>
-#include <QScrollArea>
-#include <QDockWidget>
-#include <QHeaderView>
-#include <QMenuBar>
 #include <QMenu>
 #include <QAction>
 #include <QLineEdit>
@@ -14,14 +11,22 @@
 #include <QHBoxLayout>
 #include <QStatusBar>
 #include <QIcon>
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QFileDialog>
+
 #include <QDate>
 #include <QSet>
 #include <QActionGroup>
 #include <algorithm>
 #include <QHeaderView>
+
+
+#include <QToolBar>
+#include <QScrollArea>
+#include <QDockWidget>
+
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QFileDialog>
+
 
 // ============================================================================
 // 构造函数
@@ -51,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupTable();
 
     // 2. 准备数据
-    loadSampleData();
+    loadData();
 
     // 2.5 构建筛选菜单
     rebuildFilterMenus();
@@ -75,70 +80,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// ============================================================================
-// 数据准备
-// ============================================================================
-void MainWindow::loadSampleData()
+
+void MainWindow::loadData()
 {
-    // 清空现有数据
-    library_.clear();
-
-    // 创建一些示例图书
-    // 创建示例图书数据
-    QVector<Book> sampleBooks = {
-        // 计算机类图书
-        Book{"CS001", "C++程序设计教程", "仙林图书馆", "计算机科学", 5, 45.80, QDate(2023, 1, 15), QDate(), 12, true},
-        Book{"CS002", "数据结构与算法分析", "三牌楼图书馆", "计算机科学", 3, 68.50, QDate(2023, 2, 20), QDate(), 8, true},
-        Book{"CS003", "操作系统概念", "仙林图书馆", "计算机科学", 4, 89.00, QDate(2023, 3, 10), QDate(), 15, true},
-        Book{"CS004", "计算机网络", "三牌楼图书馆", "计算机科学", 6, 76.20, QDate(2023, 1, 25), QDate(), 9, true},
-        Book{"CS005", "数据库系统概论", "仙林图书馆", "计算机科学", 2, 92.50, QDate(2023, 4, 5), QDate(), 6, true},
-
-        // 文学类图书
-        Book{"LIT001", "红楼梦", "三牌楼图书馆", "文学", 8, 35.60, QDate(2023, 1, 10), QDate(), 25, true},
-        Book{"LIT002", "百年孤独", "三牌楼图书馆", "文学", 4, 42.80, QDate(2023, 2, 15), QDate(), 18, true},
-        Book{"LIT003", "活着", "三牌楼图书馆", "文学", 6, 28.90, QDate(2023, 3, 1), QDate(), 22, true},
-        Book{"LIT004", "平凡的世界", "三牌楼图书馆", "文学", 5, 55.00, QDate(2023, 1, 20), QDate(), 16, true},
-        Book{"LIT005", "围城", "三牌楼图书馆", "文学", 3, 38.50, QDate(2023, 2, 28), QDate(), 14, true},
-
-        // 历史类图书
-        Book{"HIS001", "中国通史", "仙林图书馆", "历史", 4, 78.00, QDate(2023, 1, 5), QDate(), 11, true},
-        Book{"HIS002", "世界文明史", "三牌楼图书馆", "历史", 3, 85.50, QDate(2023, 3, 15), QDate(), 7, true},
-        Book{"HIS003", "明朝那些事儿", "仙林图书馆", "历史", 6, 48.80, QDate(2023, 2, 10), QDate(), 20, true},
-        Book{"HIS004", "人类简史", "三牌楼图书馆", "历史", 5, 65.20, QDate(2023, 4, 1), QDate(), 13, true},
-
-        // 科学类图书
-        Book{"SCI001", "时间简史", "仙林图书馆", "科学", 3, 52.00, QDate(2023, 1, 30), QDate(), 9, true},
-        Book{"SCI002", "物种起源", "三牌楼图书馆", "科学", 2, 68.80, QDate(2023, 3, 20), QDate(), 5, true},
-        Book{"SCI003", "相对论", "仙林图书馆", "科学", 1, 75.50, QDate(2023, 2, 25), QDate(), 3, true},
-        Book{"SCI004", "量子力学原理", "仙林图书馆", "科学", 2, 88.00, QDate(2023, 4, 10), QDate(), 4, true},
-
-        // 外语类图书
-        Book{"ENG001", "新概念英语", "仙林图书馆", "外语", 10, 32.50, QDate(2023, 1, 12), QDate(), 35, true},
-        Book{"ENG002", "托福词汇精选", "三牌楼图书馆", "外语", 8, 45.80, QDate(2023, 2, 18), QDate(), 28, true},
-        Book{"ENG003", "雅思考试指南", "仙林图书馆", "外语", 6, 58.20, QDate(2023, 3, 8), QDate(), 19, true},
-        Book{"ENG004", "商务英语", "三牌楼图书馆", "外语", 4, 42.00, QDate(2023, 1, 28), QDate(), 12, true},
-
-        // 艺术类图书
-        Book{"ART001", "西方美术史", "仙林图书馆", "艺术", 3, 72.50, QDate(2023, 2, 5), QDate(), 8, true},
-        Book{"ART002", "中国书法艺术", "仙林图书馆", "艺术", 2, 55.80, QDate(2023, 3, 12), QDate(), 6, true},
-        Book{"ART003", "音乐理论基础", "仙林图书馆", "艺术", 4, 48.00, QDate(2023, 1, 18), QDate(), 10, true},
-
-        // 哲学类图书
-        Book{"PHI001", "论语", "三牌楼图书馆", "哲学", 5, 25.80, QDate(2023, 1, 8), QDate(), 17, true},
-        Book{"PHI002", "道德经", "三牌楼图书馆", "哲学", 4, 22.50, QDate(2023, 2, 22), QDate(), 14, true},
-        Book{"PHI003", "苏菲的世界", "三牌楼图书馆", "哲学", 3, 38.80, QDate(2023, 3, 25), QDate(), 11, true},
-
-        // 一些已借出的图书
-        Book{"CS006", "人工智能导论", "仙林图书馆", "计算机科学", 2, 95.00, QDate(2023, 4, 15), QDate(2024, 1, 15), 3, false},
-        Book{"LIT006", "1984", "三牌楼图书馆", "文学", 3, 36.50, QDate(2023, 2, 8), QDate(2024, 1, 20), 7, false},
-        Book{"ENG005", "英语语法大全", "仙林图书馆", "外语", 5, 52.80, QDate(2023, 3, 18), QDate(2024, 1, 25), 9, false},
-        Book{"SCI005", "宇宙的奥秘", "仙林图书馆", "科学", 2, 68.00, QDate(2023, 1, 22), QDate(2024, 1, 30), 5, false}};
-
-    // 将示例图书添加到数据管理器
-    for (const auto &book : sampleBooks) {
-        library_.addBook(book);
-    }
+    // 数据已通过LibraryManager自动从数据库加载
+    // 如果数据库为空，会自动导入示例数据
+    updateStatusBar();
 }
+
 
 // ============================================================================
 // 视图搭建
@@ -369,17 +318,72 @@ void MainWindow::onWarn()
     }
 }
 
+void MainWindow::onAddBook()
+{
+    showBookDialog(Book(), false);
+}
 
+void MainWindow::onEditBook()
+{
+    // 获取当前选中的行
+    QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::information(this, "提示", "请先选择要编辑的图书！");
+        return;
+    }
+
+    int row = selectedIndexes.first().row();
+    QString indexId = model_->item(row, 0)->text();
+
+    const Book* bookPtr = library_.findByIndexId(indexId);
+    if (bookPtr) {
+        showBookDialog(*bookPtr, true);
+    }
+}
+
+void MainWindow::onDeleteBook()
+{
+    // 获取当前选中的行
+    QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::information(this, "提示", "请先选择要删除的图书！");
+        return;
+    }
+
+    int row = selectedIndexes.first().row();
+    QString indexId = model_->item(row, 0)->text();
+    QString bookName = model_->item(row, 1)->text();
+
+    // 确认删除
+    auto reply = QMessageBox::question(this, "确认删除",
+                                      QStringLiteral("确定要删除图书《%1》吗？此操作不可恢复！").arg(bookName),
+                                      QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::No) {
+        return;
+    }
+
+    if (library_.removeBookByIndexId(indexId)) {
+        refreshTable();
+        QMessageBox::information(this, "成功", QStringLiteral("成功删除图书《%1》").arg(bookName));
+    } else {
+        QMessageBox::warning(this, "失败", "删除失败！");
+    }
+}
 
 void MainWindow::onShowAll()
 {
+    categoryFilter_.clear();
+    statusFilter_.clear();
+    locationFilter_.clear();
     refreshTable();
 }
 
 void MainWindow::onSwitchMode()
 {
-    // 恢复一个简单的实现，避免链接错误
-    QMessageBox::information(this, "功能", "切换模式功能 (待实现)");
+    isEditMode_ = !isEditMode_;
+    setWindowTitle(isEditMode_ ? QStringLiteral("图书管理系统 (编辑模式)") : QStringLiteral("图书管理系统 (只读模式)"));
+    QMessageBox::information(this, "模式切换",
+                           isEditMode_ ? "已切换到编辑模式" : "已切换到只读模式");
 }
 
 void MainWindow::onSearch()
@@ -413,32 +417,71 @@ void MainWindow::onSearch()
 
 void MainWindow::onOpen()
 {
-    QString path = QFileDialog::getOpenFileName(this, "打开图书数据", "", "JSON Files (*.json)");
+    QString path = QFileDialog::getOpenFileName(this, "导入图书数据", "", "JSON Files (*.json)");
     if (!path.isEmpty()) {
-        QString error;
-        if (library_.loadFromFile(path, &error)) {
+        if (library_.importFromJson(path)) {
             rebuildFilterMenus();
             refreshTable();
-            QMessageBox::information(this, "成功", "数据加载成功！");
+            QMessageBox::information(this, "成功", "数据导入成功！");
         } else {
-            QMessageBox::warning(this, "失败", "文件加载失败：" + error);
+            QMessageBox::warning(this, "失败", "文件导入失败！");
         }
     }
 }
 
 void MainWindow::onSave()
 {
-    QString path = QFileDialog::getSaveFileName(this, "保存图书数据", "library.json", "JSON Files (*.json)");
+    QString path = QFileDialog::getSaveFileName(this, "导出图书数据", "library_export.json", "JSON Files (*.json)");
     if (!path.isEmpty()) {
-        QString error;
-        if (library_.saveToFile(path, &error)) {
-            QMessageBox::information(this, "成功", "数据保存成功！");
+        if (library_.exportToJson(path)) {
+            QMessageBox::information(this, "成功", "数据导出成功！");
         } else {
-            QMessageBox::warning(this, "失败", "文件保存失败：" + error);
+            QMessageBox::warning(this, "失败", "文件导出失败！");
         }
     }
 }
 
+void MainWindow::onImport()
+{
+    onOpen();
+}
+
+void MainWindow::onExport()
+{
+    onSave();
+}
+
+void MainWindow::onRefresh()
+{
+    library_.loadFromDatabase();
+    rebuildFilterMenus();
+    refreshTable();
+    QMessageBox::information(this, "成功", "数据已刷新！");
+}
+
+void MainWindow::onCategoryFilterChanged(QAction* action)
+{
+    if (action) {
+        categoryFilter_ = action->data().toString();
+        refreshTable();
+    }
+}
+
+void MainWindow::onStatusFilterChanged(QAction* action)
+{
+    if (action) {
+        statusFilter_ = action->data().toString();
+        refreshTable();
+    }
+}
+
+void MainWindow::onLocationFilterChanged(QAction* action)
+{
+    if (action) {
+        locationFilter_ = action->data().toString();
+        refreshTable();
+    }
+}
 
 // ============================================================================
 // UI设置和其他辅助函数
@@ -466,7 +509,10 @@ void MainWindow::setupActions()
     auto borrowAct = bar->addAction(QStringLiteral("📖 借书"));
     auto returnAct = bar->addAction(QStringLiteral("📤 还书"));
     auto warnAct = bar->addAction(QStringLiteral("⏰ 到期提醒"));
-    // bar->addSeparator();
+    bar->addSeparator();
+    auto addBookAct = bar->addAction(QStringLiteral("➕ 添加图书"));
+    auto editBookAct = bar->addAction(QStringLiteral("✏️ 编辑图书"));
+    auto deleteBookAct = bar->addAction(QStringLiteral("🗑️ 删除图书"));
     // auto openAct = bar->addAction(QStringLiteral("📂 打开"));
     // auto saveAct = bar->addAction(QStringLiteral("💾 保存"));
     // auto allAct = bar->addAction(QStringLiteral("📋 显示全部"));
@@ -474,6 +520,10 @@ void MainWindow::setupActions()
     connect(borrowAct, &QAction::triggered, this, &MainWindow::onBorrow);
     connect(returnAct, &QAction::triggered, this, &MainWindow::onReturn);
     connect(warnAct, &QAction::triggered, this, &MainWindow::onWarn);
+
+    connect(addBookAct, &QAction::triggered, this, &MainWindow::onAddBook);
+    connect(editBookAct, &QAction::triggered, this, &MainWindow::onEditBook);
+    connect(deleteBookAct, &QAction::triggered, this, &MainWindow::onDeleteBook);
     // connect(openAct, &QAction::triggered, this, &MainWindow::onOpen);
     // connect(saveAct, &QAction::triggered, this, &MainWindow::onSave);
     // connect(allAct, &QAction::triggered, this, &MainWindow::onShowAll);
@@ -575,6 +625,44 @@ void MainWindow::applyTheme(bool isDark)
     }
     if (locationFilterMenu_) {
         locationFilterMenu_->setStyleSheet(menuStyles);
+    }
+}
+
+void MainWindow::showBookDialog(const Book& book, bool isEdit)
+{
+    BookDialog dialog(this);
+    if (isEdit) {
+        dialog.setBook(book);
+        dialog.setWindowTitle("编辑图书信息");
+    } else {
+        dialog.setWindowTitle("添加新图书");
+    }
+
+    if (dialog.exec() == QDialog::Accepted) {
+        Book newBook = dialog.getBook();
+
+        // 验证必填字段
+        if (newBook.indexId.isEmpty() || newBook.name.isEmpty()) {
+            QMessageBox::warning(this, "错误", "索引号和名称不能为空！");
+            return;
+        }
+
+        QString error;
+        bool success;
+
+        if (isEdit) {
+            success = library_.updateBook(book.indexId, newBook, &error);
+        } else {
+            success = library_.addBook(newBook, &error);
+        }
+
+        if (success) {
+            refreshTable();
+            QMessageBox::information(this, "成功",
+                                   isEdit ? "图书信息更新成功！" : "图书添加成功！");
+        } else {
+            QMessageBox::warning(this, "失败", error);
+        }
     }
 }
 

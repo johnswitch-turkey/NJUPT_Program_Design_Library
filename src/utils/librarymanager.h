@@ -6,6 +6,7 @@
 #include <QHash>
 #include <QString>
 #include "book.h"
+#include "./databasemanager.h"
 
 class LibraryManager : public QObject
 {
@@ -52,12 +53,20 @@ public:
     void sortByDate(); // 新到旧
     void sortByBorrowCount(); // 高到低
 
-    // --- 文件操作 ---
-    bool loadFromFile(const QString &filePath, QString *error = nullptr);
-    bool saveToFile(const QString &filePath, QString *error = nullptr);
+    // --- 数据库操作 ---
+    bool loadFromDatabase();
+    bool saveToDatabase();
+    bool importSampleData();
+    bool exportToJson(const QString& filePath);
+    bool importFromJson(const QString& filePath);
+
+    signals:
+        void dataChanged();  // 确保有这个信号声明
 
 private:
+    void refreshFromDatabase();
     QVector<Book> books_;
+    DatabaseManager& dbManager_;
 };
 
 #endif // LIBRARYMANAGER_H

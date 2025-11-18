@@ -26,6 +26,9 @@ private slots:
     // UI交互
     void toggleTheme();
     void onSearch();
+    void onAddBook();
+    void onEditBook();
+    void onDeleteBook();
 
     // 核心业务功能
     void onBorrow();
@@ -38,6 +41,14 @@ private slots:
     // 数据管理
     void onOpen();
     void onSave();
+    void onImport();
+    void onExport();
+    void onRefresh();
+
+    // 筛选菜单
+    void onCategoryFilterChanged(QAction* action);
+    void onStatusFilterChanged(QAction* action);
+    void onLocationFilterChanged(QAction* action);
 
 private:
     // UI设置
@@ -56,7 +67,7 @@ private:
     QDockWidget* createDockWidgetFromScrollArea(class QScrollArea *scrollArea);
 
     // 数据与显示
-    void loadSampleData(); // 加载示例数据
+    void loadData(); // 加载数据
     void refreshTable();   // 刷新表格显示
 
     // --- 新增：筛选并显示特定图书列表的辅助函数 ---
@@ -64,6 +75,7 @@ private:
 
     // UI更新
     void updateStatusBar();
+    void showBookDialog(const Book& book = Book(), bool isEdit = false);
 
     // UI成员
     Ui::MainWindow *ui;
@@ -85,8 +97,10 @@ private:
 
     // 状态和主题
     bool isDarkMode_;
+    bool isEditMode_;
 
     bool isWarn = false;
+
 };
 
 #endif // MAINWINDOW_H

@@ -7,13 +7,22 @@
 #include <QDir>
 #include <algorithm>
 
+#include "./databasemanager.h"
+
 
 LibraryManager::LibraryManager(QObject *parent)
     : QObject(parent)
+    , dbManager_(DatabaseManager::instance())
 {
+    loadFromDatabase();
+
+    // 如果数据库为空，自动导入示例数据
+    if (books_.isEmpty()) {
+        importSampleData();
+    }
 }
 
-void LibraryManager::clear() // <--- 添加这个函数的实现
+void LibraryManager::clear()
 {
     books_.clear();
 }
@@ -25,7 +34,14 @@ bool LibraryManager::addBook(const Book &book, QString *error)
         if (error) *error = QStringLiteral("索引号 '%1' 已存在").arg(book.indexId);
         return false;
     }
+
+    if (!dbManager_.addBook(book)) {
+        if (error) *error = QStringLiteral("数据库添加失败");
+        return false;
+    }
+
     books_.append(book);
+    emit dataChanged();
     return true;
 }
 
@@ -37,19 +53,32 @@ bool LibraryManager::updateBook(const QString &indexId, const Book &updatedBook,
                 if (error) *error = QStringLiteral("新索引号 '%1' 已存在").arg(updatedBook.indexId);
                 return false;
             }
+
+            if (!dbManager_.updateBook(updatedBook)) {
+                if (error) *error = QStringLiteral("数据库更新失败");
+                return false;
+            }
+
             books_[i] = updatedBook;
+            emit dataChanged();
             return true;
         }
     }
+
     if (error) *error = QStringLiteral("未找到索引号为 '%1' 的图书").arg(indexId);
     return false;
 }
 
 bool LibraryManager::removeBookByIndexId(const QString &indexId)
 {
+    if (!dbManager_.removeBook(indexId)) {
+        return false;
+    }
+
     for (int i = 0; i < books_.size(); ++i) {
         if (books_[i].indexId == indexId) {
             books_.removeAt(i);
+            emit dataChanged();
             return true;
         }
     }
@@ -80,44 +109,29 @@ const QVector<Book>& LibraryManager::getAll() const
 
 QVector<Book> LibraryManager::getByCategory(const QString &category) const
 {
-    QVector<Book> result;
-    for(const auto& b : books_) {
-        if (b.category == category) result.append(b);
-    }
-    return result;
+    return dbManager_.getBooksByCategory(category);
 }
 
 QVector<Book> LibraryManager::getByLocation(const QString &location) const
 {
-    QVector<Book> result;
-    for(const auto& b : books_) {
-        if (b.location == location) result.append(b);
-    }
-    return result;
+    return dbManager_.getBooksByLocation(location);
 }
 
 QVector<Book> LibraryManager::getAvailable() const
 {
-    QVector<Book> result;
-    for(const auto& b : books_) {
-        if (b.available) result.append(b);
-    }
-    return result;
+    return dbManager_.getAvailableBooks();
 }
 
 QVector<Book> LibraryManager::getBorrowed() const
 {
-    QVector<Book> result;
-    for(const auto& b : books_) {
-        if (!b.available) result.append(b);
-    }
-    return result;
+    return dbManager_.getBorrowedBooks();
 }
 
 QVector<Book> LibraryManager::getDueInDays(int days) const
 {
     QVector<Book> result;
     QDate futureDate = QDate::currentDate().addDays(days);
+
     for(const auto& b : books_) {
         if (!b.available && b.returnDate.isValid() && b.returnDate <= futureDate) {
             result.append(b);
@@ -132,6 +146,7 @@ QVector<Book> LibraryManager::getTopBorrowed(int count) const
     std::sort(sortedBooks.begin(), sortedBooks.end(), [](const Book &a, const Book &b) {
         return a.borrowCount > b.borrowCount;
     });
+
     if (sortedBooks.size() > count) {
         sortedBooks.resize(count);
     }
@@ -142,11 +157,13 @@ QVector<Book> LibraryManager::getRecentlyAdded(int days) const
 {
     QVector<Book> result;
     QDate cutoffDate = QDate::currentDate().addDays(-days);
+
     for(const auto& b : books_) {
         if (b.inDate >= cutoffDate) {
             result.append(b);
         }
     }
+
     std::sort(result.begin(), result.end(), [](const Book &a, const Book &b) {
         return a.inDate > b.inDate;
     });
@@ -173,30 +190,28 @@ QVector<Book> LibraryManager::getCheapBooks(double maxPrice) const
 
 QVector<Book> LibraryManager::searchBooks(const QString &keyword) const
 {
-    QVector<Book> result;
-    for(const auto& b : books_) {
-        if (b.name.contains(keyword, Qt::CaseInsensitive) ||
-            b.category.contains(keyword, Qt::CaseInsensitive) ||
-            b.location.contains(keyword, Qt::CaseInsensitive) ||
-            b.indexId.contains(keyword, Qt::CaseInsensitive)) {
-            result.append(b);
-        }
-    }
-    return result;
+    return dbManager_.searchBooks(keyword);
 }
 
 // --- 统计信息 ---
-int LibraryManager::getTotalBooks() const { return books_.size(); }
-int LibraryManager::getAvailableBooks() const { return getAvailable().size(); }
-int LibraryManager::getBorrowedBooks() const { return getBorrowed().size(); }
+int LibraryManager::getTotalBooks() const
+{
+    return dbManager_.getTotalBookCount();
+}
+
+int LibraryManager::getAvailableBooks() const
+{
+    return dbManager_.getAvailableBookCount();
+}
+
+int LibraryManager::getBorrowedBooks() const
+{
+    return dbManager_.getBorrowedBookCount();
+}
 
 double LibraryManager::getTotalValue() const
 {
-    double total = 0.0;
-    for(const auto& b : books_) {
-        total += b.price * b.quantity;
-    }
-    return total;
+    return dbManager_.getTotalInventoryValue();
 }
 
 QString LibraryManager::getMostPopularCategory() const
@@ -205,6 +220,7 @@ QString LibraryManager::getMostPopularCategory() const
     for(const auto& b : books_) {
         categoryCount[b.category]++;
     }
+
     QString popular;
     int maxCount = 0;
     for(auto it = categoryCount.constBegin(); it != categoryCount.constEnd(); ++it) {
@@ -222,6 +238,7 @@ QString LibraryManager::getMostPopularLocation() const
     for(const auto& b : books_) {
         locationCount[b.location]++;
     }
+
     QString popular;
     int maxCount = 0;
     for(auto it = locationCount.constBegin(); it != locationCount.constEnd(); ++it) {
@@ -234,57 +251,132 @@ QString LibraryManager::getMostPopularLocation() const
 }
 
 // --- 排序 ---
-void LibraryManager::sortByName() { std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.name < b.name; }); }
-void LibraryManager::sortByCategory() { std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.category < b.category; }); }
-void LibraryManager::sortByLocation() { std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.location < b.location; }); }
-void LibraryManager::sortByPrice() { std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.price > b.price; }); }
-void LibraryManager::sortByDate() { std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.inDate > b.inDate; }); }
-void LibraryManager::sortByBorrowCount() { std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.borrowCount > b.borrowCount; }); }
-
-// --- 文件操作 ---
-bool LibraryManager::loadFromFile(const QString &filePath, QString *error)
+// --- 排序 ---
+void LibraryManager::sortByName()
 {
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        if (error) *error = file.errorString();
-        return false;
-    }
+    std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.name < b.name; });
+}
 
-    QByteArray data = file.readAll();
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (!doc.isArray()) {
-        if (error) *error = "Invalid JSON format, expected an array.";
-        return false;
-    }
+void LibraryManager::sortByCategory()
+{
+    std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.category < b.category; });
+}
 
-    books_.clear();
-    QJsonArray jsonArray = doc.array();
-    for (const QJsonValue &value : jsonArray) {
-        if (value.isObject()) {
-            books_.append(fromJson(value.toObject()));
-        }
-    }
+void LibraryManager::sortByLocation()
+{
+    std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.location < b.location; });
+}
+
+void LibraryManager::sortByPrice()
+{
+    std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.price > b.price; });
+}
+
+void LibraryManager::sortByDate()
+{
+    std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.inDate > b.inDate; });
+}
+
+void LibraryManager::sortByBorrowCount()
+{
+    std::sort(books_.begin(), books_.end(), [](const Book&a, const Book&b){ return a.borrowCount > b.borrowCount; });
+}
+
+bool LibraryManager::loadFromDatabase()
+{
+    books_ = dbManager_.getAllBooks();
+    emit dataChanged();
     return true;
 }
 
-bool LibraryManager::saveToFile(const QString &filePath, QString *error)
+bool LibraryManager::saveToDatabase()
 {
-    QFile file(filePath);
-    if (!file.open(QIODevice::WriteOnly)) {
-        if (error) *error = file.errorString();
-        return false;
-    }
-
-    QJsonArray jsonArray;
-    for (const Book &b : books_) {
-        QJsonObject obj;
-        toJson(obj, b);
-        jsonArray.append(obj);
-    }
-
-    QJsonDocument doc(jsonArray);
-    file.write(doc.toJson());
+    // 数据已经通过各个操作实时保存到数据库
+    // 这个方法主要用于确保数据已保存
     return true;
+}
+
+bool LibraryManager::importSampleData()
+{
+    // 创建示例图书数据
+    QVector<Book> sampleBooks = {
+        // 计算机类图书
+        Book{"CS001", "C++程序设计教程", "仙林图书馆", "计算机科学", 5, 45.80, QDate(2023, 1, 15), QDate(), 12, true},
+        Book{"CS002", "数据结构与算法分析", "三牌楼图书馆", "计算机科学", 3, 68.50, QDate(2023, 2, 20), QDate(), 8, true},
+        Book{"CS003", "操作系统概念", "仙林图书馆", "计算机科学", 4, 89.00, QDate(2023, 3, 10), QDate(), 15, true},
+        Book{"CS004", "计算机网络", "三牌楼图书馆", "计算机科学", 6, 76.20, QDate(2023, 1, 25), QDate(), 9, true},
+        Book{"CS005", "数据库系统概论", "仙林图书馆", "计算机科学", 2, 92.50, QDate(2023, 4, 5), QDate(), 6, true},
+
+        // 文学类图书
+        Book{"LIT001", "红楼梦", "三牌楼图书馆", "文学", 8, 35.60, QDate(2023, 1, 10), QDate(), 25, true},
+        Book{"LIT002", "百年孤独", "三牌楼图书馆", "文学", 4, 42.80, QDate(2023, 2, 15), QDate(), 18, true},
+        Book{"LIT003", "活着", "三牌楼图书馆", "文学", 6, 28.90, QDate(2023, 3, 1), QDate(), 22, true},
+        Book{"LIT004", "平凡的世界", "三牌楼图书馆", "文学", 5, 55.00, QDate(2023, 1, 20), QDate(), 16, true},
+        Book{"LIT005", "围城", "三牌楼图书馆", "文学", 3, 38.50, QDate(2023, 2, 28), QDate(), 14, true},
+
+        // 历史类图书
+        Book{"HIS001", "中国通史", "仙林图书馆", "历史", 4, 78.00, QDate(2023, 1, 5), QDate(), 11, true},
+        Book{"HIS002", "世界文明史", "三牌楼图书馆", "历史", 3, 85.50, QDate(2023, 3, 15), QDate(), 7, true},
+        Book{"HIS003", "明朝那些事儿", "仙林图书馆", "历史", 6, 48.80, QDate(2023, 2, 10), QDate(), 20, true},
+        Book{"HIS004", "人类简史", "三牌楼图书馆", "历史", 5, 65.20, QDate(2023, 4, 1), QDate(), 13, true},
+
+        // 科学类图书
+        Book{"SCI001", "时间简史", "仙林图书馆", "科学", 3, 52.00, QDate(2023, 1, 30), QDate(), 9, true},
+        Book{"SCI002", "物种起源", "三牌楼图书馆", "科学", 2, 68.80, QDate(2023, 3, 20), QDate(), 5, true},
+        Book{"SCI003", "相对论", "仙林图书馆", "科学", 1, 75.50, QDate(2023, 2, 25), QDate(), 3, true},
+        Book{"SCI004", "量子力学原理", "仙林图书馆", "科学", 2, 88.00, QDate(2023, 4, 10), QDate(), 4, true},
+
+        // 外语类图书
+        Book{"ENG001", "新概念英语", "仙林图书馆", "外语", 10, 32.50, QDate(2023, 1, 12), QDate(), 35, true},
+        Book{"ENG002", "托福词汇精选", "三牌楼图书馆", "外语", 8, 45.80, QDate(2023, 2, 18), QDate(), 28, true},
+        Book{"ENG003", "雅思考试指南", "仙林图书馆", "外语", 6, 58.20, QDate(2023, 3, 8), QDate(), 19, true},
+        Book{"ENG004", "商务英语", "三牌楼图书馆", "外语", 4, 42.00, QDate(2023, 1, 28), QDate(), 12, true},
+
+        // 艺术类图书
+        Book{"ART001", "西方美术史", "仙林图书馆", "艺术", 3, 72.50, QDate(2023, 2, 5), QDate(), 8, true},
+        Book{"ART002", "中国书法艺术", "仙林图书馆", "艺术", 2, 55.80, QDate(2023, 3, 12), QDate(), 6, true},
+        Book{"ART003", "音乐理论基础", "仙林图书馆", "艺术", 4, 48.00, QDate(2023, 1, 18), QDate(), 10, true},
+
+        // 哲学类图书
+        Book{"PHI001", "论语", "三牌楼图书馆", "哲学", 5, 25.80, QDate(2023, 1, 8), QDate(), 17, true},
+        Book{"PHI002", "道德经", "三牌楼图书馆", "哲学", 4, 22.50, QDate(2023, 2, 22), QDate(), 14, true},
+        Book{"PHI003", "苏菲的世界", "三牌楼图书馆", "哲学", 3, 38.80, QDate(2023, 3, 25), QDate(), 11, true},
+
+        // 一些已借出的图书
+        Book{"CS006", "人工智能导论", "仙林图书馆", "计算机科学", 2, 95.00, QDate(2023, 4, 15), QDate(2024, 1, 15), 3, false},
+        Book{"LIT006", "1984", "三牌楼图书馆", "文学", 3, 36.50, QDate(2023, 2, 8), QDate(2024, 1, 20), 7, false},
+        Book{"ENG005", "英语语法大全", "仙林图书馆", "外语", 5, 52.80, QDate(2023, 3, 18), QDate(2024, 1, 25), 9, false},
+        Book{"SCI005", "宇宙的奥秘", "仙林图书馆", "科学", 2, 68.00, QDate(2023, 1, 22), QDate(2024, 1, 30), 5, false}
+    };
+
+    // 批量导入示例数据
+    int addedCount = 0;
+    for (const Book& book : sampleBooks) {
+        if (addBook(book)) {
+            addedCount++;
+        }
+    }
+
+    qDebug() << "Imported" << addedCount << "sample books";
+    return addedCount > 0;
+}
+
+bool LibraryManager::exportToJson(const QString& filePath)
+{
+    return dbManager_.exportToJson(filePath);
+}
+
+bool LibraryManager::importFromJson(const QString& filePath)
+{
+    if (dbManager_.importFromJson(filePath)) {
+        return loadFromDatabase();
+    }
+    return false;
+}
+
+void LibraryManager::refreshFromDatabase()
+{
+    loadFromDatabase();
 }
 
 QVector<Book> LibraryManager::getWarn(int days) const
