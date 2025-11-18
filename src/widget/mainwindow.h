@@ -30,6 +30,7 @@ private slots:
     // 核心业务功能
     void onBorrow();
     void onReturn();
+    void onWarn();
     void onShowAll();
     void onSwitchMode();
     void onHeaderSectionClicked(int section);
@@ -58,6 +59,9 @@ private:
     void loadSampleData(); // 加载示例数据
     void refreshTable();   // 刷新表格显示
 
+    // --- 新增：筛选并显示特定图书列表的辅助函数 ---
+    void displayBooks(const QVector<Book> &booksToShow);
+
     // UI更新
     void updateStatusBar();
 
@@ -81,6 +85,8 @@ private:
 
     // 状态和主题
     bool isDarkMode_;
+
+    bool isWarn = false;
 };
 
 #endif // MAINWINDOW_H

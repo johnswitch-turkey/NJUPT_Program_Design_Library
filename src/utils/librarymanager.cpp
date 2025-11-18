@@ -286,3 +286,22 @@ bool LibraryManager::saveToFile(const QString &filePath, QString *error)
     file.write(doc.toJson());
     return true;
 }
+
+QVector<Book> LibraryManager::getWarn(int days) const
+{
+    QVector<Book> dueSoonBooks;
+    QDate currentDate = QDate::currentDate();
+    QDate thresholdDate = currentDate.addDays(days);
+
+    for (const Book &book : books_) {
+        // 只考虑已借出的图书
+        if (!book.available && book.returnDate.isValid()) {
+            // 检查归还日期是否在阈值之内（包括今天）
+            if (book.returnDate <= thresholdDate) {
+                dueSoonBooks.append(book);
+            }
+        }
+    }
+
+    return dueSoonBooks;
+}

@@ -36,13 +36,13 @@ MainWindow::MainWindow(QWidget *parent)
     , themeToggleButton_(nullptr)
     , categoryFilterMenu_(nullptr)
     , statusFilterMenu_(nullptr)
-    , locationFilterMenu_(nullptr)    // 初始化新增成员
+    , locationFilterMenu_(nullptr)
     , categoryActionGroup_(nullptr)
     , statusActionGroup_(nullptr)
-    , locationActionGroup_(nullptr)   // 初始化新增成员
+    , locationActionGroup_(nullptr)
     , categoryFilter_()
     , statusFilter_()
-    , locationFilter_()             // 初始化新增成员
+    , locationFilter_()
     , isDarkMode_(false)
 {
     ui->setupUi(this);
@@ -148,9 +148,15 @@ void MainWindow::setupTable()
     // 创建数据模型
     model_ = new QStandardItemModel(this);
     model_->setHorizontalHeaderLabels({
-        QStringLiteral("索引号"), QStringLiteral("名称"), QStringLiteral("馆藏地址"),
-        QStringLiteral("类别"), QStringLiteral("数量"), QStringLiteral("价格"),
-        QStringLiteral("入库日期"), QStringLiteral("归还日期"), QStringLiteral("借阅次数"),
+        QStringLiteral("索引号"),
+        QStringLiteral("名称"),
+        QStringLiteral("馆藏地址"),
+        QStringLiteral("类别"),
+        QStringLiteral("数量"),
+        QStringLiteral("价格"),
+        QStringLiteral("入库日期"),
+        QStringLiteral("归还日期"),
+        QStringLiteral("借阅次数"),
         QStringLiteral("状态")
     });
 
@@ -319,6 +325,52 @@ void MainWindow::onReturn()
     }
 }
 
+void MainWindow::onWarn()
+{
+    isWarn = !isWarn; // 切换状态
+
+    if (isWarn) {
+        // --- 模式激活：显示即将到期的图书 ---
+
+        // 1. 从数据管理器获取三天内到期的图书
+        QVector<Book> dueSoonBooks = library_.getWarn(3);
+
+        // 2. 使用辅助函数显示这些图书
+        displayBooks(dueSoonBooks);
+
+        // 3. (可选) 在状态栏显示提示信息
+        if (dueSoonBooks.isEmpty()) {
+            statusBar()->showMessage("✅ 暂无即将到期的图书。", 5000);
+        } else {
+            QString message = QStringLiteral("⚠️ 找到 %1 本即将到期的图书。").arg(dueSoonBooks.size());
+            statusBar()->showMessage(message, 5000);
+        }
+
+        // 4. (可选) 改变按钮样式，提供视觉反馈
+        auto *warnButton = qobject_cast<QAction*>(sender());
+        if (warnButton) {
+            warnButton->setText(QStringLiteral("🔙 显示全部")); // 改变按钮文本
+        }
+
+    } else {
+        // --- 模式取消：显示所有图书 ---
+
+        // 1. 调用 onShowAll() 来刷新并显示所有图书
+        onShowAll();
+
+        // 2. (可选) 在状态栏显示提示信息
+        statusBar()->showMessage("已显示所有图书", 3000);
+
+        // 3. (可选) 恢复按钮原始文本
+        auto *warnButton = qobject_cast<QAction*>(sender());
+        if (warnButton) {
+            warnButton->setText(QStringLiteral("⏰ 到期提醒")); // 恢复原始文本
+        }
+    }
+}
+
+
+
 void MainWindow::onShowAll()
 {
     refreshTable();
@@ -413,6 +465,7 @@ void MainWindow::setupActions()
     // 只添加需要的动作
     auto borrowAct = bar->addAction(QStringLiteral("📖 借书"));
     auto returnAct = bar->addAction(QStringLiteral("📤 还书"));
+    auto warnAct = bar->addAction(QStringLiteral("⏰ 到期提醒"));
     // bar->addSeparator();
     // auto openAct = bar->addAction(QStringLiteral("📂 打开"));
     // auto saveAct = bar->addAction(QStringLiteral("💾 保存"));
@@ -420,6 +473,7 @@ void MainWindow::setupActions()
 
     connect(borrowAct, &QAction::triggered, this, &MainWindow::onBorrow);
     connect(returnAct, &QAction::triggered, this, &MainWindow::onReturn);
+    connect(warnAct, &QAction::triggered, this, &MainWindow::onWarn);
     // connect(openAct, &QAction::triggered, this, &MainWindow::onOpen);
     // connect(saveAct, &QAction::triggered, this, &MainWindow::onSave);
     // connect(allAct, &QAction::triggered, this, &MainWindow::onShowAll);
@@ -599,8 +653,6 @@ QString MainWindow::getMenuStyles(bool isDark)
         );
     }
 }
-
-
 
 QString MainWindow::getThemeStyles(bool isDark)
 {
@@ -1070,24 +1122,24 @@ void MainWindow::updateHeaderLabels()
     if (!model_) return;
 
     // 修改：使用换行显示筛选信息，并添加倒三角符号
-    QString categoryLabel = QStringLiteral("类别\n▼");
+    QString categoryLabel = QStringLiteral("类别\n  ▼");
     if (!categoryFilter_.isEmpty()) {
-        categoryLabel = QStringLiteral("类别\n%1\n▼").arg(categoryFilter_);
+        categoryLabel = QStringLiteral("类别\n%1\n  ▼").arg(categoryFilter_);
     }
     model_->setHeaderData(3, Qt::Horizontal, categoryLabel);
 
     // 新增：馆藏地址表头
-    QString locationLabel = QStringLiteral("馆藏地址\n▼");
+    QString locationLabel = QStringLiteral("馆藏地址\n  ▼");
     if (!locationFilter_.isEmpty()) {
-        locationLabel = QStringLiteral("馆藏地址\n%1\n▼").arg(locationFilter_);
+        locationLabel = QStringLiteral("馆藏地址\n%1\n  ▼").arg(locationFilter_);
     }
     model_->setHeaderData(2, Qt::Horizontal, locationLabel);
 
-    QString statusLabel = QStringLiteral("状态\n▼");
+    QString statusLabel = QStringLiteral("状态\n  ▼");
     if (statusFilter_ == "available") {
-        statusLabel = QStringLiteral("状态\n可借\n▼");
+        statusLabel = QStringLiteral("状态\n可借\n  ▼");
     } else if (statusFilter_ == "borrowed") {
-        statusLabel = QStringLiteral("状态\n已借出\n▼");
+        statusLabel = QStringLiteral("状态\n已借出\n  ▼");
     }
     model_->setHeaderData(9, Qt::Horizontal, statusLabel);
 }
@@ -1108,7 +1160,6 @@ void MainWindow::showFilterMenu(QMenu *menu, int section)
     if (!menu || !tableView_) return;
     QHeaderView *header = tableView_->horizontalHeader();
 
-    // 修复：使用 sectionPosition() 和 sectionSize() 替代不存在的 sectionRect()
     int x = header->sectionPosition(section);
     int width = header->sectionSize(section);
     int height = header->height();
@@ -1116,4 +1167,32 @@ void MainWindow::showFilterMenu(QMenu *menu, int section)
     QRect sectionRect(x, 0, width, height);
     QPoint globalPos = header->mapToGlobal(sectionRect.bottomLeft());
     menu->popup(globalPos);
+}
+
+
+void MainWindow::displayBooks(const QVector<Book> &booksToShow)
+{
+    // 1. 清除模型中的旧数据
+    model_->removeRows(0, model_->rowCount());
+
+    // 2. 遍历传入的图书列表，填充到模型中
+    for (int row = 0; row < booksToShow.size(); ++row) {
+        const Book &b = booksToShow[row];
+        QList<QStandardItem*> rowItems;
+        rowItems << new QStandardItem(b.indexId);
+        rowItems << new QStandardItem(b.name);
+        rowItems << new QStandardItem(b.location);
+        rowItems << new QStandardItem(b.category);
+        rowItems << new QStandardItem(QString::number(b.quantity));
+        rowItems << new QStandardItem(QString::number(b.price, 'f', 2));
+        rowItems << new QStandardItem(b.inDate.toString("yyyy-MM-dd"));
+        rowItems << new QStandardItem(b.returnDate.isValid() ? b.returnDate.toString("yyyy-MM-dd") : "");
+        rowItems << new QStandardItem(QString::number(b.borrowCount));
+        rowItems << new QStandardItem(b.available ? "✅ 可借" : "❌ 已借出");
+
+        model_->appendRow(rowItems);
+    }
+
+    // 3. 更新状态栏
+    updateStatusBar();
 }

@@ -34,6 +34,7 @@ public:
     QVector<Book> getExpensiveBooks(double minPrice) const;
     QVector<Book> getCheapBooks(double maxPrice) const;
     QVector<Book> searchBooks(const QString &keyword) const;
+    QVector<Book> getWarn(int days) const;
 
     // --- 统计信息 ---
     int getTotalBooks() const;
