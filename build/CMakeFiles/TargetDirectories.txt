@@ -1,0 +1,5 @@
+D:/Work_Space/QT_Projects/clion_test/build/CMakeFiles/clion_test.dir
+D:/Work_Space/QT_Projects/clion_test/build/CMakeFiles/edit_cache.dir
+D:/Work_Space/QT_Projects/clion_test/build/CMakeFiles/rebuild_cache.dir
+D:/Work_Space/QT_Projects/clion_test/build/CMakeFiles/clion_test_autogen_timestamp_deps.dir
+D:/Work_Space/QT_Projects/clion_test/build/CMakeFiles/clion_test_autogen.dir

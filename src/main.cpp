@@ -7,29 +7,51 @@
 #include "./widget/mainwindow.h"
 #include "./utils/log.h" // <--- 1. 包含登录对话框头文件
 
+/**
+ * @brief 主函数
+ * 
+ * 功能说明：
+ * 1. 创建并显示登录/注册对话框
+ * 2. 等待用户登录成功
+ * 3. 登录成功后显示主窗口
+ * 
+ * 注意：
+ * - 对话框是模态的，会阻塞直到用户登录成功或取消
+ * - 只有登录成功（返回 Accepted）才会显示主窗口
+ * - 用户注册时对话框不会关闭，只是切换界面
+ */
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    // --- 2. 创建并显示登录对话框 ---
+    // --- 创建并显示登录对话框 ---
     Log log;
 
     // 使用 exec() 显示模态对话框，这会阻塞代码直到对话框关闭
-    // 如果用户点击"登录"且验证成功，loginDialog.exec() 会返回 QDialog::Accepted
-    // 如果用户点击"取消"或关闭窗口，则返回 QDialog::Rejected
-    if (log.exec() != QDialog::Accepted) {
-        // 如果登录失败或用户取消，则直接退出程序
+    // 返回值说明：
+    // - QDialog::Accepted: 用户登录成功，继续执行显示主窗口
+    // - QDialog::Rejected: 用户点击取消或关闭窗口，退出程序
+    // 
+    // 重要：当用户点击"点击注册"按钮时，对话框不会关闭，
+    // 只是切换界面，exec() 会继续阻塞等待用户操作
+    int result = log.exec();
+    
+    // 检查对话框的返回值
+    if (result != QDialog::Accepted) {
+        // 如果用户取消登录或关闭窗口，直接退出程序
+        // 注意：这不会在用户注册时触发，因为注册时对话框不会关闭
         return 0;
     }
 
-    // --- 3. 登录成功，创建并显示主窗口 ---
+    // --- 登录成功，创建并显示主窗口 ---
     MainWindow w;
 
     // (可选) 你可以从登录对话框获取用户信息，并在主窗口中使用
-    // QString username = loginDialog.getUsername();
+    // QString username = log.getUsername();
     // w.setCurrentUser(username); // 假设你在 MainWindow 中有这个方法
 
     w.show();
 
+    // 进入主事件循环，显示主窗口
     return QApplication::exec();
 }

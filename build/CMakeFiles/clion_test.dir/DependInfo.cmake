@@ -1,0 +1,28 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/mocs_compilation.cpp" "CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/main.cpp" "CMakeFiles/clion_test.dir/src/main.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/main.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/utils/bookdisplay.cpp" "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/utils/librarymanager.cpp" "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/utils/log.cpp" "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/widget/mainwindow.cpp" "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj.d"
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

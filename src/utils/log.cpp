@@ -1,19 +1,52 @@
 #include "log.h"
 #include <QApplication>
-#include <QScreen>
-#include <QPainter>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QFormLayout>
-#include <QMessageBox>
-#include <QGraphicsDropShadowEffect>
+#include <QStandardPaths>
 
 Log::Log(QWidget *parent)
     : QDialog(parent)
+    , mainLayout_(nullptr)
+    , titleLabel_(nullptr)
+    , usernameEdit_(nullptr)
+    , passwordEdit_(nullptr)
+    , actionButton_(nullptr)
+    , switchButton_(nullptr)
+    , cancelButton_(nullptr)
+    , isRegisterMode_(false)
 {
+    // 设置用户数据文件路径（存储在应用程序数据目录）
+    // 1. 获取可执行文件所在的目录
+    QString appDirPath = QCoreApplication::applicationDirPath();
+
+    // 2. 构建目标目录路径 (上一级目录的src/source)
+    QDir targetDir(appDirPath);
+    bool success = targetDir.cdUp(); // 先进入上一级目录
+    if (success) {
+        targetDir.cd("src");        // 进入src目录
+        targetDir.cd("resource");     // 进入source目录
+    } else {
+        // 如果cdUp()失败（例如，在根目录），则回退到可执行文件目录
+        targetDir = QDir(appDirPath);
+    }
+
+    // 3. 确保目标目录存在，如果不存在则创建
+    QString absoluteTargetPath = targetDir.absolutePath();
+    if (!targetDir.exists()) {
+        targetDir.mkpath(absoluteTargetPath);
+    }
+
+    // 4. 组合成最终的文件完整路径
+    usersFilePath_ = absoluteTargetPath + "/users.json";
+
+    // 加载用户数据
+    loadUsers();
+
+    // 设置UI
     setupUI();
-    setupAnimations();
-    setupStyles();
+
+    // 设置窗口属性
+    setWindowTitle("登录");
+    setModal(true);
+    setFixedSize(350, 250);
 }
 
 Log::~Log()
@@ -22,251 +55,235 @@ Log::~Log()
 
 void Log::setupUI()
 {
-    // 设置窗口属性
-    setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(400, 450); // 高度可以稍微调小一点
-    setModal(true);
+    mainLayout_ = new QVBoxLayout(this);
 
-    // 居中显示
-    QScreen *screen = QApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
-    int x = (screenGeometry.width() - width()) / 2;
-    int y = (screenGeometry.height() - height()) / 2;
-    move(x, y);
-
-    // 创建主布局
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(30, 30, 30, 30);
-    mainLayout->setSpacing(20);
-
-    // 标题标签
-    titleLabel = new QLabel("图书管理系统", this);
-    titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setStyleSheet(
-        "QLabel {"
-        "    color: #1C1C1E;"
-        "    font-size: 24px;"
-        "    font-weight: 600;"
-        "    background: transparent;"
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "}"
-    );
-
-    // 副标题标签
-    subtitleLabel = new QLabel("请登录以继续", this);
-    subtitleLabel->setAlignment(Qt::AlignCenter);
-    subtitleLabel->setStyleSheet(
-        "QLabel {"
-        "    color: #8E8E93;"
-        "    font-size: 16px;"
-        "    font-weight: 400;"
-        "    background: transparent;"
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "}"
-    );
-
-    // 创建表单布局
-    QFormLayout *formLayout = new QFormLayout();
-    formLayout->setSpacing(15);
+    // 标题
+    titleLabel_ = new QLabel("登录", this);
+    titleLabel_->setAlignment(Qt::AlignCenter);
+    QFont titleFont = titleLabel_->font();
+    titleFont.setPointSize(16);
+    titleFont.setBold(true);
+    titleLabel_->setFont(titleFont);
+    mainLayout_->addWidget(titleLabel_);
 
     // 用户名输入框
-    usernameEdit = new QLineEdit(this);
-    usernameEdit->setPlaceholderText("请输入用户名");
-    usernameEdit->setStyleSheet(
-        "QLineEdit {"
-        "    background-color: #F2F2F7;"
-        "    border: 2px solid #E5E5EA;"
-        "    border-radius: 12px;"
-        "    padding: 12px 16px;"
-        "    font-size: 16px;"
-        "    color: #1C1C1E;"
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "}"
-        "QLineEdit:focus {"
-        "    border-color: #007AFF;"
-        "    background-color: #FFFFFF;"
-        "}"
-    );
+    usernameEdit_ = new QLineEdit(this);
+    usernameEdit_->setPlaceholderText("请输入用户名");
+    mainLayout_->addWidget(usernameEdit_);
 
     // 密码输入框
-    passwordEdit = new QLineEdit(this);
-    passwordEdit->setPlaceholderText("请输入密码");
-    passwordEdit->setEchoMode(QLineEdit::Password);
-    passwordEdit->setStyleSheet(
-        "QLineEdit {"
-        "    background-color: #F2F2F7;"
-        "    border: 2px solid #E5E5EA;"
-        "    border-radius: 12px;"
-        "    padding: 12px 16px;"
-        "    font-size: 16px;"
-        "    color: #1C1C1E;"
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "}"
-        "QLineEdit:focus {"
-        "    border-color: #007AFF;"
-        "    background-color: #FFFFFF;"
-        "}"
-    );
-
-    // 添加标签和输入框到表单
-    formLayout->addRow("👤 用户名:", usernameEdit);
-    formLayout->addRow("🔒 密码:", passwordEdit);
+    passwordEdit_ = new QLineEdit(this);
+    passwordEdit_->setPlaceholderText("请输入密码");
+    passwordEdit_->setEchoMode(QLineEdit::Password);
+    mainLayout_->addWidget(passwordEdit_);
 
     // 按钮布局
     QHBoxLayout *buttonLayout = new QHBoxLayout();
-    buttonLayout->setSpacing(12);
 
-    // 登录按钮
-    loginButton = new QPushButton("登录", this);
-    loginButton->setStyleSheet(
-        "QPushButton {"
-        "    background-color: #007AFF;"
-        "    color: #FFFFFF;"
-        "    border: none;"
-        "    border-radius: 12px;"
-        "    padding: 12px 24px;"
-        "    font-size: 16px;"
-        "    font-weight: 600;"
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "    min-width: 100px;"
-        "    min-height: 44px;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: #0051D5;"
-        "}"
-        "QPushButton:pressed {"
-        "    background-color: #0041B8;"
-        "}"
-    );
+    // 登录/注册按钮
+    actionButton_ = new QPushButton("登录", this);
+    actionButton_->setDefault(true);
+    connect(actionButton_, &QPushButton::clicked, this, &Log::performLogin);
+    buttonLayout->addWidget(actionButton_);
 
     // 取消按钮
-    cancelButton = new QPushButton("取消", this);
-    cancelButton->setStyleSheet(
-        "QPushButton {"
-        "    background-color: #F2F2F7;"
-        "    color: #1C1C1E;"
-        "    border: 2px solid #E5E5EA;"
-        "    border-radius: 12px;"
-        "    padding: 12px 24px;"
-        "    font-size: 16px;"
-        "    font-weight: 500;"
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "    min-width: 100px;"
-        "    min-height: 44px;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: #E5E5EA;"
-        "    border-color: #C7C7CC;"
-        "}"
-        "QPushButton:pressed {"
-        "    background-color: #D1D1D6;"
-        "}"
-    );
+    cancelButton_ = new QPushButton("取消", this);
+    connect(cancelButton_, &QPushButton::clicked, this, &QDialog::reject);
+    buttonLayout->addWidget(cancelButton_);
 
-    buttonLayout->addWidget(loginButton);
-    buttonLayout->addWidget(cancelButton);
+    mainLayout_->addLayout(buttonLayout);
 
-    // 添加到主布局
-    mainLayout->addWidget(titleLabel);
-    mainLayout->addWidget(subtitleLabel);
-    mainLayout->addLayout(formLayout);
-    mainLayout->addLayout(buttonLayout);
+    // 切换按钮（切换到注册/登录）
+    switchButton_ = new QPushButton("点击注册", this);
+    switchButton_->setFlat(true);
+    connect(switchButton_, &QPushButton::clicked, this, &Log::switchToRegister);
+    mainLayout_->addWidget(switchButton_);
 
-    // 设置透明度效果
-    opacityEffect = new QGraphicsOpacityEffect(this);
-    setGraphicsEffect(opacityEffect);
-    opacityEffect->setOpacity(1.0);
-
-    // 添加阴影效果
-    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
-    shadow->setBlurRadius(20);
-    shadow->setColor(QColor(0, 0, 0, 30));
-    shadow->setOffset(0, 4);
-    // 注意：需要将阴影效果应用到某个子控件上，这里为了简化，先注释掉
-    // titleLabel->setGraphicsEffect(shadow);
-
-    // 连接信号
-    connect(loginButton, &QPushButton::clicked, this, &Log::onLogin);
-    connect(cancelButton, &QPushButton::clicked, this, &Log::onCancel);
-
-    // 设置回车键登录
-    connect(usernameEdit, &QLineEdit::returnPressed, this, &Log::onLogin);
-    connect(passwordEdit, &QLineEdit::returnPressed, this, &Log::onLogin);
+    setLayout(mainLayout_);
 }
 
-void Log::setupAnimations()
+void Log::switchToRegister()
 {
-    fadeInAnimation = new QPropertyAnimation(opacityEffect, "opacity", this);
-    fadeInAnimation->setDuration(300);
-    fadeInAnimation->setStartValue(0.0);
-    fadeInAnimation->setEndValue(1.0);
-    fadeInAnimation->setEasingCurve(QEasingCurve::OutQuad);
+    isRegisterMode_ = true;
+    titleLabel_->setText("注册");
+    actionButton_->setText("注册");
+    switchButton_->setText("返回登录");
+    usernameEdit_->clear();
+    passwordEdit_->clear();
+
+    // 断开之前的连接，连接新的槽函数
+    actionButton_->disconnect();
+    connect(actionButton_, &QPushButton::clicked, this, &Log::performRegister);
+    switchButton_->disconnect();
+    connect(switchButton_, &QPushButton::clicked, this, &Log::switchToLogin);
 }
 
-void Log::setupStyles()
+void Log::switchToLogin()
 {
-    setStyleSheet("QDialog { background-color: transparent; }");
+    isRegisterMode_ = false;
+    titleLabel_->setText("登录");
+    actionButton_->setText("登录");
+    switchButton_->setText("点击注册");
+    usernameEdit_->clear();
+    passwordEdit_->clear();
+
+    // 断开之前的连接，连接新的槽函数
+    actionButton_->disconnect();
+    connect(actionButton_, &QPushButton::clicked, this, &Log::performLogin);
+    switchButton_->disconnect();
+    connect(switchButton_, &QPushButton::clicked, this, &Log::switchToRegister);
 }
 
-void Log::paintEvent(QPaintEvent * /* event */)
+void Log::performLogin()
 {
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    QString username = usernameEdit_->text().trimmed();
+    QString password = passwordEdit_->text();
 
-    // iOS风格背景
-    QRect rect = this->rect().adjusted(10, 10, -10, -10);
-    painter.setBrush(QBrush(QColor(255, 255, 255, 250)));
-    painter.setPen(QPen(QColor(200, 200, 200, 100), 1));
-    painter.drawRoundedRect(rect, 20, 20);
-}
-
-void Log::onLogin()
-{
-    QString username = usernameEdit->text().trimmed();
-    QString password = passwordEdit->text().trimmed();
-
-    if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "输入错误", "请输入用户名和密码");
+    // 验证输入
+    if (username.isEmpty()) {
+        QMessageBox::warning(this, "登录失败", "请输入用户名！");
+        usernameEdit_->setFocus();
         return;
     }
 
-    // 普通用户验证
-    if (!validateCredentials(username, password)) {
-        QMessageBox::warning(this, "登录失败", "用户名或密码错误");
+    if (password.isEmpty()) {
+        QMessageBox::warning(this, "登录失败", "请输入密码！");
+        passwordEdit_->setFocus();
         return;
     }
 
-    currentUsername = username;
-    currentPassword = password;
-    accept();
+    // 验证用户名和密码
+    if (validateUser(username, password)) {
+        currentUsername_ = username;
+        QMessageBox::information(this, "登录成功", QString("欢迎，%1！").arg(username));
+        accept(); // 返回Accepted，允许主程序继续执行
+    } else {
+        QMessageBox::warning(this, "登录失败", "用户名或密码错误！");
+        passwordEdit_->clear();
+        passwordEdit_->setFocus();
+    }
 }
 
-void Log::onCancel()
+void Log::performRegister()
 {
-    reject();
+    QString username = usernameEdit_->text().trimmed();
+    QString password = passwordEdit_->text();
+
+    // 验证输入
+    if (username.isEmpty()) {
+        QMessageBox::warning(this, "注册失败", "请输入用户名！");
+        usernameEdit_->setFocus();
+        return;
+    }
+
+    if (password.isEmpty()) {
+        QMessageBox::warning(this, "注册失败", "请输入密码！");
+        passwordEdit_->setFocus();
+        return;
+    }
+
+    if (password.length() < 3) {
+        QMessageBox::warning(this, "注册失败", "密码长度至少为3个字符！");
+        passwordEdit_->clear();
+        passwordEdit_->setFocus();
+        return;
+    }
+
+    // 检查用户名是否已存在
+    if (userExists(username)) {
+        QMessageBox::warning(this, "注册失败", "该用户名已存在，请选择其他用户名！");
+        usernameEdit_->clear();
+        usernameEdit_->setFocus();
+        return;
+    }
+
+    // 添加新用户
+    QJsonObject newUser;
+    newUser["username"] = username;
+    newUser["password"] = password; // 注意：实际应用中应该对密码进行加密
+    usersArray_.append(newUser);
+
+    // 保存用户数据
+    if (saveUsers()) {
+        QMessageBox::information(this, "注册成功", "账户注册成功！请登录。");
+        // 切换到登录界面
+        switchToLogin();
+        usernameEdit_->setText(username); // 保留用户名，方便用户直接输入密码
+        passwordEdit_->setFocus();
+    } else {
+        QMessageBox::critical(this, "注册失败", "保存用户数据失败！");
+        // 移除刚才添加的用户
+        usersArray_.removeAt(usersArray_.size() - 1);
+    }
 }
 
-QString Log::getUsername() const
+bool Log::loadUsers()
 {
-    return currentUsername;
+    QFile file(usersFilePath_);
+    if (!file.exists()) {
+        // 文件不存在，创建空的用户数组
+        usersArray_ = QJsonArray();
+        return true;
+    }
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(nullptr, "警告", QString("无法读取用户数据文件：%1").arg(file.errorString()));
+        usersArray_ = QJsonArray();
+        return false;
+    }
+
+    QByteArray data = file.readAll();
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    if (doc.isNull() || !doc.isArray()) {
+        QMessageBox::warning(nullptr, "警告", "用户数据文件格式错误，将创建新的数据文件。");
+        usersArray_ = QJsonArray();
+        return false;
+    }
+
+    usersArray_ = doc.array();
+    return true;
 }
 
-QString Log::getPassword() const
+bool Log::saveUsers()
 {
-    return currentPassword;
+    QFile file(usersFilePath_);
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::critical(nullptr, "错误", QString("无法保存用户数据文件：%1").arg(file.errorString()));
+        return false;
+    }
+
+    QJsonDocument doc(usersArray_);
+    file.write(doc.toJson());
+    file.close();
+    return true;
 }
 
-bool Log::validateCredentials(const QString &username, const QString &password)
+bool Log::userExists(const QString &username)
 {
-    // 简化的用户验证，实际项目中应该连接数据库
-    // 这里允许任何非空用户名和密码登录
-    return !username.isEmpty() && !password.isEmpty();
+    for (const QJsonValue &value : usersArray_) {
+        if (value.isObject()) {
+            QJsonObject user = value.toObject();
+            if (user.value("username").toString() == username) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-void Log::showEvent(QShowEvent *event)
+bool Log::validateUser(const QString &username, const QString &password)
 {
-    QDialog::showEvent(event);
-    raise();
-    activateWindow();
+    for (const QJsonValue &value : usersArray_) {
+        if (value.isObject()) {
+            QJsonObject user = value.toObject();
+            if (user.value("username").toString() == username &&
+                user.value("password").toString() == password) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
+
