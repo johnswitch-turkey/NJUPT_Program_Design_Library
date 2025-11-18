@@ -8,11 +8,13 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QCheckBox>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
 #include <QDir>
+#include "userrole.h"
 
 /**
  * @brief 登录/注册对话框类
@@ -33,6 +35,10 @@ public:
 
     // 获取当前登录的用户名
     QString getUsername() const { return currentUsername_; }
+    // 是否以管理员模式登录
+    bool isAdmin() const { return isAdminMode_; }
+    // 获取用户数据文件路径
+    QString getUsersFilePath() const { return usersFilePath_; }
 
 private slots:
     // 切换到注册界面
@@ -64,6 +70,7 @@ private:
     QPushButton *actionButton_;      // 登录/注册按钮
     QPushButton *switchButton_;      // 切换到注册/登录按钮
     QPushButton *cancelButton_;
+    QCheckBox *adminCheckBox_ = nullptr; // 管理员模式选择
 
     // 数据
     QJsonArray usersArray_;          // 存储所有用户信息
@@ -72,7 +79,9 @@ private:
 
     // 状态
     bool isRegisterMode_;            // 是否为注册模式
+    bool isAdminMode_ = false;       // 当前是否以管理员模式登录
 };
 
 #endif // LOG_H
+
 

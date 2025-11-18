@@ -25,6 +25,8 @@ public:
 private:
     QLineEdit *indexIdEdit_ = nullptr;
     QLineEdit *nameEdit_ = nullptr;
+    QLineEdit *authorEdit_ = nullptr;
+    QLineEdit *publisherEdit_ = nullptr;
     QComboBox *locationEdit_ = nullptr;
     QComboBox *categoryEdit_ = nullptr;
     QLineEdit *quantityEdit_ = nullptr;

@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     , statusFilter_()
     , locationFilter_()
     , isDarkMode_(false)
+    , isEditMode_(false)
 {
     ui->setupUi(this);
 
@@ -94,11 +95,13 @@ void MainWindow::loadData()
 // ============================================================================
 void MainWindow::setupTable()
 {
-    // 创建数据模型
+    // 创建数据模型（增加作者和出版社列）
     model_ = new QStandardItemModel(this);
     model_->setHorizontalHeaderLabels({
         QStringLiteral("索引号"),
         QStringLiteral("名称"),
+        QStringLiteral("作者"),
+        QStringLiteral("出版社"),
         QStringLiteral("馆藏地址"),
         QStringLiteral("类别"),
         QStringLiteral("数量"),
@@ -121,7 +124,7 @@ void MainWindow::setupTable()
 
     // 2. 再单独设置需要拉伸的列
     tableView_->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch); // 名称列拉伸
-    tableView_->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch); // 借阅次数列拉伸
+    tableView_->horizontalHeader()->setSectionResizeMode(10, QHeaderView::Stretch); // 借阅次数列拉伸
 
     // 设置类别、状态和馆藏地址列的最小宽度，确保有足够空间显示换行内容
     tableView_->horizontalHeader()->setMinimumSectionSize(120);
@@ -166,6 +169,8 @@ void MainWindow::refreshTable()
         QList<QStandardItem*> rowItems;
         rowItems << new QStandardItem(b.indexId);
         rowItems << new QStandardItem(b.name);
+        rowItems << new QStandardItem(b.author);
+        rowItems << new QStandardItem(b.publisher);
         rowItems << new QStandardItem(b.location);
         rowItems << new QStandardItem(b.category);
         rowItems << new QStandardItem(QString::number(b.quantity));
@@ -173,7 +178,12 @@ void MainWindow::refreshTable()
         rowItems << new QStandardItem(b.inDate.toString("yyyy-MM-dd"));
         rowItems << new QStandardItem(b.returnDate.isValid() ? b.returnDate.toString("yyyy-MM-dd") : "");
         rowItems << new QStandardItem(QString::number(b.borrowCount));
-        rowItems << new QStandardItem(b.available ? "可借" : "已借出");
+
+        // 状态列：根据剩余数量/可借状态显示
+        QString statusText = (b.available && b.quantity > 0)
+                                 ? QStringLiteral("可借")
+                                 : QStringLiteral("不可借");
+        rowItems << new QStandardItem(statusText);
 
         model_->appendRow(rowItems);
     }
@@ -188,6 +198,10 @@ void MainWindow::refreshTable()
 // ============================================================================
 void MainWindow::onBorrow()
 {
+    if (currentUsername_.isEmpty() || isAdminMode_) {
+        QMessageBox::warning(this, "借书失败", "只有学生用户可以借书，请使用学生账号登录。");
+        return;
+    }
     // 获取当前选中的行
     QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
     if (selectedIndexes.isEmpty()) {
@@ -201,8 +215,8 @@ void MainWindow::onBorrow()
 
     // 检查图书是否可借
     const Book* bookPtr = library_.findByIndexId(indexId);
-    if (!bookPtr || !bookPtr->available) {
-        QMessageBox::warning(this, "借书失败", "该图书已被借出，无法再次借阅！");
+    if (!bookPtr || !bookPtr->available || bookPtr->quantity <= 0) {
+        QMessageBox::warning(this, "借书失败", "该图书已无剩余可借数量！");
         return;
     }
 
@@ -217,16 +231,24 @@ void MainWindow::onBorrow()
         return; // 用户取消或输入无效
     }
 
-    // 更新数据
+    // 更新图书数据（借出一本，数量减一）
     Book updatedBook = *bookPtr;
-    updatedBook.available = false;
+    if (updatedBook.quantity > 0) {
+        updatedBook.quantity -= 1;
+    }
+    // 当数量减为 0 时，不可再借
+    updatedBook.available = (updatedBook.quantity > 0);
     updatedBook.returnDate = dueDate;
     updatedBook.borrowCount++;
 
     QString error;
     if (library_.updateBook(indexId, updatedBook, &error)) {
+        // 记录到当前学生的借阅信息中
+        addBorrowRecordForCurrentUser(updatedBook, QDate::currentDate(), dueDate);
+
         refreshTable();
-        QMessageBox::information(this, "成功", QStringLiteral("成功借阅图书《%1》，归还日期为 %2").arg(bookName, dueDate.toString("yyyy-MM-dd")));
+        QMessageBox::information(this, "成功",
+                                 QStringLiteral("成功借阅图书《%1》，归还日期为 %2").arg(bookName, dueDate.toString("yyyy-MM-dd")));
     } else {
         QMessageBox::warning(this, "失败", "借阅失败：" + error);
     }
@@ -234,6 +256,10 @@ void MainWindow::onBorrow()
 
 void MainWindow::onReturn()
 {
+    if (currentUsername_.isEmpty() || isAdminMode_) {
+        QMessageBox::warning(this, "还书失败", "只有学生用户可以还书，请使用学生账号登录。");
+        return;
+    }
     // 获取当前选中的行
     QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
     if (selectedIndexes.isEmpty()) {
@@ -260,15 +286,20 @@ void MainWindow::onReturn()
         return;
     }
 
-    // 更新数据
+    // 更新图书数据（归还一本，数量加一）
     Book updatedBook = *bookPtr;
+    updatedBook.quantity += 1;
     updatedBook.available = true;
     updatedBook.returnDate = QDate(); // 清空归还日期
 
     QString error;
     if (library_.updateBook(indexId, updatedBook, &error)) {
+        // 更新当前学生的借阅记录
+        markBorrowRecordReturnedForCurrentUser(indexId, QDate::currentDate());
+
         refreshTable();
-        QMessageBox::information(this, "成功", QStringLiteral("成功归还图书《%1》").arg(bookName));
+        QMessageBox::information(this, "成功",
+                                 QStringLiteral("成功归还图书《%1》").arg(bookName));
     } else {
         QMessageBox::warning(this, "失败", "归还失败：" + error);
     }
@@ -320,11 +351,19 @@ void MainWindow::onWarn()
 
 void MainWindow::onAddBook()
 {
+    if (!isAdminMode_) {
+        QMessageBox::warning(this, "权限不足", "只有管理员可以添加图书，请以管理员模式登录。");
+        return;
+    }
     showBookDialog(Book(), false);
 }
 
 void MainWindow::onEditBook()
 {
+    if (!isAdminMode_) {
+        QMessageBox::warning(this, "权限不足", "只有管理员可以编辑图书，请以管理员模式登录。");
+        return;
+    }
     // 获取当前选中的行
     QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
     if (selectedIndexes.isEmpty()) {
@@ -343,6 +382,10 @@ void MainWindow::onEditBook()
 
 void MainWindow::onDeleteBook()
 {
+    if (!isAdminMode_) {
+        QMessageBox::warning(this, "权限不足", "只有管理员可以删除图书，请以管理员模式登录。");
+        return;
+    }
     // 获取当前选中的行
     QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
     if (selectedIndexes.isEmpty()) {
@@ -401,6 +444,8 @@ void MainWindow::onSearch()
         QList<QStandardItem*> rowItems;
         rowItems << new QStandardItem(b->indexId);
         rowItems << new QStandardItem(b->name);
+        rowItems << new QStandardItem(b->author);
+        rowItems << new QStandardItem(b->publisher);
         rowItems << new QStandardItem(b->location);
         rowItems << new QStandardItem(b->category);
         rowItems << new QStandardItem(QString::number(b->quantity));
@@ -408,7 +453,10 @@ void MainWindow::onSearch()
         rowItems << new QStandardItem(b->inDate.toString("yyyy-MM-dd"));
         rowItems << new QStandardItem(b->returnDate.isValid() ? b->returnDate.toString("yyyy-MM-dd") : "");
         rowItems << new QStandardItem(QString::number(b->borrowCount));
-        rowItems << new QStandardItem(b->available ? "可借" : "已借出");
+        QString statusText = (b->available && b->quantity > 0)
+                                 ? QStringLiteral("可借")
+                                 : QStringLiteral("不可借");
+        rowItems << new QStandardItem(statusText);
         model_->appendRow(rowItems);
     } else {
         QMessageBox::information(this, "未找到", QStringLiteral("没有找到名称为 \"%1\" 的图书").arg(name));
@@ -509,10 +557,12 @@ void MainWindow::setupActions()
     auto borrowAct = bar->addAction(QStringLiteral("📖 借书"));
     auto returnAct = bar->addAction(QStringLiteral("📤 还书"));
     auto warnAct = bar->addAction(QStringLiteral("⏰ 到期提醒"));
+    auto myBorrowAct = bar->addAction(QStringLiteral("📚 我的借阅"));
     bar->addSeparator();
     auto addBookAct = bar->addAction(QStringLiteral("➕ 添加图书"));
     auto editBookAct = bar->addAction(QStringLiteral("✏️ 编辑图书"));
     auto deleteBookAct = bar->addAction(QStringLiteral("🗑️ 删除图书"));
+    auto bookHistoryAct = bar->addAction(QStringLiteral("📑 借阅记录"));
     // auto openAct = bar->addAction(QStringLiteral("📂 打开"));
     // auto saveAct = bar->addAction(QStringLiteral("💾 保存"));
     // auto allAct = bar->addAction(QStringLiteral("📋 显示全部"));
@@ -520,10 +570,12 @@ void MainWindow::setupActions()
     connect(borrowAct, &QAction::triggered, this, &MainWindow::onBorrow);
     connect(returnAct, &QAction::triggered, this, &MainWindow::onReturn);
     connect(warnAct, &QAction::triggered, this, &MainWindow::onWarn);
+    connect(myBorrowAct, &QAction::triggered, this, &MainWindow::onShowMyBorrows);
 
     connect(addBookAct, &QAction::triggered, this, &MainWindow::onAddBook);
     connect(editBookAct, &QAction::triggered, this, &MainWindow::onEditBook);
     connect(deleteBookAct, &QAction::triggered, this, &MainWindow::onDeleteBook);
+    connect(bookHistoryAct, &QAction::triggered, this, &MainWindow::onShowBookBorrowHistory);
     // connect(openAct, &QAction::triggered, this, &MainWindow::onOpen);
     // connect(saveAct, &QAction::triggered, this, &MainWindow::onSave);
     // connect(allAct, &QAction::triggered, this, &MainWindow::onShowAll);
@@ -598,6 +650,25 @@ void MainWindow::updateStatusBar()
     QString statusText = QStringLiteral("📊 总计: %1 | ✅ 可借: %2 | ❌ 已借: %3")
                              .arg(total).arg(available).arg(borrowed);
     statusBar()->showMessage(statusText);
+}
+
+// ============================================================================
+// 当前用户设置
+// ============================================================================
+void MainWindow::setCurrentUser(const QString &username, bool isAdminMode, const QString &usersFilePath)
+{
+    currentUsername_ = username;
+    isAdminMode_ = isAdminMode;
+    usersFilePath_ = usersFilePath;
+
+    if (isAdminMode_) {
+        setWindowTitle(QStringLiteral("图书管理系统 - 管理员模式 (%1)").arg(username));
+    } else {
+        setWindowTitle(QStringLiteral("图书管理系统 - 学生模式 (%1)").arg(username));
+    }
+
+    // 重新刷新表格，使不同学生看到不同的可借信息
+    refreshTable();
 }
 
 QDockWidget* MainWindow::createDockWidgetFromScrollArea(QScrollArea *scrollArea)
@@ -1214,14 +1285,14 @@ void MainWindow::updateHeaderLabels()
     if (!categoryFilter_.isEmpty()) {
         categoryLabel = QStringLiteral("类别\n%1\n  ▼").arg(categoryFilter_);
     }
-    model_->setHeaderData(3, Qt::Horizontal, categoryLabel);
+    model_->setHeaderData(5, Qt::Horizontal, categoryLabel);
 
-    // 新增：馆藏地址表头
+    // 新增：馆藏地址表头（列索引调整）
     QString locationLabel = QStringLiteral("馆藏地址\n  ▼");
     if (!locationFilter_.isEmpty()) {
         locationLabel = QStringLiteral("馆藏地址\n%1\n  ▼").arg(locationFilter_);
     }
-    model_->setHeaderData(2, Qt::Horizontal, locationLabel);
+    model_->setHeaderData(4, Qt::Horizontal, locationLabel);
 
     QString statusLabel = QStringLiteral("状态\n  ▼");
     if (statusFilter_ == "available") {
@@ -1229,16 +1300,16 @@ void MainWindow::updateHeaderLabels()
     } else if (statusFilter_ == "borrowed") {
         statusLabel = QStringLiteral("状态\n已借出\n  ▼");
     }
-    model_->setHeaderData(9, Qt::Horizontal, statusLabel);
+    model_->setHeaderData(11, Qt::Horizontal, statusLabel);
 }
 
 void MainWindow::onHeaderSectionClicked(int section)
 {
-    if (section == 2) {  // 馆藏地址列
+    if (section == 4) {  // 馆藏地址列
         showFilterMenu(locationFilterMenu_, section);
-    } else if (section == 3) { // 类别列
+    } else if (section == 5) { // 类别列
         showFilterMenu(categoryFilterMenu_, section);
-    } else if (section == 9) { // 状态列
+    } else if (section == 11) { // 状态列
         showFilterMenu(statusFilterMenu_, section);
     }
 }
@@ -1269,6 +1340,8 @@ void MainWindow::displayBooks(const QVector<Book> &booksToShow)
         QList<QStandardItem*> rowItems;
         rowItems << new QStandardItem(b.indexId);
         rowItems << new QStandardItem(b.name);
+        rowItems << new QStandardItem(b.author);
+        rowItems << new QStandardItem(b.publisher);
         rowItems << new QStandardItem(b.location);
         rowItems << new QStandardItem(b.category);
         rowItems << new QStandardItem(QString::number(b.quantity));
@@ -1276,11 +1349,271 @@ void MainWindow::displayBooks(const QVector<Book> &booksToShow)
         rowItems << new QStandardItem(b.inDate.toString("yyyy-MM-dd"));
         rowItems << new QStandardItem(b.returnDate.isValid() ? b.returnDate.toString("yyyy-MM-dd") : "");
         rowItems << new QStandardItem(QString::number(b.borrowCount));
-        rowItems << new QStandardItem(b.available ? "✅ 可借" : "❌ 已借出");
+
+        QString statusText = (b.available && b.quantity > 0)
+                                 ? QStringLiteral("可借")
+                                 : QStringLiteral("不可借");
+        rowItems << new QStandardItem(statusText);
 
         model_->appendRow(rowItems);
     }
 
     // 3. 更新状态栏
     updateStatusBar();
+}
+
+// ============================================================================
+// 用户与借阅信息相关辅助函数实现
+// ============================================================================
+
+QJsonArray MainWindow::loadUsersJson() const
+{
+    QJsonArray array;
+    if (usersFilePath_.isEmpty()) return array;
+
+    QFile file(usersFilePath_);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return array;
+    }
+    const QByteArray data = file.readAll();
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    if (doc.isArray()) {
+        array = doc.array();
+    }
+    return array;
+}
+
+bool MainWindow::saveUsersJson(const QJsonArray &array) const
+{
+    if (usersFilePath_.isEmpty()) return false;
+    QFile file(usersFilePath_);
+    if (!file.open(QIODevice::WriteOnly)) {
+        return false;
+    }
+    QJsonDocument doc(array);
+    file.write(doc.toJson());
+    file.close();
+    return true;
+}
+
+QStringList MainWindow::getCurrentUserAllowedCategories() const
+{
+    QStringList result;
+    if (currentUsername_.isEmpty()) return result;
+
+    QJsonArray array = loadUsersJson();
+    for (const QJsonValue &value : array) {
+        if (!value.isObject()) continue;
+        QJsonObject obj = value.toObject();
+        if (obj.value("username").toString() == currentUsername_) {
+            QJsonArray cats = obj.value("allowedCategories").toArray();
+            for (const QJsonValue &v : cats) {
+                result << v.toString();
+            }
+            break;
+        }
+    }
+    return result;
+}
+
+bool MainWindow::currentUserHasBorrowed(const QString &indexId) const
+{
+    if (currentUsername_.isEmpty()) return false;
+
+    QJsonArray array = loadUsersJson();
+    for (const QJsonValue &value : array) {
+        if (!value.isObject()) continue;
+        QJsonObject obj = value.toObject();
+        if (obj.value("username").toString() != currentUsername_) continue;
+        QJsonArray borrows = obj.value("borrows").toArray();
+        for (const QJsonValue &bVal : borrows) {
+            if (!bVal.isObject()) continue;
+            QJsonObject bObj = bVal.toObject();
+            if (bObj.value("indexId").toString() == indexId &&
+                !bObj.value("returned").toBool(false)) {
+                return true;
+            }
+        }
+        break;
+    }
+    return false;
+}
+
+void MainWindow::addBorrowRecordForCurrentUser(const Book &book, const QDate &borrowDate, const QDate &dueDate)
+{
+    if (currentUsername_.isEmpty()) return;
+
+    QJsonArray array = loadUsersJson();
+    for (int i = 0; i < array.size(); ++i) {
+        if (!array.at(i).isObject()) continue;
+        QJsonObject obj = array.at(i).toObject();
+        if (obj.value("username").toString() != currentUsername_) continue;
+
+        QJsonArray borrows = obj.value("borrows").toArray();
+        QJsonObject rec;
+        rec["indexId"] = book.indexId;
+        rec["bookName"] = book.name;
+        rec["borrowDate"] = borrowDate.toString(Qt::ISODate);
+        rec["dueDate"] = dueDate.toString(Qt::ISODate);
+        rec["returnDate"] = QString();
+        rec["returned"] = false;
+        borrows.append(rec);
+        obj["borrows"] = borrows;
+        array[i] = obj;
+        break;
+    }
+    saveUsersJson(array);
+}
+
+void MainWindow::markBorrowRecordReturnedForCurrentUser(const QString &indexId, const QDate &returnDate)
+{
+    if (currentUsername_.isEmpty()) return;
+
+    QJsonArray array = loadUsersJson();
+    for (int i = 0; i < array.size(); ++i) {
+        if (!array.at(i).isObject()) continue;
+        QJsonObject obj = array.at(i).toObject();
+        if (obj.value("username").toString() != currentUsername_) continue;
+
+        QJsonArray borrows = obj.value("borrows").toArray();
+        bool changed = false;
+        for (int j = 0; j < borrows.size(); ++j) {
+            if (!borrows.at(j).isObject()) continue;
+            QJsonObject bObj = borrows.at(j).toObject();
+            if (bObj.value("indexId").toString() == indexId &&
+                !bObj.value("returned").toBool(false)) {
+                bObj["returned"] = true;
+                bObj["returnDate"] = returnDate.toString(Qt::ISODate);
+                borrows[j] = bObj;
+                changed = true;
+                break;
+            }
+        }
+        if (changed) {
+            obj["borrows"] = borrows;
+            array[i] = obj;
+            break;
+        }
+    }
+    saveUsersJson(array);
+}
+
+QString MainWindow::borrowRecordsForCurrentUserText() const
+{
+    if (currentUsername_.isEmpty()) {
+        return QStringLiteral("当前未登录学生用户。");
+    }
+
+    QJsonArray array = loadUsersJson();
+    for (const QJsonValue &value : array) {
+        if (!value.isObject()) continue;
+        QJsonObject obj = value.toObject();
+        if (obj.value("username").toString() != currentUsername_) continue;
+
+        QJsonArray borrows = obj.value("borrows").toArray();
+        if (borrows.isEmpty()) {
+            return QStringLiteral("你还没有任何借阅记录。");
+        }
+
+        QStringList lines;
+        for (const QJsonValue &bVal : borrows) {
+            if (!bVal.isObject()) continue;
+            QJsonObject bObj = bVal.toObject();
+            const QString bookName = bObj.value("bookName").toString();
+            const QString indexId = bObj.value("indexId").toString();
+            const QString borrowDate = bObj.value("borrowDate").toString();
+            const QString dueDate = bObj.value("dueDate").toString();
+            const QString returnDate = bObj.value("returnDate").toString();
+            const bool returned = bObj.value("returned").toBool(false);
+
+            QString line = QStringLiteral("《%1》(索引:%2)\n  借出: %3 | 应还: %4")
+                               .arg(bookName, indexId, borrowDate, dueDate);
+            if (returned) {
+                line += QStringLiteral(" | 实还: %1").arg(returnDate);
+            } else {
+                line += QStringLiteral(" | 状态: 未还");
+            }
+            lines << line;
+        }
+        return lines.join("\n\n");
+    }
+
+    return QStringLiteral("未找到当前用户的借阅记录。");
+}
+
+QString MainWindow::borrowHistoryForBookText(const QString &indexId) const
+{
+    if (indexId.isEmpty()) {
+        return QStringLiteral("未选择图书。");
+    }
+
+    QJsonArray array = loadUsersJson();
+    QStringList lines;
+
+    for (const QJsonValue &value : array) {
+        if (!value.isObject()) continue;
+        QJsonObject obj = value.toObject();
+        const QString username = obj.value("username").toString();
+        QJsonArray borrows = obj.value("borrows").toArray();
+
+        for (const QJsonValue &bVal : borrows) {
+            if (!bVal.isObject()) continue;
+            QJsonObject bObj = bVal.toObject();
+            if (bObj.value("indexId").toString() != indexId) continue;
+
+            const QString bookName = bObj.value("bookName").toString();
+            const QString borrowDate = bObj.value("borrowDate").toString();
+            const QString dueDate = bObj.value("dueDate").toString();
+            const QString returnDate = bObj.value("returnDate").toString();
+            const bool returned = bObj.value("returned").toBool(false);
+
+            QString line = QStringLiteral("用户: %1\n《%2》(索引:%3)\n  借出: %4 | 应还: %5")
+                               .arg(username, bookName, indexId, borrowDate, dueDate);
+            if (returned) {
+                line += QStringLiteral(" | 实还: %1").arg(returnDate);
+            } else {
+                line += QStringLiteral(" | 状态: 未还");
+            }
+            lines << line;
+        }
+    }
+
+    if (lines.isEmpty()) {
+        return QStringLiteral("该图书暂无任何借阅记录。");
+    }
+    return lines.join("\n\n");
+}
+
+void MainWindow::onShowMyBorrows()
+{
+    if (currentUsername_.isEmpty() || isAdminMode_) {
+        QMessageBox::information(this, "提示", "请以学生账号登录后查看自己的借阅信息。");
+        return;
+    }
+    QMessageBox::information(this, "我的借阅", borrowRecordsForCurrentUserText());
+}
+
+void MainWindow::onShowBookBorrowHistory()
+{
+    if (!isAdminMode_) {
+        QMessageBox::warning(this, "权限不足", "只有管理员可以查看图书借阅记录。");
+        return;
+    }
+
+    QModelIndexList selectedIndexes = tableView_->selectionModel()->selectedRows();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::information(this, "提示", "请先选择一条图书记录。");
+        return;
+    }
+
+    int row = selectedIndexes.first().row();
+    QString indexId = model_->item(row, 0)->text();
+    QString bookName = model_->item(row, 1)->text();
+
+    QString text = borrowHistoryForBookText(indexId);
+    QMessageBox::information(this,
+                             QStringLiteral("《%1》的借阅记录").arg(bookName),
+                             text);
 }

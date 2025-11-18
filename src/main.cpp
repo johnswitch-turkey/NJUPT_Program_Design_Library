@@ -45,10 +45,8 @@ int main(int argc, char *argv[])
 
     // --- 登录成功，创建并显示主窗口 ---
     MainWindow w;
-
-    // (可选) 你可以从登录对话框获取用户信息，并在主窗口中使用
-    // QString username = log.getUsername();
-    // w.setCurrentUser(username); // 假设你在 MainWindow 中有这个方法
+    // 将当前用户信息传递给主窗口（用户名 + 是否管理员 + 用户数据文件路径）
+    w.setCurrentUser(log.getUsername(), log.isAdmin(), log.getUsersFilePath());
 
     w.show();
 

@@ -15,6 +15,8 @@ BookDialog::BookDialog(QWidget *parent)
 
     indexIdEdit_ = new QLineEdit(this);
     nameEdit_ = new QLineEdit(this);
+    authorEdit_ = new QLineEdit(this);
+    publisherEdit_ = new QLineEdit(this);
     locationEdit_ = new QComboBox(this);
     categoryEdit_ = new QComboBox(this);
     quantityEdit_ = new QLineEdit(this);
@@ -107,6 +109,8 @@ BookDialog::BookDialog(QWidget *parent)
 
     indexIdEdit_->setStyleSheet(inputStyle);
     nameEdit_->setStyleSheet(inputStyle);
+    authorEdit_->setStyleSheet(inputStyle);
+    publisherEdit_->setStyleSheet(inputStyle);
     locationEdit_->setStyleSheet(inputStyle);
     categoryEdit_->setStyleSheet(inputStyle);
     quantityEdit_->setStyleSheet(inputStyle);
@@ -123,6 +127,8 @@ BookDialog::BookDialog(QWidget *parent)
     // 添加图标美化标签
     form->addRow(QStringLiteral("🔢 索引号"), indexIdEdit_);
     form->addRow(QStringLiteral("📖 名称"), nameEdit_);
+    form->addRow(QStringLiteral("✍️ 作者"), authorEdit_);
+    form->addRow(QStringLiteral("🏢 出版社"), publisherEdit_);
     form->addRow(QStringLiteral("📍 馆藏地址"), locationEdit_);
     form->addRow(QStringLiteral("📂 类别"), categoryEdit_);
     form->addRow(QStringLiteral("🔢 数量"), quantityEdit_);
@@ -182,6 +188,8 @@ void BookDialog::setBook(const Book &b)
 {
     indexIdEdit_->setText(b.indexId);
     nameEdit_->setText(b.name);
+    authorEdit_->setText(b.author);
+    publisherEdit_->setText(b.publisher);
 
     // 设置馆藏地址下拉框
     int locationIndex = locationEdit_->findText(b.location);
@@ -214,6 +222,8 @@ Book BookDialog::getBook() const
     Book b;
     b.indexId = indexIdEdit_->text().trimmed();
     b.name = nameEdit_->text().trimmed();
+    b.author = authorEdit_->text().trimmed();
+    b.publisher = publisherEdit_->text().trimmed();
     b.location = locationEdit_->currentText(); // 获取下拉框当前选中的文本
     b.category = categoryEdit_->currentText().trimmed();
     b.quantity = quantityEdit_->text().toInt();

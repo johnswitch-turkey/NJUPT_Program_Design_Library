@@ -11,7 +11,9 @@ Log::Log(QWidget *parent)
     , actionButton_(nullptr)
     , switchButton_(nullptr)
     , cancelButton_(nullptr)
+    , adminCheckBox_(nullptr)
     , isRegisterMode_(false)
+    , isAdminMode_(false)
 {
     // 设置用户数据文件路径（存储在应用程序数据目录）
     // 1. 获取可执行文件所在的目录
@@ -37,8 +39,73 @@ Log::Log(QWidget *parent)
     // 4. 组合成最终的文件完整路径
     usersFilePath_ = absoluteTargetPath + "/users.json";
 
-    // 加载用户数据
+    // 加载用户数据（如果不存在则自动创建并写入默认账号）
     loadUsers();
+
+    // 确保预置管理员和学生账号存在
+    // 管理员：B24010616 / B24010608，密码 123
+    auto ensureUser = [this](const QString &username,
+                             const QString &password,
+                             const QString &role,
+                             const QStringList &allowedCategories = {}) {
+        // 检查是否已经存在
+        for (const QJsonValue &value : std::as_const(usersArray_)) {
+            if (!value.isObject()) continue;
+            QJsonObject obj = value.toObject();
+            if (obj.value("username").toString() == username) {
+                // 已存在则只补充缺失字段
+                if (!obj.contains("role")) obj["role"] = role;
+                if (!obj.contains("allowedCategories")) {
+                    QJsonArray cats;
+                    for (const auto &c : allowedCategories) {
+                        cats.append(c);
+                    }
+                    obj["allowedCategories"] = cats;
+                }
+                // 确保密码为指定值（方便调试）
+                obj["password"] = password;
+
+                // 写回数组
+                for (int i = 0; i < usersArray_.size(); ++i) {
+                    QJsonObject existing = usersArray_.at(i).toObject();
+                    if (existing.value("username").toString() == username) {
+                        usersArray_[i] = obj;
+                        break;
+                    }
+                }
+                return;
+            }
+        }
+
+        // 不存在则追加新用户
+        QJsonObject newUser;
+        newUser["username"] = username;
+        newUser["password"] = password;
+        newUser["role"] = role;
+        QJsonArray cats;
+        for (const auto &c : allowedCategories) {
+            cats.append(c);
+        }
+        newUser["allowedCategories"] = cats;
+        newUser["borrows"] = QJsonArray(); // 预留借阅信息
+        usersArray_.append(newUser);
+    };
+
+    // 两个管理员
+    ensureUser(QStringLiteral("B24010616"), QStringLiteral("123"), QStringLiteral("admin"));
+    ensureUser(QStringLiteral("B24010608"), QStringLiteral("123"), QStringLiteral("admin"));
+    // 两个虚拟学生账号，密码 123，给不同的可借类别
+    ensureUser(QStringLiteral("S24010001"),
+               QStringLiteral("123"),
+               QStringLiteral("student"),
+               QStringList{QStringLiteral("计算机科学"), QStringLiteral("外语")});
+    ensureUser(QStringLiteral("S24010002"),
+               QStringLiteral("123"),
+               QStringLiteral("student"),
+               QStringList{QStringLiteral("文学"), QStringLiteral("历史")});
+
+    // 保存可能更新后的用户数据
+    saveUsers();
 
     // 设置UI
     setupUI();
@@ -107,6 +174,11 @@ void Log::setupUI()
         "}"
     );
     mainLayout_->addWidget(passwordEdit_);
+
+    // 管理员模式勾选框
+    adminCheckBox_ = new QCheckBox(QStringLiteral("以管理员模式登录"), this);
+    adminCheckBox_->setToolTip(QStringLiteral("勾选后，将尝试以管理员身份登录（仅限管理员账号）"));
+    mainLayout_->addWidget(adminCheckBox_);
 
     // 按钮布局
     QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -229,15 +301,41 @@ void Log::performLogin()
     }
 
     // 验证用户名和密码
-    if (validateUser(username, password)) {
-        currentUsername_ = username;
-        QMessageBox::information(this, "登录成功", QString("欢迎，%1！").arg(username));
-        accept(); // 返回Accepted，允许主程序继续执行
-    } else {
+    if (!validateUser(username, password)) {
         QMessageBox::warning(this, "登录失败", "用户名或密码错误！");
         passwordEdit_->clear();
         passwordEdit_->setFocus();
+        return;
     }
+
+    // 读取用户角色
+    QString role = QStringLiteral("student");
+    for (const QJsonValue &value : std::as_const(usersArray_)) {
+        if (!value.isObject()) continue;
+        QJsonObject obj = value.toObject();
+        if (obj.value("username").toString() == username) {
+            role = obj.value("role").toString(QStringLiteral("student"));
+            break;
+        }
+    }
+
+    // 根据勾选情况决定是否以管理员模式登录
+    if (adminCheckBox_ && adminCheckBox_->isChecked()) {
+        if (role != QStringLiteral("admin")) {
+            QMessageBox::warning(this, "登录失败", "该账号不是管理员，不能以管理员模式登录！");
+            return;
+        }
+        isAdminMode_ = true;
+    } else {
+        isAdminMode_ = false;
+    }
+
+    currentUsername_ = username;
+    QString welcome = isAdminMode_
+                      ? QStringLiteral("欢迎管理员 %1！").arg(username)
+                      : QStringLiteral("欢迎，%1！").arg(username);
+    QMessageBox::information(this, "登录成功", welcome);
+    accept(); // 返回Accepted，允许主程序继续执行
 }
 
 void Log::performRegister()
@@ -273,10 +371,13 @@ void Log::performRegister()
         return;
     }
 
-    // 添加新用户
+    // 添加新用户，默认学生角色，初始可借所有类别
     QJsonObject newUser;
     newUser["username"] = username;
     newUser["password"] = password; // 注意：实际应用中应该对密码进行加密
+    newUser["role"] = QStringLiteral("student");
+    newUser["allowedCategories"] = QJsonArray(); // 空表示不限制
+    newUser["borrows"] = QJsonArray();
     usersArray_.append(newUser);
 
     // 保存用户数据
@@ -362,4 +463,5 @@ bool Log::validateUser(const QString &username, const QString &password)
     }
     return false;
 }
+
 

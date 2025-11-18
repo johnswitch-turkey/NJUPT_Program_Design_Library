@@ -9,6 +9,8 @@
 struct Book {
     QString indexId;          // 索引号
     QString name;             // 名称
+    QString author;           // 作者
+    QString publisher;        // 出版社
     QString location;         // 馆藏地址：三牌楼/仙林
     QString category;         // 类别：人文/科技/外语等
     int quantity = 0;         // 数量
@@ -23,6 +25,8 @@ inline void toJson(QJsonObject &obj, const Book &b)
 {
     obj["indexId"] = b.indexId;
     obj["name"] = b.name;
+    obj["author"] = b.author;
+    obj["publisher"] = b.publisher;
     obj["location"] = b.location;
     obj["category"] = b.category;
     obj["quantity"] = b.quantity;
@@ -38,6 +42,8 @@ inline Book fromJson(const QJsonObject &obj)
     Book b;
     b.indexId = obj.value("indexId").toString();
     b.name = obj.value("name").toString();
+    b.author = obj.value("author").toString();
+    b.publisher = obj.value("publisher").toString();
     b.location = obj.value("location").toString();
     b.category = obj.value("category").toString();
     b.quantity = obj.value("quantity").toInt();

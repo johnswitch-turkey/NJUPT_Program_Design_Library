@@ -22,6 +22,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    // 设置当前登录用户及模式（学生/管理员），以及用户数据文件路径
+    void setCurrentUser(const QString &username, bool isAdminMode, const QString &usersFilePath);
+
 private slots:
     // UI交互
     void toggleTheme();
@@ -49,6 +52,8 @@ private slots:
     void onCategoryFilterChanged(QAction* action);
     void onStatusFilterChanged(QAction* action);
     void onLocationFilterChanged(QAction* action);
+    void onShowMyBorrows();              // 学生查看自己的借阅信息
+    void onShowBookBorrowHistory();      // 管理员查看某本书的借阅记录
 
 private:
     // UI设置
@@ -77,6 +82,16 @@ private:
     void updateStatusBar();
     void showBookDialog(const Book& book = Book(), bool isEdit = false);
 
+    // 用户与借阅相关的辅助函数
+    QJsonArray loadUsersJson() const;
+    bool saveUsersJson(const QJsonArray &array) const;
+    QStringList getCurrentUserAllowedCategories() const;
+    bool currentUserHasBorrowed(const QString &indexId) const;
+    void addBorrowRecordForCurrentUser(const Book &book, const QDate &borrowDate, const QDate &dueDate);
+    void markBorrowRecordReturnedForCurrentUser(const QString &indexId, const QDate &returnDate);
+    QString borrowRecordsForCurrentUserText() const;
+    QString borrowHistoryForBookText(const QString &indexId) const;
+
     // UI成员
     Ui::MainWindow *ui;
     LibraryManager library_;       // 核心数据管理器
@@ -100,6 +115,13 @@ private:
     bool isEditMode_;
 
     bool isWarn = false;
+
+    // 当前登录用户信息
+    QString currentUsername_;
+    bool isAdminMode_ = false;          // 是否以管理员模式登录
+    QString usersFilePath_;             // 用户数据文件路径
+    QStringList allowedCategories_;     // 当前学生可借类别，空表示不限制
+
 
 };
 

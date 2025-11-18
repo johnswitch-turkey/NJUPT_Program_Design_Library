@@ -1,10 +1,60 @@
 [
     {
+        "borrows": [
+            {
+                "bookName": "C++程序设计教程",
+                "borrowDate": "2025-11-18",
+                "dueDate": "2025-11-19",
+                "indexId": "CS001",
+                "returnDate": "",
+                "returned": false
+            }
+        ],
         "password": "111",
         "username": "111"
     },
     {
         "password": "222",
         "username": "222"
+    },
+    {
+        "allowedCategories": [
+        ],
+        "borrows": [
+        ],
+        "password": "123",
+        "role": "admin",
+        "username": "B24010616"
+    },
+    {
+        "allowedCategories": [
+        ],
+        "borrows": [
+        ],
+        "password": "123",
+        "role": "admin",
+        "username": "B24010608"
+    },
+    {
+        "allowedCategories": [
+            "计算机科学",
+            "外语"
+        ],
+        "borrows": [
+        ],
+        "password": "123",
+        "role": "student",
+        "username": "S24010001"
+    },
+    {
+        "allowedCategories": [
+            "文学",
+            "历史"
+        ],
+        "borrows": [
+        ],
+        "password": "123",
+        "role": "student",
+        "username": "S24010002"
     }
 ]

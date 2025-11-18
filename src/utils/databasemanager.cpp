@@ -128,6 +128,8 @@ Book DatabaseManager::bookFromJson(const QJsonObject& obj)
     Book book;
     book.indexId = obj.value("indexId").toString();
     book.name = obj.value("name").toString();
+    book.author = obj.value("author").toString();
+    book.publisher = obj.value("publisher").toString();
     book.location = obj.value("location").toString();
     book.category = obj.value("category").toString();
     book.quantity = obj.value("quantity").toInt();
@@ -148,6 +150,8 @@ QJsonObject DatabaseManager::bookToJson(const Book& book)
     QJsonObject obj;
     obj["indexId"] = book.indexId;
     obj["name"] = book.name;
+    obj["author"] = book.author;
+    obj["publisher"] = book.publisher;
     obj["location"] = book.location;
     obj["category"] = book.category;
     obj["quantity"] = book.quantity;
