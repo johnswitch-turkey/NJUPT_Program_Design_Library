@@ -48,7 +48,7 @@ private:
     void setupStyles();
     void applyTheme(bool isDark);
     QString getThemeStyles(bool isDark);
-    QString getMenuStyles(bool isDark); // 新增菜单样式函数
+    QString getMenuStyles(bool isDark);
     void rebuildFilterMenus();
     void updateHeaderLabels();
     void showFilterMenu(QMenu *menu, int section);
@@ -71,10 +71,13 @@ private:
     QPushButton *themeToggleButton_;
     QMenu *categoryFilterMenu_;
     QMenu *statusFilterMenu_;
+    QMenu *locationFilterMenu_;     // 新增：馆藏地址筛选菜单
     QActionGroup *categoryActionGroup_;
     QActionGroup *statusActionGroup_;
+    QActionGroup *locationActionGroup_; // 新增：馆藏地址动作组
     QString categoryFilter_;
     QString statusFilter_;
+    QString locationFilter_;        // 新增：馆藏地址筛选条件
 
     // 状态和主题
     bool isDarkMode_;

@@ -36,10 +36,13 @@ MainWindow::MainWindow(QWidget *parent)
     , themeToggleButton_(nullptr)
     , categoryFilterMenu_(nullptr)
     , statusFilterMenu_(nullptr)
+    , locationFilterMenu_(nullptr)    // 初始化新增成员
     , categoryActionGroup_(nullptr)
     , statusActionGroup_(nullptr)
+    , locationActionGroup_(nullptr)   // 初始化新增成员
     , categoryFilter_()
     , statusFilter_()
+    , locationFilter_()             // 初始化新增成员
     , isDarkMode_(false)
 {
     ui->setupUi(this);
@@ -163,10 +166,9 @@ void MainWindow::setupTable()
 
     // 2. 再单独设置需要拉伸的列
     tableView_->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch); // 名称列拉伸
-    tableView_->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch); // 名称列拉伸
-    tableView_->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch); // 馆藏地址列拉伸
+    tableView_->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch); // 借阅次数列拉伸
 
-    // 设置类别和状态列的最小宽度，确保有足够空间显示换行内容
+    // 设置类别、状态和馆藏地址列的最小宽度，确保有足够空间显示换行内容
     tableView_->horizontalHeader()->setMinimumSectionSize(120);
 
     tableView_->horizontalHeader()->setSectionsClickable(true);
@@ -192,7 +194,11 @@ void MainWindow::refreshTable()
     for (int row = 0; row < books.size(); ++row) {
         const Book &b = books[row];
 
+        // 应用筛选条件
         if (!categoryFilter_.isEmpty() && b.category != categoryFilter_) {
+            continue;
+        }
+        if (!locationFilter_.isEmpty() && b.location != locationFilter_) {
             continue;
         }
         if (statusFilter_ == "available" && !b.available) {
@@ -201,6 +207,7 @@ void MainWindow::refreshTable()
         if (statusFilter_ == "borrowed" && b.available) {
             continue;
         }
+
         QList<QStandardItem*> rowItems;
         rowItems << new QStandardItem(b.indexId);
         rowItems << new QStandardItem(b.name);
@@ -472,8 +479,8 @@ void MainWindow::toggleTheme()
 void MainWindow::setupStyles()
 {
     applyTheme(false);
-    setWindowTitle(QStringLiteral("图书管理系统 (只读模式)"));
-    setWindowIcon(QIcon(":/icons/library.svg"));
+    setWindowTitle(QStringLiteral("图书管理系统"));
+    setWindowIcon(QIcon("..//library.svg"));
     statusBar()->setMinimumHeight(28);
     updateStatusBar();
 }
@@ -512,13 +519,16 @@ void MainWindow::applyTheme(bool isDark)
     if (statusFilterMenu_) {
         statusFilterMenu_->setStyleSheet(menuStyles);
     }
+    if (locationFilterMenu_) {
+        locationFilterMenu_->setStyleSheet(menuStyles);
+    }
 }
 
 // 新增菜单样式函数
 QString MainWindow::getMenuStyles(bool isDark)
 {
     if (isDark) {
-        return QStringLiteral(
+        return QString(
             "QMenu {"
             "    background-color: #22333B;"
             "    border: 2px solid #3A4A52;"
@@ -553,7 +563,7 @@ QString MainWindow::getMenuStyles(bool isDark)
             "}"
         );
     } else {
-        return QStringLiteral(
+        return QString(
             "QMenu {"
             "    background-color: #FFFFFF;"
             "    border: 2px solid #F8D7DC;"
@@ -590,288 +600,346 @@ QString MainWindow::getMenuStyles(bool isDark)
     }
 }
 
-// 这里 getThemeStyles 函数保持不变，直接使用你之前的完整版本
+
+
 QString MainWindow::getThemeStyles(bool isDark)
 {
     if (isDark) {
-        // ... 你的深色主题QSS ...
-        return QStringLiteral("QMainWindow {"
-        "    background-color: #1A252F;" /* 墨绿背景 */
-        "    color: #D1E7DD;" /* 柔和的白色 */
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "}"
-        "QToolBar {"
-        "    background-color: #22333B;" /* 稍亮的绿 */
-        "    border: none;"
-        "    border-right: 1px solid #3A4A52;"
-        "    spacing: 8px;"
-        "    padding: 12px 8px;"
-        "}"
-        "QToolButton {"
-        "    background-color: #3A4A52;"
-        "    color: #D1E7DD;"
-        "    border: 1px solid #4A5A62;"
-        "    border-radius: 12px;"
-        "    padding: 10px 6px;"
-        "    margin: 2px;"
-        "    font-size: 13px;"
-        "    font-weight: 600;"
-        "    min-width: 110px;"
-        "    min-height: 45px;"
-        "    max-width: 150px;"
-        "    text-align: center;"
-        "}"
-        "QToolButton:hover {"
-        "    background-color: #4A5A62;"
-        "    border-color: #52B788;" /* 薄荷绿边框 */
-        "    color: #52B788;" /* 薄荷绿文字 */
-        "}"
-        "QToolButton:pressed {"
-        "    background-color: #52B788;"
-        "    color: #1A252F;"
-        "    border-color: #40916C;"
-        "}"
-        "QStatusBar {"
-        "    background-color: #22333B;"
-        "    color: #95D5B2;" /* 更柔和的绿色文字 */
-        "    border-top: 1px solid #3A4A52;"
-        "    padding: 6px 16px;"
-        "    font-size: 14px;"
-        "    min-height: 28px;"
-        "    line-height: 1.4;"
-        "}"
-        "QTableView {"
-        "    background-color: #1A252F;"
-        "    alternate-background-color: #22333B;"
-        "    selection-background-color: #52B788;"
-        "    selection-color: #1A252F;"
-        "    gridline-color: #3A4A52;"
-        "    color: #D1E7DD;"
-        "    border: 1px solid #3A4A52;"
-        "    border-radius: 12px;"
-        "}"
-        "QTableView::item {"
-        "    padding: 12px 16px;"
-        "    border: none;"
-        "    min-height: 44px;"
-        "    font-size: 15px;"
-        "    color: #D1E7DD;"
-        "}"
-        "QTableView::item:selected {"
-        "    background-color: #52B788;"
-        "    color: #1A252F;"
-        "}"
-        "QTableView::item:hover {"
-        "    background-color: #3A4A52;"
-        "}"
-        "QHeaderView::section {"
-        "    background-color: #22333B;"
-        "    color: #F4A261;" /* 琥珀橙表头 */
-        "    padding: 16px 12px;"
-        "    border: none;"
-        "    font-weight: 600;"
-        "    font-size: 15px;"
-        "    min-height: 60px;" /* 增加高度以容纳换行内容 */
-        "    border-bottom: 2px solid #F4A261;" /* 琥珀橙下边框 */
-        "}"
-        "QHeaderView::section:hover {"
-        "    background-color: #3A4A52;"
-        "}"
-        "QLineEdit {"
-        "    background-color: #3A4A52;"
-        "    border: 2px solid #4A5A62;"
-        "    border-radius: 20px;"
-        "    padding: 8px 16px;"
-        "    font-size: 14px;"
-        "    color: #D1E7DD;"
-        "    min-height: 20px;"
-        "}"
-        "QLineEdit:focus {"
-        "    border-color: #52B788;" /* 聚焦时薄荷绿边框 */
-        "    background-color: #4A5A62;"
-        "}"
-        "QPushButton {"
-        "    background-color: #F4A261;" /* 琥珀橙按钮 */
-        "    color: #1A252F;"
-        "    border: none;"
-        "    border-radius: 20px;"
-        "    padding: 8px 20px;"
-        "    font-size: 14px;"
-        "    font-weight: 600;"
-        "    min-width: 60px;"
-        "    min-height: 20px;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: #E76F51;" /* 悬停时变为珊瑚红 */
-        "}"
-        "QDockWidget {"
-        "    background-color: #22333B;"
-        "    border: none;"
-        "    border-right: 1px solid #3A4A52;"
-        "}"
-        "QScrollArea {"
-        "    background-color: #22333B;"
-        "    border: none;"
-        "}"
-        "QScrollBar:vertical {"
-        "    background-color: #3A4A52;"
-        "    width: 8px;"
-        "    border-radius: 4px;"
-        "}"
-        "QScrollBar::handle:vertical {"
-        "    background-color: #4A5A62;"
-        "    border-radius: 4px;"
-        "    min-height: 20px;"
-        "}"
-        "QScrollBar::handle:vertical:hover {"
-        "    background-color: #52B788;" /* 滚动条悬停时薄荷绿 */
-        "}"
+        return QString(
+            "QMainWindow {"
+            "    background-color: #1A252F;"
+            "    color: #D1E7DD;"
+            "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
+            "}"
+            "QToolBar {"
+            "    background-color: #22333B;"
+            "    border: none;"
+            "    border-right: 1px solid #3A4A52;"
+            "    spacing: 8px;"
+            "    padding: 12px 8px;"
+            "}"
+            "QToolButton {"
+            "    background-color: #3A4A52;"
+            "    color: #D1E7DD;"
+            "    border: 1px solid #4A5A62;"
+            "    border-radius: 12px;"
+            "    padding: 10px 6px;"
+            "    margin: 2px;"
+            "    font-size: 13px;"
+            "    font-weight: 600;"
+            "    min-width: 110px;"
+            "    min-height: 45px;"
+            "    max-width: 150px;"
+            "    text-align: center;"
+            "}"
+            "QToolButton:hover {"
+            "    background-color: #4A5A62;"
+            "    border-color: #52B788;"
+            "    color: #52B788;"
+            "}"
+            "QToolButton:pressed {"
+            "    background-color: #52B788;"
+            "    color: #1A252F;"
+            "    border-color: #40916C;"
+            "}"
+            "QStatusBar {"
+            "    background-color: #22333B;"
+            "    color: #95D5B2;"
+            "    border-top: 1px solid #3A4A52;"
+            "    padding: 6px 16px;"
+            "    font-size: 14px;"
+            "    min-height: 28px;"
+            "    line-height: 1.4;"
+            "}"
+            "QTableView {"
+            "    background-color: #1A252F;"
+            "    alternate-background-color: #22333B;"
+            "    selection-background-color: #52B788;"
+            "    selection-color: #1A252F;"
+            "    gridline-color: #3A4A52;"
+            "    color: #D1E7DD;"
+            "    border: 1px solid #3A4A52;"
+            "    border-radius: 12px;"
+            "}"
+            "QTableView::item {"
+            "    padding: 12px 16px;"
+            "    border: none;"
+            "    min-height: 44px;"
+            "    font-size: 15px;"
+            "    color: #D1E7DD;"
+            "}"
+            "QTableView::item:selected {"
+            "    background-color: #52B788;"
+            "    color: #1A252F;"
+            "}"
+            "QTableView::item:hover {"
+            "    background-color: #3A4A52;"
+            "}"
+            "QHeaderView::section {"
+            "    background-color: #22333B;"
+            "    color: #F4A261;"
+            "    padding: 16px 12px;"
+            "    border: none;"
+            "    font-weight: 600;"
+            "    font-size: 15px;"
+            "    min-height: 60px;"
+            "    border-bottom: 2px solid #F4A261;"
+            "}"
+            "QHeaderView::section:hover {"
+            "    background-color: #3A4A52;"
+            "}"
+            "QLineEdit {"
+            "    background-color: #3A4A52;"
+            "    border: 2px solid #4A5A62;"
+            "    border-radius: 20px;"
+            "    padding: 8px 16px;"
+            "    font-size: 14px;"
+            "    color: #D1E7DD;"
+            "    min-height: 20px;"
+            "}"
+            "QLineEdit:focus {"
+            "    border-color: #52B788;"
+            "    background-color: #4A5A62;"
+            "}"
+            "QPushButton {"
+            "    background-color: #F4A261;"
+            "    color: #1A252F;"
+            "    border: none;"
+            "    border-radius: 20px;"
+            "    padding: 8px 20px;"
+            "    font-size: 14px;"
+            "    font-weight: 600;"
+            "    min-width: 60px;"
+            "    min-height: 20px;"
+            "}"
+            "QPushButton:hover {"
+            "    background-color: #E76F51;"
+            "}"
+            "QDockWidget {"
+            "    background-color: #22333B;"
+            "    border: none;"
+            "    border-right: 1px solid #3A4A52;"
+            "}"
+            "QScrollArea {"
+            "    background-color: #22333B;"
+            "    border: none;"
+            "}"
+            // 保持竖向滚动条不变，只修改横向滚动条
+            "QScrollBar:vertical {"
+            "    background-color: #3A4A52;"
+            "    width: 8px;"
+            "    border-radius: 4px;"
+            "}"
+            "QScrollBar::handle:vertical {"
+            "    background-color: #4A5A62;"
+            "    border-radius: 4px;"
+            "    min-height: 20px;"
+            "}"
+            "QScrollBar::handle:vertical:hover {"
+            "    background-color: #52B788;"
+            "}"
+            // 修改横向滚动条样式
+            "QScrollBar:horizontal {"
+            "    background-color: #22333B;"  // 与背景色一致
+            "    height: 12px;"                 // 稍微加高
+            "    border-radius: 6px;"          // 圆角
+            "    margin: 2px;"
+            "}"
+            "QScrollBar::handle:horizontal {"
+            "    background-color: #52B788;"   // 薄荷绿主色调
+            "    border-radius: 6px;"
+            "    min-width: 30px;"             // 最小宽度
+            "    margin: 2px;"
+            "}"
+            "QScrollBar::handle:horizontal:hover {"
+            "    background-color: #74C69D;"   // 悬停时更亮的绿色
+            "}"
+            "QScrollBar::handle:horizontal:pressed {"
+            "    background-color: #40916C;"   // 按下时更深的绿色
+            "}"
+            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {"
+            "    width: 0px;"                  // 隐藏左右箭头
+            "    background: none;"
+            "}"
+            "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {"
+            "    background: none;"             // 透明背景
+            "}"
         );
     } else {
-        return QStringLiteral(
+        return QString(
             "QMainWindow {"
-        "    background-color: #FFF9FA;" /* 浅粉色背景基调 */
-        "    color: #5A4B56;" /* 深粉灰色文字 */
-        "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
-        "}"
-        "QToolBar {"
-        "    background-color: #FEEFF1;" /* 浅粉色工具栏 */
-        "    border: none;"
-        "    border-right: 1px solid #F8D7DC;" /* 浅粉边框 */
-        "    spacing: 8px;"
-        "    padding: 12px 8px;"
-        "}"
-        "QToolButton {"
-        "    background-color: #FFFFFF;"
-        "    color: #5A4B56;"
-        "    border: 1px solid #F8D7DC;" /* 浅粉边框 */
-        "    border-radius: 12px;"
-        "    padding: 10px 6px;"
-        "    margin: 2px;"
-        "    font-size: 13px;"
-        "    font-weight: 600;"
-        "    min-width: 110px;"
-        "    min-height: 45px;"
-        "    max-width: 150px;"
-        "    text-align: center;"
-        "}"
-        "QToolButton:hover {"
-        "    background-color: #FEEFF1;" /* 浅粉悬停背景 */
-        "    border-color: #F9A8D4;" /* 亮粉色边框 */
-        "    color: #E11D48;" /* 深粉色文字 */
-        "}"
-        "QToolButton:pressed {"
-        "    background-color: #F9A8D4;" /* 亮粉色点击背景 */
-        "    color: #FFFFFF;"
-        "    border-color: #DB7093;" /* 深粉边框 */
-        "}"
-        "QStatusBar {"
-        "    background-color: #FEEFF1;" /* 浅粉色状态栏 */
-        "    color: #E11D48;" /* 深粉色文字 */
-        "    border-top: 1px solid #F8D7DC;" /* 浅粉边框 */
-        "    padding: 6px 16px;"
-        "    font-size: 14px;"
-        "    min-height: 28px;"
-        "    line-height: 1.4;"
-        "}"
-        "QTableView {"
-        "    background-color: #FFFFFF;"
-        "    alternate-background-color: #FEEFF1;" /* 浅粉色交替行 */
-        "    selection-background-color: #F9A8D4;" /* 亮粉色选中背景 */
-        "    selection-color: #FFFFFF;"
-        "    gridline-color: #F8D7DC;" /* 浅粉网格线 */
-        "    color: #5A4B56;" /* 深粉灰色文字 */
-        "    border: 1px solid #F8D7DC;" /* 浅粉边框 */
-        "    border-radius: 12px;"
-        "}"
-        "QTableView::item {"
-        "    padding: 12px 16px;"
-        "    border: none;"
-        "    min-height: 44px;"
-        "    font-size: 15px;"
-        "    color: #5A4B56;"
-        "}"
-        "QTableView::item:selected {"
-        "    background-color: #F9A8D4;"
-        "    color: #FFFFFF;"
-        "}"
-        "QTableView::item:hover {"
-        "    background-color: #FEEFF1;" /* 浅粉悬停背景 */
-        "}"
-        "QHeaderView::section {"
-        "    background-color: #FEEFF1;" /* 浅粉色表头 */
-        "    color: #E11D48;" /* 深粉色表头文字 */
-        "    padding: 16px 12px;"
-        "    border: none;"
-        "    font-weight: 600;"
-        "    font-size: 15px;"
-        "    min-height: 60px;" /* 增加高度以容纳换行内容 */
-        "    border-bottom: 2px solid #F9A8D4;" /* 亮粉色下边框 */
-        "}"
-        "QHeaderView::section:hover {"
-        "    background-color: #FEE5E9;" /* 稍深的浅粉色悬停 */
-        "}"
-        "QLineEdit {"
-        "    background-color: #FFFFFF;"
-        "    border: 2px solid #F8D7DC;" /* 浅粉边框 */
-        "    border-radius: 20px;"
-        "    padding: 8px 16px;"
-        "    font-size: 14px;"
-        "    color: #5A4B56;"
-        "    min-height: 20px;"
-        "}"
-        "QLineEdit:focus {"
-        "    border-color: #F9A8D4;" /* 亮粉色聚焦边框 */
-        "    background-color: #FFF5F7;" /* 极浅粉色聚焦背景 */
-        "}"
-        "QPushButton {"
-        "    background-color: #F9A8D4;" /* 亮粉色按钮 */
-        "    color: #FFFFFF;"
-        "    border: none;"
-        "    border-radius: 20px;"
-        "    padding: 8px 20px;"
-        "    font-size: 14px;"
-        "    font-weight: 600;"
-        "    min-width: 60px;"
-        "    min-height: 20px;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: #E11D48;" /* 深粉色悬停 */
-        "}"
-        "QDockWidget {"
-        "    background-color: #FEEFF1;" /* 浅粉色停靠窗 */
-        "    border: none;"
-        "    border-right: 1px solid #F8D7DC;" /* 浅粉边框 */
-        "}"
-        "QScrollArea {"
-        "    background-color: #FEEFF1;"
-        "    border: none;"
-        "}"
-        "QScrollBar:vertical {"
-        "    background-color: #F8D7DC;" /* 浅粉色滚动条背景 */
-        "    width: 8px;"
-        "    border-radius: 4px;"
-        "}"
-        "QScrollBar::handle:vertical {"
-        "    background-color: #F9A8D4;" /* 亮粉色滚动条 */
-        "    border-radius: 4px;"
-        "    min-height: 20px;"
-        "}"
-        "QScrollBar::handle:vertical:hover {"
-        "    background-color: #E11D48;" /* 深粉色悬停 */
-        "}"
-
+            "    background-color: #FFF9FA;"
+            "    color: #5A4B56;"
+            "    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"
+            "}"
+            "QToolBar {"
+            "    background-color: #FEEFF1;"
+            "    border: none;"
+            "    border-right: 1px solid #F8D7DC;"
+            "    spacing: 8px;"
+            "    padding: 12px 8px;"
+            "}"
+            "QToolButton {"
+            "    background-color: #FFFFFF;"
+            "    color: #5A4B56;"
+            "    border: 1px solid #F8D7DC;"
+            "    border-radius: 12px;"
+            "    padding: 10px 6px;"
+            "    margin: 2px;"
+            "    font-size: 13px;"
+            "    font-weight: 600;"
+            "    min-width: 110px;"
+            "    min-height: 45px;"
+            "    max-width: 150px;"
+            "    text-align: center;"
+            "}"
+            "QToolButton:hover {"
+            "    background-color: #FEEFF1;"
+            "    border-color: #F9A8D4;"
+            "    color: #E11D48;"
+            "}"
+            "QToolButton:pressed {"
+            "    background-color: #F9A8D4;"
+            "    color: #FFFFFF;"
+            "    border-color: #DB7093;"
+            "}"
+            "QStatusBar {"
+            "    background-color: #FEEFF1;"
+            "    color: #E11D48;"
+            "    border-top: 1px solid #F8D7DC;"
+            "    padding: 6px 16px;"
+            "    font-size: 14px;"
+            "    min-height: 28px;"
+            "    line-height: 1.4;"
+            "}"
+            "QTableView {"
+            "    background-color: #FFFFFF;"
+            "    alternate-background-color: #FEEFF1;"
+            "    selection-background-color: #F9A8D4;"
+            "    selection-color: #FFFFFF;"
+            "    gridline-color: #F8D7DC;"
+            "    color: #5A4B56;"
+            "    border: 1px solid #F8D7DC;"
+            "    border-radius: 12px;"
+            "}"
+            "QTableView::item {"
+            "    padding: 12px 16px;"
+            "    border: none;"
+            "    min-height: 44px;"
+            "    font-size: 15px;"
+            "    color: #5A4B56;"
+            "}"
+            "QTableView::item:selected {"
+            "    background-color: #F9A8D4;"
+            "    color: #FFFFFF;"
+            "}"
+            "QTableView::item:hover {"
+            "    background-color: #FEEFF1;"
+            "}"
+            "QHeaderView::section {"
+            "    background-color: #FEEFF1;"
+            "    color: #E11D48;"
+            "    padding: 16px 12px;"
+            "    border: none;"
+            "    font-weight: 600;"
+            "    font-size: 15px;"
+            "    min-height: 60px;"
+            "    border-bottom: 2px solid #F9A8D4;"
+            "}"
+            "QHeaderView::section:hover {"
+            "    background-color: #FEE5E9;"
+            "}"
+            "QLineEdit {"
+            "    background-color: #FFFFFF;"
+            "    border: 2px solid #F8D7DC;"
+            "    border-radius: 20px;"
+            "    padding: 8px 16px;"
+            "    font-size: 14px;"
+            "    color: #5A4B56;"
+            "    min-height: 20px;"
+            "}"
+            "QLineEdit:focus {"
+            "    border-color: #F9A8D4;"
+            "    background-color: #FFF5F7;"
+            "}"
+            "QPushButton {"
+            "    background-color: #F9A8D4;"
+            "    color: #FFFFFF;"
+            "    border: none;"
+            "    border-radius: 20px;"
+            "    padding: 8px 20px;"
+            "    font-size: 14px;"
+            "    font-weight: 600;"
+            "    min-width: 60px;"
+            "    min-height: 20px;"
+            "}"
+            "QPushButton:hover {"
+            "    background-color: #E11D48;"
+            "}"
+            "QDockWidget {"
+            "    background-color: #FEEFF1;"
+            "    border: none;"
+            "    border-right: 1px solid #F8D7DC;"
+            "}"
+            "QScrollArea {"
+            "    background-color: #FEEFF1;"
+            "    border: none;"
+            "}"
+            // 保持竖向滚动条不变，只修改横向滚动条
+            "QScrollBar:vertical {"
+            "    background-color: #F8D7DC;"
+            "    width: 8px;"
+            "    border-radius: 4px;"
+            "}"
+            "QScrollBar::handle:vertical {"
+            "    background-color: #F9A8D4;"
+            "    border-radius: 4px;"
+            "    min-height: 20px;"
+            "}"
+            "QScrollBar::handle:vertical:hover {"
+            "    background-color: #E11D48;"
+            "}"
+            // 修改横向滚动条样式
+            "QScrollBar:horizontal {"
+            "    background-color: #FEEFF1;"  // 与背景色一致
+            "    height: 12px;"                 // 稍微加高
+            "    border-radius: 6px;"          // 圆角
+            "    margin: 2px;"
+            "}"
+            "QScrollBar::handle:horizontal {"
+            "    background-color: #F9A8D4;"   // 粉色主色调
+            "    border-radius: 6px;"
+            "    min-width: 30px;"             // 最小宽度
+            "    margin: 2px;"
+            "}"
+            "QScrollBar::handle:horizontal:hover {"
+            "    background-color: #F7B2D7;"   // 悬停时更亮的粉色
+            "}"
+            "QScrollBar::handle:horizontal:pressed {"
+            "    background-color: #E11D48;"   // 按下时更深的粉色
+            "}"
+            "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {"
+            "    width: 0px;"                  // 隐藏左右箭头
+            "    background: none;"
+            "}"
+            "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {"
+            "    background: none;"             // 透明背景
+            "}"
         );
     }
 }
+
 
 void MainWindow::rebuildFilterMenus()
 {
     delete categoryFilterMenu_;
     delete statusFilterMenu_;
+    delete locationFilterMenu_;
     delete categoryActionGroup_;
     delete statusActionGroup_;
+    delete locationActionGroup_;
 
+    // 类别筛选菜单
     categoryFilterMenu_ = new QMenu(this);
     categoryFilterMenu_->setMinimumWidth(200);
     categoryActionGroup_ = new QActionGroup(categoryFilterMenu_);
@@ -923,6 +991,7 @@ void MainWindow::rebuildFilterMenus()
         refreshTable();
     });
 
+    // 状态筛选菜单
     statusFilterMenu_ = new QMenu(this);
     statusFilterMenu_->setMinimumWidth(200);
     statusActionGroup_ = new QActionGroup(statusFilterMenu_);
@@ -956,6 +1025,42 @@ void MainWindow::rebuildFilterMenus()
         refreshTable();
     });
 
+    // 馆藏地址筛选菜单
+    locationFilterMenu_ = new QMenu(this);
+    locationFilterMenu_->setMinimumWidth(200);
+    locationActionGroup_ = new QActionGroup(locationFilterMenu_);
+    locationActionGroup_->setExclusive(true);
+
+    auto addLocationAction = [this](const QString &label, const QString &value, bool separator = false) {
+        if (separator) {
+            locationFilterMenu_->addSeparator();
+            return static_cast<QAction*>(nullptr);
+        }
+        QAction *action = locationFilterMenu_->addAction(label);
+        action->setCheckable(true);
+        action->setData(value);
+        locationActionGroup_->addAction(action);
+        if (value == locationFilter_) {
+            action->setChecked(true);
+        }
+        return action;
+    };
+
+    QAction *allLocationAction = addLocationAction(QStringLiteral("全部校区"), QString());
+    if (locationFilter_.isEmpty() && allLocationAction) {
+        allLocationAction->setChecked(true);
+    }
+
+    // 添加两个固定校区选项
+    addLocationAction(QString(), QString(), true);
+    addLocationAction(QStringLiteral("仙林图书馆"), QStringLiteral("仙林图书馆"));
+    addLocationAction(QStringLiteral("三牌楼图书馆"), QStringLiteral("三牌楼图书馆"));
+
+    connect(locationActionGroup_, &QActionGroup::triggered, this, [this](QAction *action) {
+        locationFilter_ = action->data().toString();
+        refreshTable();
+    });
+
     // 应用菜单样式
     applyTheme(isDarkMode_);
 }
@@ -971,6 +1076,13 @@ void MainWindow::updateHeaderLabels()
     }
     model_->setHeaderData(3, Qt::Horizontal, categoryLabel);
 
+    // 新增：馆藏地址表头
+    QString locationLabel = QStringLiteral("馆藏地址\n▼");
+    if (!locationFilter_.isEmpty()) {
+        locationLabel = QStringLiteral("馆藏地址\n%1\n▼").arg(locationFilter_);
+    }
+    model_->setHeaderData(2, Qt::Horizontal, locationLabel);
+
     QString statusLabel = QStringLiteral("状态\n▼");
     if (statusFilter_ == "available") {
         statusLabel = QStringLiteral("状态\n可借\n▼");
@@ -982,9 +1094,11 @@ void MainWindow::updateHeaderLabels()
 
 void MainWindow::onHeaderSectionClicked(int section)
 {
-    if (section == 3) {
+    if (section == 2) {  // 馆藏地址列
+        showFilterMenu(locationFilterMenu_, section);
+    } else if (section == 3) { // 类别列
         showFilterMenu(categoryFilterMenu_, section);
-    } else if (section == 9) {
+    } else if (section == 9) { // 状态列
         showFilterMenu(statusFilterMenu_, section);
     }
 }

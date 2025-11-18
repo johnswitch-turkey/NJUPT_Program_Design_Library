@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景圆形 -->
+  <circle cx="128" cy="128" r="120" fill="#4A90E2" opacity="0.1"/>
+  
+  <!-- 书架 -->
+  <rect x="40" y="160" width="176" height="20" fill="#8B4513" rx="2"/>
+  <rect x="40" y="200" width="176" height="20" fill="#8B4513" rx="2"/>
+  
+  <!-- 左侧书籍堆叠 -->
+  <rect x="50" y="80" width="25" height="80" fill="#E74C3C" rx="2"/>
+  <rect x="52" y="82" width="21" height="76" fill="#C0392B"/>
+  
+  <!-- 中间书籍堆叠 -->
+  <rect x="90" y="60" width="25" height="100" fill="#3498DB" rx="2"/>
+  <rect x="92" y="62" width="21" height="96" fill="#2980B9"/>
+  
+  <!-- 右侧书籍堆叠 -->
+  <rect x="130" y="70" width="25" height="90" fill="#2ECC71" rx="2"/>
+  <rect x="132" y="72" width="21" height="86" fill="#27AE60"/>
+  
+  <!-- 最右侧书籍 -->
+  <rect x="170" y="75" width="25" height="85" fill="#F39C12" rx="2"/>
+  <rect x="172" y="77" width="21" height="81" fill="#E67E22"/>
+  
+  <!-- 书籍装饰线 -->
+  <line x1="62" y1="100" x2="70" y2="100" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="102" y1="90" x2="110" y2="90" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="142" y1="110" x2="150" y2="110" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="182" y1="115" x2="190" y2="115" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  
+  <!-- 顶部装饰星星 -->
+  <path d="M 128 30 L 132 42 L 144 42 L 134 50 L 138 62 L 128 54 L 118 62 L 122 50 L 112 42 L 124 42 Z" fill="#FFD700"/>
+</svg>
+

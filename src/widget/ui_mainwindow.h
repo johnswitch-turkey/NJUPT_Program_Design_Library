@@ -35,7 +35,7 @@ public:
         MainWindow->resize(1200, 800);
         MainWindow->setMinimumSize(QSize(800, 600));
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/icons/library.svg"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        icon.addFile(QString::fromUtf8("../resource/library.svg"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         MainWindow->setWindowIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
