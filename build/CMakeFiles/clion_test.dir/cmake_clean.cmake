@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/clion_test.dir/src/main.cpp.obj.d"
   "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj"
   "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj.d"
+  "CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj"
+  "CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj.d"
   "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj"
   "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj.d"
   "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj"

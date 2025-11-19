@@ -352,6 +352,12 @@
 			null
 		],
 		[
+			"D:/Work_Space/QT_Projects/clion_test/src/utils/databasemanager.h",
+			"MU",
+			"VSCBVMNR7M/moc_databasemanager.cpp",
+			null
+		],
+		[
 			"D:/Work_Space/QT_Projects/clion_test/src/utils/librarymanager.h",
 			"MU",
 			"VSCBVMNR7M/moc_librarymanager.cpp",
@@ -449,6 +455,11 @@
 		[ "D:/Work_Space/QT_Projects/clion_test/src/main.cpp", "MU", null ],
 		[
 			"D:/Work_Space/QT_Projects/clion_test/src/utils/bookdisplay.cpp",
+			"MU",
+			null
+		],
+		[
+			"D:/Work_Space/QT_Projects/clion_test/src/utils/databasemanager.cpp",
 			"MU",
 			null
 		],

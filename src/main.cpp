@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
     // 返回值说明：
     // - QDialog::Accepted: 用户登录成功，继续执行显示主窗口
     // - QDialog::Rejected: 用户点击取消或关闭窗口，退出程序
-    // 
+    //
     // 重要：当用户点击"点击注册"按钮时，对话框不会关闭，
     // 只是切换界面，exec() 会继续阻塞等待用户操作
     int result = log.exec();
-    
+
     // 检查对话框的返回值
     if (result != QDialog::Accepted) {
         // 如果用户取消登录或关闭窗口，直接退出程序

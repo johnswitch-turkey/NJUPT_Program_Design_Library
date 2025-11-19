@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/mocs_compilation.cpp" "CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/main.cpp" "CMakeFiles/clion_test.dir/src/main.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/main.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/utils/bookdisplay.cpp" "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/utils/databasemanager.cpp" "CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/utils/librarymanager.cpp" "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/utils/log.cpp" "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/widget/mainwindow.cpp" "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj.d"

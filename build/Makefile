@@ -233,6 +233,30 @@ src/utils/bookdisplay.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.s
 .PHONY : src/utils/bookdisplay.cpp.s
 
+src/utils/databasemanager.obj: src/utils/databasemanager.cpp.obj
+.PHONY : src/utils/databasemanager.obj
+
+# target to build an object file
+src/utils/databasemanager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj
+.PHONY : src/utils/databasemanager.cpp.obj
+
+src/utils/databasemanager.i: src/utils/databasemanager.cpp.i
+.PHONY : src/utils/databasemanager.i
+
+# target to preprocess a source file
+src/utils/databasemanager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.i
+.PHONY : src/utils/databasemanager.cpp.i
+
+src/utils/databasemanager.s: src/utils/databasemanager.cpp.s
+.PHONY : src/utils/databasemanager.s
+
+# target to generate assembly for a file
+src/utils/databasemanager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.s
+.PHONY : src/utils/databasemanager.cpp.s
+
 src/utils/librarymanager.obj: src/utils/librarymanager.cpp.obj
 .PHONY : src/utils/librarymanager.obj
 
@@ -326,6 +350,9 @@ help:
 	@echo ... src/utils/bookdisplay.obj
 	@echo ... src/utils/bookdisplay.i
 	@echo ... src/utils/bookdisplay.s
+	@echo ... src/utils/databasemanager.obj
+	@echo ... src/utils/databasemanager.i
+	@echo ... src/utils/databasemanager.s
 	@echo ... src/utils/librarymanager.obj
 	@echo ... src/utils/librarymanager.i
 	@echo ... src/utils/librarymanager.s

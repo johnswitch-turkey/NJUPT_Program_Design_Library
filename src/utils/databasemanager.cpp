@@ -26,20 +26,28 @@ DatabaseManager::~DatabaseManager()
 
 bool DatabaseManager::initializeDatabase()
 {
-    // 设置数据库文件路径
-    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    if (appDataPath.isEmpty()) {
-        appDataPath = QDir::currentPath();
+    QString appDirPath = QCoreApplication::applicationDirPath();
+    QDir targetDir(appDirPath);
+
+    // 进入上一级目录的src/resource
+    bool success = targetDir.cdUp();
+    if (success) {
+        targetDir.cd("src");
+        targetDir.cd("resource");
+    } else {
+        // 如果cdUp()失败，使用可执行文件目录下的resource
+        targetDir = QDir(appDirPath);
+        targetDir.cd("resource");
     }
 
-    QDir appDataDir(appDataPath);
-    if (!appDataDir.exists()) {
-        appDataDir.mkpath(".");
+    // 确保resource目录存在
+    QString absoluteTargetPath = targetDir.absolutePath();
+    if (!targetDir.exists()) {
+        targetDir.mkpath(absoluteTargetPath);
     }
 
-    dbFilePath_ = appDataDir.absoluteFilePath("library_data.json");
+    dbFilePath_ = absoluteTargetPath + "/library_data.json";
     qDebug() << "Database file path:" << dbFilePath_;
-
     // 尝试加载现有数据
     if (QFile::exists(dbFilePath_)) {
         if (loadFromFile()) {

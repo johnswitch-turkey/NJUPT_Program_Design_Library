@@ -11,7 +11,13 @@
 #include "../utils/librarymanager.h" // 核心数据管理器
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+class QToolBar;
+class QScrollArea;
+class QDockWidget;
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -40,6 +46,9 @@ private slots:
     void onShowAll();
     void onSwitchMode();
     void onHeaderSectionClicked(int section);
+    void onSortByBorrowCount();
+    void onSortDefault();
+    void onSortChanged(QAction *action);
 
     // 数据管理
     void onOpen();
@@ -49,11 +58,13 @@ private slots:
     void onRefresh();
 
     // 筛选菜单
-    void onCategoryFilterChanged(QAction* action);
-    void onStatusFilterChanged(QAction* action);
-    void onLocationFilterChanged(QAction* action);
-    void onShowMyBorrows();              // 学生查看自己的借阅信息
-    void onShowBookBorrowHistory();      // 管理员查看某本书的借阅记录
+    void onCategoryFilterChanged(QAction *action);
+    void onStatusFilterChanged(QAction *action);
+    void onLocationFilterChanged(QAction *action);
+    void onShowMyBorrows();         // 学生查看自己的借阅信息
+    void onShowBookBorrowHistory(); // 管理员查看某本书的借阅记录
+    void onImportUsers();           // 导入学生数据
+    void onExportUsers();           // 导出学生数据
 
 private:
     // UI设置
@@ -61,6 +72,8 @@ private:
     void setupMenuBar();
     void setupSearchBar();
     void setupActions();
+    void updateActionsVisibility();  // 根据用户角色更新按钮显示
+    void toggleToolBarOrientation(); // 切换工具栏方向（竖向/横向）
     void setupThemeToggle();
     void setupStyles();
     void applyTheme(bool isDark);
@@ -69,18 +82,18 @@ private:
     void rebuildFilterMenus();
     void updateHeaderLabels();
     void showFilterMenu(QMenu *menu, int section);
-    QDockWidget* createDockWidgetFromScrollArea(class QScrollArea *scrollArea);
+    QDockWidget *createDockWidgetFromScrollArea(class QScrollArea *scrollArea);
 
     // 数据与显示
-    void loadData(); // 加载数据
-    void refreshTable();   // 刷新表格显示
+    void loadData();     // 加载数据
+    void refreshTable(); // 刷新表格显示
 
     // --- 新增：筛选并显示特定图书列表的辅助函数 ---
     void displayBooks(const QVector<Book> &booksToShow);
 
     // UI更新
     void updateStatusBar();
-    void showBookDialog(const Book& book = Book(), bool isEdit = false);
+    void showBookDialog(const Book &book = Book(), bool isEdit = false);
 
     // 用户与借阅相关的辅助函数
     QJsonArray loadUsersJson() const;
@@ -94,21 +107,24 @@ private:
 
     // UI成员
     Ui::MainWindow *ui;
-    LibraryManager library_;       // 核心数据管理器
-    QStandardItemModel *model_;     // 表格模型
-    QTableView *tableView_;         // 表格视图
+    LibraryManager library_;    // 核心数据管理器
+    QStandardItemModel *model_; // 表格模型
+    QTableView *tableView_;     // 表格视图
     QLineEdit *searchEdit_;
     QPushButton *searchButton_;
     QPushButton *themeToggleButton_;
     QMenu *categoryFilterMenu_;
     QMenu *statusFilterMenu_;
-    QMenu *locationFilterMenu_;     // 新增：馆藏地址筛选菜单
+    QMenu *locationFilterMenu_; // 新增：馆藏地址筛选菜单
+    QMenu *sortMenu_;           // 排序菜单
     QActionGroup *categoryActionGroup_;
     QActionGroup *statusActionGroup_;
     QActionGroup *locationActionGroup_; // 新增：馆藏地址动作组
+    QActionGroup *sortActionGroup_;     // 排序动作组
     QString categoryFilter_;
     QString statusFilter_;
-    QString locationFilter_;        // 新增：馆藏地址筛选条件
+    QString locationFilter_;  // 新增：馆藏地址筛选条件
+    QString currentSortType_; // 当前排序类型："default" 或 "borrowCount"
 
     // 状态和主题
     bool isDarkMode_;
@@ -118,11 +134,31 @@ private:
 
     // 当前登录用户信息
     QString currentUsername_;
-    bool isAdminMode_ = false;          // 是否以管理员模式登录
-    QString usersFilePath_;             // 用户数据文件路径
-    QStringList allowedCategories_;     // 当前学生可借类别，空表示不限制
+    bool isAdminMode_ = false;      // 是否以管理员模式登录
+    QString usersFilePath_;         // 用户数据文件路径
+    QStringList allowedCategories_; // 当前学生可借类别，空表示不限制
 
+    // 按钮引用，用于控制显示/隐藏
+    QAction *borrowAct_ = nullptr;
+    QAction *returnAct_ = nullptr;
+    QAction *warnAct_ = nullptr;
+    QAction *myBorrowAct_ = nullptr;
+    QAction *allAct_ = nullptr;
+    QAction *addBookAct_ = nullptr;
+    QAction *editBookAct_ = nullptr;
+    QAction *deleteBookAct_ = nullptr;
+    QAction *bookHistoryAct_ = nullptr;
+    QAction *importBookAct_ = nullptr;
+    QAction *exportBookAct_ = nullptr;
+    QAction *importUsersAct_ = nullptr;
+    QAction *exportUsersAct_ = nullptr;
+    QAction *toggleOrientationAct_ = nullptr; // 切换方向按钮
 
+    // 工具栏相关
+    QToolBar *actionToolBar_ = nullptr;
+    QScrollArea *toolBarScrollArea_ = nullptr;
+    QDockWidget *toolBarDockWidget_ = nullptr;
+    bool isToolBarVertical_ = true; // true=竖向(左边), false=横向(顶部)
 };
 
 #endif // MAINWINDOW_H
