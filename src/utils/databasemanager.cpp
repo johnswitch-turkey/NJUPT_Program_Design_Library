@@ -257,7 +257,37 @@ QVector<Book> DatabaseManager::searchBooks(const QString& keyword)
         if (book.name.toLower().contains(lowerKeyword) ||
             book.category.toLower().contains(lowerKeyword) ||
             book.location.toLower().contains(lowerKeyword) ||
-            book.indexId.toLower().contains(lowerKeyword)) {
+            book.indexId.toLower().contains(lowerKeyword) ||
+            book.author.toLower().contains(lowerKeyword) ||
+            book.publisher.toLower().contains(lowerKeyword)) {
+            result.append(book);
+        }
+    }
+
+    return result;
+}
+
+QVector<Book> DatabaseManager::fuzzySearchByName(const QString& keyword)
+{
+    QVector<Book> result;
+    QString lowerKeyword = keyword.toLower();
+
+    for (const Book& book : books_) {
+        if (book.name.toLower().contains(lowerKeyword)) {
+            result.append(book);
+        }
+    }
+
+    return result;
+}
+
+QVector<Book> DatabaseManager::fuzzySearchByIndexId(const QString& keyword)
+{
+    QVector<Book> result;
+    QString lowerKeyword = keyword.toLower();
+
+    for (const Book& book : books_) {
+        if (book.indexId.toLower().contains(lowerKeyword)) {
             result.append(book);
         }
     }

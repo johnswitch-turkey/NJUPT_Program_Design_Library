@@ -209,6 +209,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/utils/bookcopymanager.obj: src/utils/bookcopymanager.cpp.obj
+.PHONY : src/utils/bookcopymanager.obj
+
+# target to build an object file
+src/utils/bookcopymanager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj
+.PHONY : src/utils/bookcopymanager.cpp.obj
+
+src/utils/bookcopymanager.i: src/utils/bookcopymanager.cpp.i
+.PHONY : src/utils/bookcopymanager.i
+
+# target to preprocess a source file
+src/utils/bookcopymanager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.i
+.PHONY : src/utils/bookcopymanager.cpp.i
+
+src/utils/bookcopymanager.s: src/utils/bookcopymanager.cpp.s
+.PHONY : src/utils/bookcopymanager.s
+
+# target to generate assembly for a file
+src/utils/bookcopymanager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.s
+.PHONY : src/utils/bookcopymanager.cpp.s
+
 src/utils/bookdisplay.obj: src/utils/bookdisplay.cpp.obj
 .PHONY : src/utils/bookdisplay.obj
 
@@ -305,6 +329,54 @@ src/utils/log.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/utils/log.cpp.s
 .PHONY : src/utils/log.cpp.s
 
+src/widget/bookdetaildialog.obj: src/widget/bookdetaildialog.cpp.obj
+.PHONY : src/widget/bookdetaildialog.obj
+
+# target to build an object file
+src/widget/bookdetaildialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj
+.PHONY : src/widget/bookdetaildialog.cpp.obj
+
+src/widget/bookdetaildialog.i: src/widget/bookdetaildialog.cpp.i
+.PHONY : src/widget/bookdetaildialog.i
+
+# target to preprocess a source file
+src/widget/bookdetaildialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.i
+.PHONY : src/widget/bookdetaildialog.cpp.i
+
+src/widget/bookdetaildialog.s: src/widget/bookdetaildialog.cpp.s
+.PHONY : src/widget/bookdetaildialog.s
+
+# target to generate assembly for a file
+src/widget/bookdetaildialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.s
+.PHONY : src/widget/bookdetaildialog.cpp.s
+
+src/widget/copymanagementdialog.obj: src/widget/copymanagementdialog.cpp.obj
+.PHONY : src/widget/copymanagementdialog.obj
+
+# target to build an object file
+src/widget/copymanagementdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj
+.PHONY : src/widget/copymanagementdialog.cpp.obj
+
+src/widget/copymanagementdialog.i: src/widget/copymanagementdialog.cpp.i
+.PHONY : src/widget/copymanagementdialog.i
+
+# target to preprocess a source file
+src/widget/copymanagementdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.i
+.PHONY : src/widget/copymanagementdialog.cpp.i
+
+src/widget/copymanagementdialog.s: src/widget/copymanagementdialog.cpp.s
+.PHONY : src/widget/copymanagementdialog.s
+
+# target to generate assembly for a file
+src/widget/copymanagementdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.s
+.PHONY : src/widget/copymanagementdialog.cpp.s
+
 src/widget/mainwindow.obj: src/widget/mainwindow.cpp.obj
 .PHONY : src/widget/mainwindow.obj
 
@@ -329,6 +401,30 @@ src/widget/mainwindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.s
 .PHONY : src/widget/mainwindow.cpp.s
 
+src/widget/ui_mainwindow.obj: src/widget/ui_mainwindow.cpp.obj
+.PHONY : src/widget/ui_mainwindow.obj
+
+# target to build an object file
+src/widget/ui_mainwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj
+.PHONY : src/widget/ui_mainwindow.cpp.obj
+
+src/widget/ui_mainwindow.i: src/widget/ui_mainwindow.cpp.i
+.PHONY : src/widget/ui_mainwindow.i
+
+# target to preprocess a source file
+src/widget/ui_mainwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.i
+.PHONY : src/widget/ui_mainwindow.cpp.i
+
+src/widget/ui_mainwindow.s: src/widget/ui_mainwindow.cpp.s
+.PHONY : src/widget/ui_mainwindow.s
+
+# target to generate assembly for a file
+src/widget/ui_mainwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.s
+.PHONY : src/widget/ui_mainwindow.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -347,6 +443,9 @@ help:
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
+	@echo ... src/utils/bookcopymanager.obj
+	@echo ... src/utils/bookcopymanager.i
+	@echo ... src/utils/bookcopymanager.s
 	@echo ... src/utils/bookdisplay.obj
 	@echo ... src/utils/bookdisplay.i
 	@echo ... src/utils/bookdisplay.s
@@ -359,9 +458,18 @@ help:
 	@echo ... src/utils/log.obj
 	@echo ... src/utils/log.i
 	@echo ... src/utils/log.s
+	@echo ... src/widget/bookdetaildialog.obj
+	@echo ... src/widget/bookdetaildialog.i
+	@echo ... src/widget/bookdetaildialog.s
+	@echo ... src/widget/copymanagementdialog.obj
+	@echo ... src/widget/copymanagementdialog.i
+	@echo ... src/widget/copymanagementdialog.s
 	@echo ... src/widget/mainwindow.obj
 	@echo ... src/widget/mainwindow.i
 	@echo ... src/widget/mainwindow.s
+	@echo ... src/widget/ui_mainwindow.obj
+	@echo ... src/widget/ui_mainwindow.i
+	@echo ... src/widget/ui_mainwindow.s
 .PHONY : help
 
 

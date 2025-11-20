@@ -25,7 +25,10 @@ file(GLOB_RECURSE SOURCES
 
 # 创建可执行文件
 add_executable(clion_test ${SOURCES}
-        src/widget/ui_mainwindow.cpp)
+        src/widget/ui_mainwindow.cpp
+        src/widget/bookdetaildialog.cpp  # 确保这行存在
+        src/widget/bookdetaildialog.h    # 确保这行存在
+)
 
 # 链接Qt库
 target_link_libraries(clion_test

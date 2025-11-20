@@ -8,8 +8,10 @@
 #include <QPushButton>
 #include <QMenu>
 #include <QActionGroup>
+#include <QComboBox>
 #include "../utils/librarymanager.h"
 #include "../utils/bookcopy.h"
+#include "bookdetaildialog.h"
 
 QT_BEGIN_NAMESPACE
 class QToolBar;
@@ -36,6 +38,7 @@ private slots:
     // UI交互
     void toggleTheme();
     void onSearch();
+    void onSearchModeChanged();
     void onAddBook();
     void onEditBook();
     void onDeleteBook();
@@ -50,6 +53,7 @@ private slots:
     void onSortByBorrowCount();
     void onSortDefault();
     void onSortChanged(QAction *action);
+    void onTableDoubleClicked(const QModelIndex &index);
 
     // 数据管理
     void onOpen();
@@ -92,6 +96,11 @@ private:
     // --- 新增：筛选并显示特定图书列表的辅助函数 ---
     void displayBooks(const QVector<Book> &booksToShow);
 
+    // 搜索功能增强
+    void performFuzzySearch(const QString &keyword, const QString &searchMode);
+    void highlightMatchingText(const QString &text, const QString &keyword, QStandardItem *item);
+    QVector<BookCopy> searchCopiesByKeyword(const QString &keyword);
+
     // UI更新
     void updateStatusBar();
     void showBookDialog(const Book &book = Book(), bool isEdit = false);
@@ -114,6 +123,7 @@ private:
     QLineEdit *searchEdit_;
     QPushButton *searchButton_;
     QPushButton *themeToggleButton_;
+    QComboBox *searchModeComboBox_;  // 搜索方式选择下拉框
     QMenu *categoryFilterMenu_;
     QMenu *statusFilterMenu_;
     QMenu *locationFilterMenu_; // 新增：馆藏地址筛选菜单
@@ -126,6 +136,11 @@ private:
     QString statusFilter_;
     QString locationFilter_;  // 新增：馆藏地址筛选条件
     QString currentSortType_; // 当前排序类型："default" 或 "borrowCount"
+
+    // 搜索状态
+    QString currentSearchKeyword_;   // 当前搜索关键词
+    QString currentSearchMode_;      // 当前搜索模式
+    bool isSearchActive_ = false;    // 是否处于搜索状态
 
     // 状态和主题
     bool isDarkMode_;

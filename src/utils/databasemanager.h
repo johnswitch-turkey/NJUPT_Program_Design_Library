@@ -30,6 +30,8 @@ public:
     QVector<Book> getAllBooks();
     Book getBookByIndexId(const QString& indexId);
     QVector<Book> searchBooks(const QString& keyword);
+  QVector<Book> fuzzySearchByName(const QString& keyword);
+  QVector<Book> fuzzySearchByIndexId(const QString& keyword);
     QVector<Book> getBooksByCategory(const QString& category);
     QVector<Book> getBooksByLocation(const QString& location);
 

@@ -4,6 +4,7 @@
 #include "../utils/bookdisplay.h"
 #include "../utils/librarymanager.h"
 #include "copymanagementdialog.h"
+#include "bookdetaildialog.h"
 
 #include <QMenu>
 #include <QAction>
@@ -12,6 +13,9 @@
 #include <QHBoxLayout>
 #include <QStatusBar>
 #include <QIcon>
+#include <QComboBox>
+#include <QTextCharFormat>
+#include <QFont>
 
 #include <QDate>
 #include <QSet>
@@ -36,7 +40,7 @@
 // 构造函数
 // ============================================================================
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), model_(nullptr), tableView_(nullptr), searchEdit_(nullptr), searchButton_(nullptr), themeToggleButton_(nullptr), categoryFilterMenu_(nullptr), statusFilterMenu_(nullptr), locationFilterMenu_(nullptr), sortMenu_(nullptr), categoryActionGroup_(nullptr), statusActionGroup_(nullptr), locationActionGroup_(nullptr), sortActionGroup_(nullptr), categoryFilter_(), statusFilter_(), locationFilter_(), currentSortType_("default"), isDarkMode_(false), isEditMode_(false)
+    : QMainWindow(parent), ui(new Ui::MainWindow), model_(nullptr), tableView_(nullptr), searchEdit_(nullptr), searchButton_(nullptr), themeToggleButton_(nullptr), searchModeComboBox_(nullptr), categoryFilterMenu_(nullptr), statusFilterMenu_(nullptr), locationFilterMenu_(nullptr), sortMenu_(nullptr), categoryActionGroup_(nullptr), statusActionGroup_(nullptr), locationActionGroup_(nullptr), sortActionGroup_(nullptr), categoryFilter_(), statusFilter_(), locationFilter_(), currentSortType_("default"), currentSearchKeyword_(), currentSearchMode_(), isSearchActive_(false), isDarkMode_(false), isEditMode_(false)
 {
     ui->setupUi(this);
 
@@ -125,6 +129,9 @@ void MainWindow::setupTable()
     connect(tableView_->horizontalHeader(), &QHeaderView::sectionClicked,
             this, &MainWindow::onHeaderSectionClicked);
 
+    // 添加表格双击事件处理
+    connect(tableView_, &QTableView::doubleClicked, this, &MainWindow::onTableDoubleClicked);
+
     // 将表格添加到中央布局
     ui->centralLayout->addWidget(tableView_);
 }
@@ -134,8 +141,15 @@ void MainWindow::setupTable()
 // ============================================================================
 void MainWindow::refreshTable()
 {
-    const QVector<Book> &books = library_.getAll();
     model_->removeRows(0, model_->rowCount());
+
+    // 如果处于搜索状态，则重新执行搜索并应用排序
+    if (isSearchActive_) {
+        performFuzzySearch(currentSearchKeyword_, currentSearchMode_);
+        return;
+    }
+
+    const QVector<Book> &books = library_.getAll();
 
     for (int row = 0; row < books.size(); ++row) {
         const Book &b = books[row];
@@ -433,6 +447,10 @@ void MainWindow::onShowAll()
     categoryFilter_.clear();
     statusFilter_.clear();
     locationFilter_.clear();
+    // 清除搜索状态
+    isSearchActive_ = false;
+    currentSearchKeyword_.clear();
+    currentSearchMode_.clear();
     refreshTable();
 }
 
@@ -481,54 +499,60 @@ void MainWindow::onSwitchMode()
 
 void MainWindow::onSearch()
 {
-    if (!searchEdit_)
+    if (!searchEdit_ || !searchModeComboBox_) {
+        qDebug() << "Search widgets not initialized";
         return;
-    QString name = searchEdit_->text().trimmed();
-    if (name.isEmpty()) {
+    }
+
+    QString keyword = searchEdit_->text().trimmed();
+    qDebug() << "Search keyword:" << keyword;
+
+    if (keyword.isEmpty()) {
+        qDebug() << "Empty keyword, showing all";
         onShowAll();
+        // 清除搜索状态
+        isSearchActive_ = false;
+        currentSearchKeyword_.clear();
+        currentSearchMode_.clear();
         return;
     }
 
-    const Book *b = library_.findByName(name);
-    if (b) {
-        model_->removeRows(0, model_->rowCount());
-        QList<QStandardItem *> rowItems;
-        rowItems << new QStandardItem(b->indexId);
-        rowItems << new QStandardItem(b->name);
-        rowItems << new QStandardItem(b->author);
-        rowItems << new QStandardItem(b->publisher);
-        rowItems << new QStandardItem(b->location);
-        rowItems << new QStandardItem(b->category);
+    QString searchMode = searchModeComboBox_->currentData().toString();
+    qDebug() << "Search mode:" << searchMode;
 
-        int totalCopies = library_.getTotalCopyCount(b->indexId);
-        rowItems << new QStandardItem(QString::number(totalCopies));
+    // 保存搜索状态
+    isSearchActive_ = true;
+    currentSearchKeyword_ = keyword;
+    currentSearchMode_ = searchMode;
 
-        rowItems << new QStandardItem(QString::number(b->price, 'f', 2));
-        rowItems << new QStandardItem(b->inDate.toString("yyyy-MM-dd"));
+    // 禁用搜索按钮防止重复点击
+    searchButton_->setEnabled(false);
 
-        // 归还日期：根据当前用户显示
-        QString returnDateStr = "";
-        if (!currentUsername_.isEmpty() && !isAdminMode_) {
-            QVector<BookCopy> borrowedCopies = library_.getUserBorrowedCopies(currentUsername_);
-            for (const BookCopy &copy : borrowedCopies) {
-                if (copy.indexId == b->indexId) {
-                    returnDateStr = copy.dueDate.toString("yyyy-MM-dd");
-                    break;
-                }
-            }
-        }
-        rowItems << new QStandardItem(returnDateStr);
+    performFuzzySearch(keyword, searchMode);
 
-        rowItems << new QStandardItem(QString::number(b->borrowCount));
+    // 重新启用搜索按钮
+    searchButton_->setEnabled(true);
 
-        int availableCopies = library_.getAvailableCopyCount(b->indexId);
-        QString statusText = (availableCopies > 0) ? QStringLiteral("可借") : QStringLiteral("不可借");
-        rowItems << new QStandardItem(statusText);
+    qDebug() << "Search completed";
+}
 
-        model_->appendRow(rowItems);
+void MainWindow::onSearchModeChanged()
+{
+    if (!searchModeComboBox_ || !searchEdit_)
+        return;
+
+    QString searchMode = searchModeComboBox_->currentData().toString();
+    QString placeholderText;
+
+    if (searchMode == "name") {
+        placeholderText = "🔍 搜索图书名称...";
+    } else if (searchMode == "indexId") {
+        placeholderText = "🔍 搜索索引号（支持副本号，如 CS001_1）...";
     } else {
-        QMessageBox::information(this, "未找到", QStringLiteral("没有找到名称为 \"%1\" 的图书").arg(name));
+        placeholderText = "🔍 输入搜索关键词...";
     }
+
+    searchEdit_->setPlaceholderText(placeholderText);
 }
 
 void MainWindow::onOpen()
@@ -694,14 +718,23 @@ void MainWindow::setupSearchBar()
     searchLayout->setContentsMargins(16, 8, 16, 8);
     searchLayout->setSpacing(8);
 
+    // 搜索方式选择下拉框
+    searchModeComboBox_ = new QComboBox();
+    searchModeComboBox_->addItem("书名搜索", "name");
+    searchModeComboBox_->addItem("索引号搜索", "indexId");
+    searchModeComboBox_->addItem("全文搜索", "all");
+    searchModeComboBox_->setMinimumWidth(100);
+    searchModeComboBox_->setToolTip("选择搜索方式");
+
     searchEdit_ = new QLineEdit();
-    searchEdit_->setPlaceholderText("🔍 搜索图书名称...");
+    searchEdit_->setPlaceholderText("🔍 输入搜索关键词...");
 
     searchButton_ = new QPushButton("搜索");
 
     themeToggleButton_ = new QPushButton("🌙");
     themeToggleButton_->setToolTip("切换深浅色模式");
 
+    searchLayout->addWidget(searchModeComboBox_);
     searchLayout->addWidget(searchEdit_);
     searchLayout->addWidget(searchButton_);
     searchLayout->addWidget(themeToggleButton_);
@@ -716,6 +749,7 @@ void MainWindow::setupSearchBar()
 
     connect(searchButton_, &QPushButton::clicked, this, &MainWindow::onSearch);
     connect(searchEdit_, &QLineEdit::returnPressed, this, &MainWindow::onSearch);
+    connect(searchModeComboBox_, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::onSearchModeChanged);
     connect(themeToggleButton_, &QPushButton::clicked, this, &MainWindow::toggleTheme);
 }
 
@@ -1498,7 +1532,7 @@ void MainWindow::rebuildFilterMenus()
 
     QAction *allStatusAction = addStatusAction(QStringLiteral("全部状态"), QString());
     QAction *availableAction = addStatusAction(QStringLiteral("仅可借"), QStringLiteral("available"));
-    QAction *borrowedAction = addStatusAction(QStringLiteral("仅已借出"), QStringLiteral("borrowed"));
+    QAction *borrowedAction = addStatusAction(QStringLiteral("仅不可借"), QStringLiteral("borrowed"));
 
     if (statusFilter_.isEmpty() && allStatusAction) {
         allStatusAction->setChecked(true);
@@ -1601,7 +1635,7 @@ void MainWindow::updateHeaderLabels()
     if (statusFilter_ == "available") {
         statusLabel = QStringLiteral("状态 ▼\n可借");
     } else if (statusFilter_ == "borrowed") {
-        statusLabel = QStringLiteral("状态 ▼\n已借出");
+        statusLabel = QStringLiteral("状态 ▼\n不可借");
     }
     model_->setHeaderData(11, Qt::Horizontal, statusLabel);
 
@@ -1959,4 +1993,199 @@ void MainWindow::onShowBookBorrowHistory()
     QMessageBox::information(this,
                              QStringLiteral("《%1》的借阅记录").arg(bookName),
                              text);
+}
+
+// ============================================================================
+// 搜索功能增强
+// ============================================================================
+
+void MainWindow::performFuzzySearch(const QString &keyword, const QString &searchMode)
+{
+    qDebug() << "Starting search with keyword:" << keyword << "mode:" << searchMode;
+
+    // 清空现有结果
+    model_->removeRows(0, model_->rowCount());
+
+    QVector<Book> allBooks = library_.getAll();
+    QVector<Book> matchedBooks;
+    QString lowerKeyword = keyword.toLower();
+
+    qDebug() << "Total books to search:" << allBooks.size();
+
+    // 简化搜索逻辑
+    for (const Book &book : allBooks) {
+        bool match = false;
+
+        if (searchMode == "indexId") {
+            match = book.indexId.toLower().contains(lowerKeyword);
+        } else if (searchMode == "name") {
+            match = book.name.toLower().contains(lowerKeyword);
+        } else if (searchMode == "all") {
+            match = (book.name.toLower().contains(lowerKeyword) ||
+                    book.indexId.toLower().contains(lowerKeyword) ||
+                    book.author.toLower().contains(lowerKeyword) ||
+                    book.publisher.toLower().contains(lowerKeyword) ||
+                    book.category.toLower().contains(lowerKeyword) ||
+                    book.location.toLower().contains(lowerKeyword));
+        }
+
+        if (match) {
+            matchedBooks.append(book);
+            qDebug() << "Found match:" << book.name << book.indexId;
+        }
+    }
+
+    qDebug() << "Total matched books:" << matchedBooks.size();
+
+    // 应用排序到搜索结果
+    if (currentSortType_ == "borrowCount") {
+        std::sort(matchedBooks.begin(), matchedBooks.end(), [](const Book &a, const Book &b) {
+            return a.borrowCount > b.borrowCount; // 从高到低排序
+        });
+    }
+
+    // 对搜索结果应用筛选条件并显示
+    for (const Book &book : matchedBooks) {
+        QList<QStandardItem *> rowItems;
+
+        // 索引号列
+        QStandardItem *indexItem = new QStandardItem(book.indexId);
+        rowItems << indexItem;
+
+        // 书名列
+        QStandardItem *nameItem = new QStandardItem(book.name);
+        rowItems << nameItem;
+
+        // 先获取副本数量用于筛选条件判断
+        int totalCopies = library_.getTotalCopyCount(book.indexId);
+        int availableCopies = library_.getAvailableCopyCount(book.indexId);
+
+        // 应用筛选条件
+        if (!categoryFilter_.isEmpty() && book.category != categoryFilter_) {
+            continue;
+        }
+        if (!locationFilter_.isEmpty() && book.location != locationFilter_) {
+            continue;
+        }
+        if (statusFilter_ == "available" && availableCopies <= 0) {
+            continue;
+        }
+        if (statusFilter_ == "borrowed" && availableCopies >= totalCopies) {
+            continue;
+        }
+
+        // 其他列
+        rowItems << new QStandardItem(book.author);
+        rowItems << new QStandardItem(book.publisher);
+        rowItems << new QStandardItem(book.location);
+        rowItems << new QStandardItem(book.category);
+        rowItems << new QStandardItem(QString::number(totalCopies));
+
+        rowItems << new QStandardItem(QString::number(book.price, 'f', 2));
+        rowItems << new QStandardItem(book.inDate.toString("yyyy-MM-dd"));
+
+        // 归还日期：根据当前用户显示
+        QString returnDateStr = "";
+        if (!currentUsername_.isEmpty() && !isAdminMode_) {
+            QVector<BookCopy> borrowedCopies = library_.getUserBorrowedCopies(currentUsername_);
+            for (const BookCopy &copy : borrowedCopies) {
+                if (copy.indexId == book.indexId) {
+                    returnDateStr = copy.dueDate.toString("yyyy-MM-dd");
+                    break;
+                }
+            }
+        }
+        rowItems << new QStandardItem(returnDateStr);
+
+        rowItems << new QStandardItem(QString::number(book.borrowCount));
+
+        QString statusText = (availableCopies > 0) ? QStringLiteral("可借") : QStringLiteral("不可借");
+        rowItems << new QStandardItem(statusText);
+
+        model_->appendRow(rowItems);
+    }
+
+    QString resultText = QStringLiteral("找到 %1 本匹配的图书").arg(matchedBooks.size());
+    statusBar()->showMessage(resultText, 5000);
+
+    // 更新表头以显示当前排序状态
+    updateHeaderLabels();
+
+    qDebug() << "Search completed successfully";
+}
+
+void MainWindow::highlightMatchingText(const QString &text, const QString &keyword, QStandardItem *item)
+{
+    if (keyword.isEmpty() || !item) {
+        return;
+    }
+
+    QString lowerText = text.toLower();
+    QString lowerKeyword = keyword.toLower();
+
+    if (lowerText.contains(lowerKeyword)) {
+        // 简化高亮实现，避免复杂的HTML处理
+        QFont font = item->font();
+        font.setBold(true);
+        item->setFont(font);
+
+        // 设置背景色来高亮显示
+        item->setBackground(QColor("#FFD700")); // 金色背景
+
+        // 存储原始文本
+        item->setData(text, Qt::DisplayRole);
+        item->setData(QString("匹配: %1").arg(text), Qt::ToolTipRole);
+    }
+}
+
+QVector<BookCopy> MainWindow::searchCopiesByKeyword(const QString &keyword)
+{
+    QVector<BookCopy> result;
+    QString lowerKeyword = keyword.toLower();
+
+    const QVector<Book> &allBooks = library_.getAll();
+    for (const Book &book : allBooks) {
+        QVector<BookCopy> copies = library_.getBookCopies(book.indexId);
+        for (const BookCopy &copy : copies) {
+            if (copy.copyId.toLower().contains(lowerKeyword) ||
+                copy.indexId.toLower().contains(lowerKeyword)) {
+                result.append(copy);
+            }
+        }
+    }
+
+    return result;
+}
+
+void MainWindow::onTableDoubleClicked(const QModelIndex &index)
+{
+    if (!index.isValid()) {
+        return;
+    }
+
+    // 获取行号
+    int row = index.row();
+
+    // 获取索引号（第0列）
+    QModelIndex indexIdIndex = model_->index(row, 0);
+    QString indexId = model_->data(indexIdIndex).toString();
+
+    // 根据索引号查找图书
+    const QVector<Book> &allBooks = library_.getAll();
+    Book targetBook;
+    bool found = false;
+
+    for (const Book &book : allBooks) {
+        if (book.indexId == indexId) {
+            targetBook = book;
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        // 显示图书详情对话框
+        BookDetailDialog dialog(targetBook, this);
+        dialog.exec();
+    }
 }

@@ -101,20 +101,20 @@ CMakeFiles/clion_test.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/main.cpp.s"
 	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\main.cpp -o CMakeFiles\clion_test.dir\src\main.cpp.s
 
-CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: CMakeFiles/clion_test.dir/flags.make
-CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
-CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/widget/mainwindow.cpp
-CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj"
-	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj -MF CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.obj.d -o CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\widget\mainwindow.cpp
+CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
+CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/utils/bookcopymanager.cpp
+CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj -MF CMakeFiles\clion_test.dir\src\utils\bookcopymanager.cpp.obj.d -o CMakeFiles\clion_test.dir\src\utils\bookcopymanager.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\utils\bookcopymanager.cpp
 
-CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.i"
-	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\widget\mainwindow.cpp > CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.i
+CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\utils\bookcopymanager.cpp > CMakeFiles\clion_test.dir\src\utils\bookcopymanager.cpp.i
 
-CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.s"
-	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\widget\mainwindow.cpp -o CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.s
+CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\utils\bookcopymanager.cpp -o CMakeFiles\clion_test.dir\src\utils\bookcopymanager.cpp.s
 
 CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj: CMakeFiles/clion_test.dir/flags.make
 CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
@@ -131,11 +131,26 @@ CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.s"
 	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\utils\bookdisplay.cpp -o CMakeFiles\clion_test.dir\src\utils\bookdisplay.cpp.s
 
+CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
+CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/utils/databasemanager.cpp
+CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj -MF CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.obj.d -o CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\utils\databasemanager.cpp
+
+CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\utils\databasemanager.cpp > CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.i
+
+CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\utils\databasemanager.cpp -o CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.s
+
 CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj: CMakeFiles/clion_test.dir/flags.make
 CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
 CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/utils/librarymanager.cpp
 CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj"
 	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj -MF CMakeFiles\clion_test.dir\src\utils\librarymanager.cpp.obj.d -o CMakeFiles\clion_test.dir\src\utils\librarymanager.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\utils\librarymanager.cpp
 
 CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.i: cmake_force
@@ -150,7 +165,7 @@ CMakeFiles/clion_test.dir/src/utils/log.cpp.obj: CMakeFiles/clion_test.dir/flags
 CMakeFiles/clion_test.dir/src/utils/log.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
 CMakeFiles/clion_test.dir/src/utils/log.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/utils/log.cpp
 CMakeFiles/clion_test.dir/src/utils/log.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/clion_test.dir/src/utils/log.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/clion_test.dir/src/utils/log.cpp.obj"
 	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/utils/log.cpp.obj -MF CMakeFiles\clion_test.dir\src\utils\log.cpp.obj.d -o CMakeFiles\clion_test.dir\src\utils\log.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\utils\log.cpp
 
 CMakeFiles/clion_test.dir/src/utils/log.cpp.i: cmake_force
@@ -161,41 +176,94 @@ CMakeFiles/clion_test.dir/src/utils/log.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/utils/log.cpp.s"
 	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\utils\log.cpp -o CMakeFiles\clion_test.dir\src\utils\log.cpp.s
 
-CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: CMakeFiles/clion_test.dir/flags.make
-CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
-CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/utils/databasemanager.cpp
-CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj"
-	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj -MF CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.obj.d -o CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\utils\databasemanager.cpp
+CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
+CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/widget/bookdetaildialog.cpp
+CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj -MF CMakeFiles\clion_test.dir\src\widget\bookdetaildialog.cpp.obj.d -o CMakeFiles\clion_test.dir\src\widget\bookdetaildialog.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\widget\bookdetaildialog.cpp
 
-CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.i"
-	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\utils\databasemanager.cpp > CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.i
+CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\widget\bookdetaildialog.cpp > CMakeFiles\clion_test.dir\src\widget\bookdetaildialog.cpp.i
 
-CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.s"
-	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\utils\databasemanager.cpp -o CMakeFiles\clion_test.dir\src\utils\databasemanager.cpp.s
+CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\widget\bookdetaildialog.cpp -o CMakeFiles\clion_test.dir\src\widget\bookdetaildialog.cpp.s
+
+CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
+CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/widget/copymanagementdialog.cpp
+CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj -MF CMakeFiles\clion_test.dir\src\widget\copymanagementdialog.cpp.obj.d -o CMakeFiles\clion_test.dir\src\widget\copymanagementdialog.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\widget\copymanagementdialog.cpp
+
+CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\widget\copymanagementdialog.cpp > CMakeFiles\clion_test.dir\src\widget\copymanagementdialog.cpp.i
+
+CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\widget\copymanagementdialog.cpp -o CMakeFiles\clion_test.dir\src\widget\copymanagementdialog.cpp.s
+
+CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
+CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/widget/mainwindow.cpp
+CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj -MF CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.obj.d -o CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\widget\mainwindow.cpp
+
+CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\widget\mainwindow.cpp > CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.i
+
+CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\widget\mainwindow.cpp -o CMakeFiles\clion_test.dir\src\widget\mainwindow.cpp.s
+
+CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj: CMakeFiles/clion_test.dir/includes_CXX.rsp
+CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj: D:/Work_Space/QT_Projects/clion_test/src/widget/ui_mainwindow.cpp
+CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj: CMakeFiles/clion_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj -MF CMakeFiles\clion_test.dir\src\widget\ui_mainwindow.cpp.obj.d -o CMakeFiles\clion_test.dir\src\widget\ui_mainwindow.cpp.obj -c D:\Work_Space\QT_Projects\clion_test\src\widget\ui_mainwindow.cpp
+
+CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Work_Space\QT_Projects\clion_test\src\widget\ui_mainwindow.cpp > CMakeFiles\clion_test.dir\src\widget\ui_mainwindow.cpp.i
+
+CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\widget\ui_mainwindow.cpp -o CMakeFiles\clion_test.dir\src\widget\ui_mainwindow.cpp.s
 
 # Object files for target clion_test
 clion_test_OBJECTS = \
 "CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj" \
 "CMakeFiles/clion_test.dir/src/main.cpp.obj" \
-"CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj" \
+"CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj" \
 "CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj" \
+"CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj" \
 "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj" \
 "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj" \
-"CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj"
+"CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj" \
+"CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj" \
+"CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj" \
+"CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj"
 
 # External object files for target clion_test
 clion_test_EXTERNAL_OBJECTS =
 
 clion_test.exe: CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/main.cpp.obj
-clion_test.exe: CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/utils/bookcopymanager.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/utils/bookdisplay.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/utils/log.cpp.obj
-clion_test.exe: CMakeFiles/clion_test.dir/src/utils/databasemanager.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/build.make
 clion_test.exe: D:/Qt/6.9.3/mingw_64/lib/libQt6Widgets.a
 clion_test.exe: D:/Qt/6.9.3/mingw_64/lib/libQt6Gui.a
@@ -203,7 +271,7 @@ clion_test.exe: D:/Qt/6.9.3/mingw_64/lib/libQt6Core.a
 clion_test.exe: CMakeFiles/clion_test.dir/linkLibs.rsp
 clion_test.exe: CMakeFiles/clion_test.dir/objects1.rsp
 clion_test.exe: CMakeFiles/clion_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable clion_test.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable clion_test.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\clion_test.dir\link.txt --verbose=$(VERBOSE)
 	D:\Programs\CMake\bin\cmake.exe -E make_directory D:/Work_Space/QT_Projects/clion_test/build/plugins/platforms/
 	D:\Programs\CMake\bin\cmake.exe -E copy D:/Qt/6.9.3/mingw_64/plugins/platforms/qwindows.dll D:/Work_Space/QT_Projects/clion_test/build/plugins/platforms/
