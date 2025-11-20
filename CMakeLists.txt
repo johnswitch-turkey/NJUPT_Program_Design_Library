@@ -14,25 +14,27 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(clion_test src/main.cpp
-        src/widget/mainwindow.cpp
-        src/widget/mainwindow.h
-        src/widget/ui_mainwindow.h
-        src/utils/bookdisplay.cpp
-        src/utils/bookdisplay.h
-        src/utils/book.h
-        src/utils/librarymanager.cpp
-        src/utils/librarymanager.h
-        src/utils/log.cpp
-        src/utils/log.h
-        src/utils/databasemanager.cpp
-        src/utils/databasemanager.h)
+# 设置源文件目录
+set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# 收集所有源文件
+file(GLOB_RECURSE SOURCES
+        ${SRC_DIR}/*.cpp
+        ${SRC_DIR}/*.h
+)
+
+# 创建可执行文件
+add_executable(clion_test ${SOURCES}
+        src/widget/ui_mainwindow.cpp)
+
+# 链接Qt库
 target_link_libraries(clion_test
         Qt::Core
         Qt::Gui
         Qt::Widgets
 )
 
+# Windows平台特定设置
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(DEBUG_SUFFIX)
     if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -45,6 +47,8 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
             set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
         endif ()
     endif ()
+
+    # 复制Qt DLL到输出目录
     if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E make_directory
@@ -54,6 +58,7 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
                 "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
     endif ()
+
     foreach (QT_LIB Core Gui Widgets)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy
@@ -61,3 +66,14 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
     endforeach (QT_LIB)
 endif ()
+
+# 设置包含目录
+target_include_directories(clion_test PRIVATE ${SRC_DIR})
+
+# 编译器特定设置
+if (MSVC)
+    target_compile_options(clion_test PRIVATE /W4)
+else()
+    target_compile_options(clion_test PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+

@@ -8,7 +8,8 @@
 #include <QPushButton>
 #include <QMenu>
 #include <QActionGroup>
-#include "../utils/librarymanager.h" // 核心数据管理器
+#include "../utils/librarymanager.h"
+#include "../utils/bookcopy.h"
 
 QT_BEGIN_NAMESPACE
 class QToolBar;
@@ -56,7 +57,7 @@ private slots:
     void onImport();
     void onExport();
     void onRefresh();
-
+    void onManageCopies();
     // 筛选菜单
     void onCategoryFilterChanged(QAction *action);
     void onStatusFilterChanged(QAction *action);
@@ -158,6 +159,7 @@ private:
     QToolBar *actionToolBar_ = nullptr;
     QScrollArea *toolBarScrollArea_ = nullptr;
     QDockWidget *toolBarDockWidget_ = nullptr;
+    QAction *manageCopiesAct_ = nullptr;
     bool isToolBarVertical_ = true; // true=竖向(左边), false=横向(顶部)
 };
 

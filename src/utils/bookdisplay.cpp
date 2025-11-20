@@ -1,6 +1,4 @@
-//
-// Created by 23092 on 25-11-17.
-//
+// bookdisplay.cpp
 #include "bookdisplay.h"
 
 #include <QIntValidator>
@@ -10,7 +8,7 @@ BookDialog::BookDialog(QWidget *parent)
     : QDialog(parent)
 {
     setWindowTitle(QStringLiteral("📚 图书信息"));
-    setFixedSize(500, 600);
+    setFixedSize(500, 500);
     setModal(true);
 
     indexIdEdit_ = new QLineEdit(this);
@@ -19,28 +17,20 @@ BookDialog::BookDialog(QWidget *parent)
     publisherEdit_ = new QLineEdit(this);
     locationEdit_ = new QComboBox(this);
     categoryEdit_ = new QComboBox(this);
-    quantityEdit_ = new QLineEdit(this);
     priceEdit_ = new QLineEdit(this);
     inDateEdit_ = new QDateEdit(this);
-    returnDateEdit_ = new QDateEdit(this);
-    borrowCountEdit_ = new QLineEdit(this);
-    availableCheck_ = new QCheckBox(QStringLiteral("可借"), this);
 
-    quantityEdit_->setValidator(new QIntValidator(0, 1000000, this));
-    borrowCountEdit_->setValidator(new QIntValidator(0, 1000000, this));
     auto *priceValidator = new QDoubleValidator(0.0, 1e9, 2, this);
     priceValidator->setNotation(QDoubleValidator::StandardNotation);
     priceEdit_->setValidator(priceValidator);
 
     inDateEdit_->setCalendarPopup(true);
     inDateEdit_->setDisplayFormat("yyyy-MM-dd");
-    returnDateEdit_->setCalendarPopup(true);
-    returnDateEdit_->setDisplayFormat("yyyy-MM-dd");
 
     // 设置馆藏地址下拉框选项
     locationEdit_->addItem(QStringLiteral("三牌楼"));
     locationEdit_->addItem(QStringLiteral("仙林"));
-    locationEdit_->setCurrentIndex(0); // 默认选择三牌楼
+    locationEdit_->setCurrentIndex(0);
 
     // 设置类别下拉框选项
     categoryEdit_->addItem(QStringLiteral("人文"));
@@ -55,8 +45,8 @@ BookDialog::BookDialog(QWidget *parent)
     categoryEdit_->addItem(QStringLiteral("医学"));
     categoryEdit_->addItem(QStringLiteral("工程"));
     categoryEdit_->addItem(QStringLiteral("其他"));
-    categoryEdit_->setCurrentIndex(0); // 默认选择人文
-    categoryEdit_->setEditable(true); // 允许用户输入自定义类别
+    categoryEdit_->setCurrentIndex(0);
+    categoryEdit_->setEditable(true);
 
     // 美化输入框样式
     QString inputStyle =
@@ -88,23 +78,6 @@ BookDialog::BookDialog(QWidget *parent)
         "    selection-background-color: #007bff;"
         "    selection-color: white;"
         "    padding: 5px;"
-        "}"
-        "QCheckBox {"
-        "    font-size: 13px;"
-        "    color: #495057;"
-        "    spacing: 8px;"
-        "}"
-        "QCheckBox::indicator {"
-        "    width: 18px;"
-        "    height: 18px;"
-        "    border: 2px solid #e9ecef;"
-        "    border-radius: 4px;"
-        "    background-color: #ffffff;"
-        "}"
-        "QCheckBox::indicator:checked {"
-        "    background-color: #007bff;"
-        "    border-color: #007bff;"
-        "    image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDEyIDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDQuNUw0LjUgOEwxMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K);"
         "}";
 
     indexIdEdit_->setStyleSheet(inputStyle);
@@ -113,15 +86,15 @@ BookDialog::BookDialog(QWidget *parent)
     publisherEdit_->setStyleSheet(inputStyle);
     locationEdit_->setStyleSheet(inputStyle);
     categoryEdit_->setStyleSheet(inputStyle);
-    quantityEdit_->setStyleSheet(inputStyle);
     priceEdit_->setStyleSheet(inputStyle);
     inDateEdit_->setStyleSheet(inputStyle);
-    returnDateEdit_->setStyleSheet(inputStyle);
-    borrowCountEdit_->setStyleSheet(inputStyle);
-    availableCheck_->setStyleSheet(inputStyle);
 
     auto *form = new QFormLayout(this);
     form->setSpacing(15);
+    form->setVerticalSpacing(20);
+    locationEdit_->setMinimumHeight(40);
+    categoryEdit_->setMinimumHeight(40);
+    inDateEdit_->setMinimumHeight(40);
     form->setContentsMargins(30, 30, 30, 30);
 
     // 添加图标美化标签
@@ -131,12 +104,8 @@ BookDialog::BookDialog(QWidget *parent)
     form->addRow(QStringLiteral("🏢 出版社"), publisherEdit_);
     form->addRow(QStringLiteral("📍 馆藏地址"), locationEdit_);
     form->addRow(QStringLiteral("📂 类别"), categoryEdit_);
-    form->addRow(QStringLiteral("🔢 数量"), quantityEdit_);
     form->addRow(QStringLiteral("💰 价格"), priceEdit_);
     form->addRow(QStringLiteral("📅 入库日期"), inDateEdit_);
-    form->addRow(QStringLiteral("📅 归还日期"), returnDateEdit_);
-    form->addRow(QStringLiteral("📊 借阅次数"), borrowCountEdit_);
-    form->addRow(QStringLiteral("✅ 状态"), availableCheck_);
 
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
     buttons->setStyleSheet(
@@ -196,7 +165,6 @@ void BookDialog::setBook(const Book &b)
     if (locationIndex >= 0) {
         locationEdit_->setCurrentIndex(locationIndex);
     } else {
-        // 如果找不到匹配项，默认选择三牌楼
         locationEdit_->setCurrentIndex(0);
     }
 
@@ -205,16 +173,11 @@ void BookDialog::setBook(const Book &b)
     if (categoryIndex >= 0) {
         categoryEdit_->setCurrentIndex(categoryIndex);
     } else {
-        // 如果找不到匹配项，设置为当前文本
         categoryEdit_->setCurrentText(b.category);
     }
-    quantityEdit_->setText(QString::number(b.quantity));
+
     priceEdit_->setText(QString::number(b.price, 'f', 2));
     inDateEdit_->setDate(b.inDate.isValid() ? b.inDate : QDate::currentDate());
-    returnDateEdit_->setDate(b.returnDate.isValid() ? b.returnDate : QDate::currentDate());
-    returnDateEdit_->setSpecialValueText(QString());
-    borrowCountEdit_->setText(QString::number(b.borrowCount));
-    availableCheck_->setChecked(b.available);
 }
 
 Book BookDialog::getBook() const
@@ -224,14 +187,10 @@ Book BookDialog::getBook() const
     b.name = nameEdit_->text().trimmed();
     b.author = authorEdit_->text().trimmed();
     b.publisher = publisherEdit_->text().trimmed();
-    b.location = locationEdit_->currentText(); // 获取下拉框当前选中的文本
+    b.location = locationEdit_->currentText();
     b.category = categoryEdit_->currentText().trimmed();
-    b.quantity = quantityEdit_->text().toInt();
     b.price = priceEdit_->text().toDouble();
     b.inDate = inDateEdit_->date();
-    b.returnDate = returnDateEdit_->date();
-    b.borrowCount = borrowCountEdit_->text().toInt();
-    b.available = availableCheck_->isChecked();
     return b;
 }
 

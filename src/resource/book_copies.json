@@ -1,0 +1,114 @@
+[
+    {
+        "borrowDate": "2025-11-19",
+        "borrowedBy": "111",
+        "copyId": "CS001_1",
+        "copyNumber": 1,
+        "dueDate": "2025-12-11",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_7",
+        "copyNumber": 7,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_8",
+        "copyNumber": 8,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_9",
+        "copyNumber": 9,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_10",
+        "copyNumber": 10,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_11",
+        "copyNumber": 11,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_12",
+        "copyNumber": 12,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_13",
+        "copyNumber": 13,
+        "dueDate": "",
+        "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_14",
+        "copyNumber": 14,
+        "dueDate": "",
+        "indexId": "CS001"
+    }
+]

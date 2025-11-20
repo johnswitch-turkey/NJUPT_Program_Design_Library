@@ -1,3 +1,4 @@
+// librarymanager.h
 #ifndef LIBRARYMANAGER_H
 #define LIBRARYMANAGER_H
 
@@ -7,12 +8,15 @@
 #include <QString>
 #include "book.h"
 #include "./databasemanager.h"
+#include "./bookcopymanager.h"
 
 class LibraryManager : public QObject
 {
     Q_OBJECT
 
 public:
+    static LibraryManager& instance();
+
     explicit LibraryManager(QObject *parent = nullptr);
 
     void clear();
@@ -27,20 +31,29 @@ public:
     const QVector<Book>& getAll() const;
     QVector<Book> getByCategory(const QString &category) const;
     QVector<Book> getByLocation(const QString &location) const;
-    QVector<Book> getAvailable() const;
-    QVector<Book> getBorrowed() const;
-    QVector<Book> getDueInDays(int days) const;
-    QVector<Book> getTopBorrowed(int count) const;
-    QVector<Book> getRecentlyAdded(int days) const;
-    QVector<Book> getExpensiveBooks(double minPrice) const;
-    QVector<Book> getCheapBooks(double maxPrice) const;
     QVector<Book> searchBooks(const QString &keyword) const;
     QVector<Book> getWarn(int days) const;
 
+    // --- 副本管理 ---
+    bool addBookCopies(const QString &indexId, int count, QString *error = nullptr);
+    bool removeBookCopy(const QString &copyId, QString *error = nullptr);
+    QVector<BookCopy> getBookCopies(const QString &indexId) const;
+    QVector<BookCopy> getAvailableCopies(const QString &indexId) const;
+    BookCopy getFirstAvailableCopy(const QString &indexId) const;
+    int getTotalCopyCount(const QString &indexId) const;
+    int getAvailableCopyCount(const QString &indexId) const;
+
+    // --- 借阅相关 ---
+    bool borrowBook(const QString &indexId, const QString &username, const QDate &dueDate, QString *error = nullptr);
+    bool returnBook(const QString &copyId, const QString &username, QString *error = nullptr);
+    QVector<BookCopy> getUserBorrowedCopies(const QString &username) const;
+    QVector<BookCopy> getDueSoonCopies(int days) const;
+
     // --- 统计信息 ---
     int getTotalBooks() const;
-    int getAvailableBooks() const;
-    int getBorrowedBooks() const;
+    int getTotalCopies() const;
+    int getAvailableCopies() const;
+    int getBorrowedCopies() const;
     double getTotalValue() const;
     QString getMostPopularCategory() const;
     QString getMostPopularLocation() const;
@@ -67,6 +80,8 @@ private:
     void refreshFromDatabase();
     QVector<Book> books_;
     DatabaseManager& dbManager_;
+    BookCopyManager& copyManager_;
 };
 
 #endif // LIBRARYMANAGER_H
+

@@ -1,7 +1,4 @@
-//
-// Created by 23092 on 25-11-17.
-//
-
+// bookdisplay.h
 #ifndef BOOKDISPLAY_H
 #define BOOKDISPLAY_H
 
@@ -29,14 +26,9 @@ private:
     QLineEdit *publisherEdit_ = nullptr;
     QComboBox *locationEdit_ = nullptr;
     QComboBox *categoryEdit_ = nullptr;
-    QLineEdit *quantityEdit_ = nullptr;
     QLineEdit *priceEdit_ = nullptr;
     QDateEdit *inDateEdit_ = nullptr;
-    QDateEdit *returnDateEdit_ = nullptr;
-    QLineEdit *borrowCountEdit_ = nullptr;
-    QCheckBox *availableCheck_ = nullptr;
 };
 
-
-
 #endif //BOOKDISPLAY_H
+

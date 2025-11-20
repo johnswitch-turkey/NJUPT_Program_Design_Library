@@ -1,3 +1,4 @@
+// databasemanager.h
 #ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
@@ -9,7 +10,6 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include "book.h"
-#include "databasemanager.h"
 
 class DatabaseManager : public QObject
 {
@@ -32,13 +32,9 @@ public:
     QVector<Book> searchBooks(const QString& keyword);
     QVector<Book> getBooksByCategory(const QString& category);
     QVector<Book> getBooksByLocation(const QString& location);
-    QVector<Book> getAvailableBooks();
-    QVector<Book> getBorrowedBooks();
 
     // 统计信息
     int getTotalBookCount();
-    int getAvailableBookCount();
-    int getBorrowedBookCount();
     double getTotalInventoryValue();
 
     // 数据导入导出

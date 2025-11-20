@@ -1,3 +1,4 @@
+// databasemanager.cpp
 #include "databasemanager.h"
 #include <QDebug>
 #include <QDate>
@@ -48,6 +49,7 @@ bool DatabaseManager::initializeDatabase()
 
     dbFilePath_ = absoluteTargetPath + "/library_data.json";
     qDebug() << "Database file path:" << dbFilePath_;
+    
     // 尝试加载现有数据
     if (QFile::exists(dbFilePath_)) {
         if (loadFromFile()) {
@@ -140,15 +142,19 @@ Book DatabaseManager::bookFromJson(const QJsonObject& obj)
     book.publisher = obj.value("publisher").toString();
     book.location = obj.value("location").toString();
     book.category = obj.value("category").toString();
-    book.quantity = obj.value("quantity").toInt();
     book.price = obj.value("price").toDouble();
-    book.inDate = QDate::fromString(obj.value("inDate").toString(), Qt::ISODate);
 
-    QString returnDateStr = obj.value("returnDate").toString();
-    book.returnDate = returnDateStr.isEmpty() ? QDate() : QDate::fromString(returnDateStr, Qt::ISODate);
+    // 修改 inDate 的读取逻辑
+    QString inDateStr = obj.value("inDate").toString();
+    if (inDateStr.isEmpty()) {
+        // 如果日期字符串为空，使用当前日期作为默认值
+        book.inDate = QDate::currentDate();
+    } else {
+        QDate parsedDate = QDate::fromString(inDateStr, Qt::ISODate);
+        book.inDate = parsedDate.isValid() ? parsedDate : QDate::currentDate();
+    }
 
     book.borrowCount = obj.value("borrowCount").toInt();
-    book.available = obj.value("available").toBool(true);
 
     return book;
 }
@@ -162,12 +168,12 @@ QJsonObject DatabaseManager::bookToJson(const Book& book)
     obj["publisher"] = book.publisher;
     obj["location"] = book.location;
     obj["category"] = book.category;
-    obj["quantity"] = book.quantity;
     obj["price"] = book.price;
-    obj["inDate"] = book.inDate.toString(Qt::ISODate);
-    obj["returnDate"] = book.returnDate.isValid() ? book.returnDate.toString(Qt::ISODate) : QString();
+
+    // 确保 inDate 总是被有效存储
+    obj["inDate"] = book.inDate.isValid() ? book.inDate.toString(Qt::ISODate) : QDate::currentDate().toString(Qt::ISODate);
+
     obj["borrowCount"] = book.borrowCount;
-    obj["available"] = book.available;
 
     return obj;
 }
@@ -182,7 +188,14 @@ bool DatabaseManager::addBook(const Book& book)
         }
     }
 
-    books_.append(book);
+    // 确保日期有效
+    Book validBook = book;
+    if (!validBook.inDate.isValid()) {
+        validBook.inDate = QDate::currentDate();
+        qDebug() << "Invalid inDate for book" << book.indexId << ", using current date";
+    }
+
+    books_.append(validBook);
     return saveToFile();
 }
 
@@ -190,7 +203,14 @@ bool DatabaseManager::updateBook(const Book& book)
 {
     for (int i = 0; i < books_.size(); ++i) {
         if (books_[i].indexId == book.indexId) {
-            books_[i] = book;
+            // 确保日期有效
+            Book validBook = book;
+            if (!validBook.inDate.isValid()) {
+                validBook.inDate = QDate::currentDate();
+                qDebug() << "Invalid inDate for book" << book.indexId << ", using current date";
+            }
+
+            books_[i] = validBook;
             return saveToFile();
         }
     }
@@ -271,64 +291,16 @@ QVector<Book> DatabaseManager::getBooksByLocation(const QString& location)
     return result;
 }
 
-QVector<Book> DatabaseManager::getAvailableBooks()
-{
-    QVector<Book> result;
-
-    for (const Book& book : books_) {
-        if (book.available) {
-            result.append(book);
-        }
-    }
-
-    return result;
-}
-
-QVector<Book> DatabaseManager::getBorrowedBooks()
-{
-    QVector<Book> result;
-
-    for (const Book& book : books_) {
-        if (!book.available) {
-            result.append(book);
-        }
-    }
-
-    return result;
-}
-
 int DatabaseManager::getTotalBookCount()
 {
     return books_.size();
-}
-
-int DatabaseManager::getAvailableBookCount()
-{
-    int count = 0;
-    for (const Book& book : books_) {
-        if (book.available) {
-            count++;
-        }
-    }
-    return count;
-}
-
-int DatabaseManager::getBorrowedBookCount()
-{
-    int count = 0;
-    for (const Book& book : books_) {
-        if (!book.available) {
-            count++;
-        }
-    }
-    return count;
 }
 
 double DatabaseManager::getTotalInventoryValue()
 {
     double total = 0.0;
     for (const Book& book : books_) {
-        total += book.price * book.quantity;
+        total += book.price;
     }
     return total;
 }
