@@ -35,27 +35,51 @@ void LibraryManager::clear()
 }
 
 // --- 数据操作 ---
+/**
+ * @brief 添加图书到图书馆管理系统
+ *
+ * 功能流程：
+ * 1. 重复检查：检查索引号是否已存在，确保唯一性
+ * 2. 数据库操作：将图书信息保存到数据库
+ * 3. 内存更新：将图书信息添加到内存中的books_向量
+ * 4. 副本创建：为新添加的图书创建一个默认副本
+ * 5. 信号发送：发送dataChanged信号，通知UI更新
+ *
+ * @param book 要添加的图书信息
+ * @param error 错误信息输出参数（可选）
+ * @return 添加成功返回true，失败返回false
+ *
+ * 涉及的函数：
+ * - findByIndexId(): 查找图书是否已存在
+ * - dbManager_.addBook(): 数据库添加操作
+ * - copyManager_.addCopy(): 添加图书副本
+ * - emit dataChanged(): 发送数据变更信号
+ */
 bool LibraryManager::addBook(const Book &book, QString *error)
 {
+    // 重复检查：确保索引号的唯一性
     if (findByIndexId(book.indexId)) {
         if (error) *error = QStringLiteral("索引号 '%1' 已存在").arg(book.indexId);
         return false;
     }
 
+    // 数据库操作：将图书信息持久化保存
     if (!dbManager_.addBook(book)) {
         if (error) *error = QStringLiteral("数据库添加失败");
         return false;
     }
 
+    // 内存更新：更新运行时数据
     books_.append(book);
 
-    // 添加一个默认副本
+    // 副本创建：为新图书创建默认副本（副本1）
     BookCopy copy;
-    copy.copyId = book.indexId + "_1";
+    copy.copyId = book.indexId + "_1";  // 副本ID格式：索引号_编号
     copy.indexId = book.indexId;
     copy.copyNumber = 1;
     copyManager_.addCopy(copy);
 
+    // 信号发送：通知UI界面更新
     emit dataChanged();
     return true;
 }
@@ -242,22 +266,47 @@ int LibraryManager::getAvailableCopyCount(const QString &indexId) const
 }
 
 // --- 借阅相关 ---
+/**
+ * @brief 借书功能实现
+ *
+ * 功能流程：
+ * 1. 副本查找：获取该图书的第一个可用副本
+ * 2. 可用性检查：确保有可借阅的副本
+ * 3. 借阅操作：调用副本管理器执行具体的借阅操作
+ * 4. 统计更新：更新图书的借阅次数统计
+ * 5. 数据持久化：将更新的图书信息保存到数据库
+ * 6. 信号发送：通知UI界面更新显示
+ *
+ * @param indexId 图书索引号
+ * @param username 借阅用户名
+ * @param dueDate 归还日期
+ * @param error 错误信息输出参数（可选）
+ * @return 借阅成功返回true，失败返回false
+ *
+ * 涉及的函数：
+ * - getFirstAvailableCopy(): 获取第一个可用副本
+ * - copyManager_.borrowCopy(): 执行副本借阅操作
+ * - findByIndexId(): 查找图书信息
+ * - dbManager_.updateBook(): 更新数据库中的图书信息
+ */
 bool LibraryManager::borrowBook(const QString &indexId, const QString &username, const QDate &dueDate, QString *error)
 {
+    // 副本查找：获取该图书的第一个可用副本
     BookCopy copy = getFirstAvailableCopy(indexId);
     if (copy.copyId.isEmpty()) {
         if (error) *error = QStringLiteral("没有可用的副本");
         return false;
     }
 
+    // 借阅操作：调用副本管理器执行具体的借阅操作
     if (copyManager_.borrowCopy(copy.copyId, username, dueDate)) {
-        // 更新借阅次数
+        // 统计更新：更新图书的借阅次数
         Book *book = const_cast<Book*>(findByIndexId(indexId));
         if (book) {
             book->borrowCount++;
-            dbManager_.updateBook(*book);
+            dbManager_.updateBook(*book);  // 数据持久化
         }
-        emit dataChanged();
+        emit dataChanged();  // 通知UI更新
         return true;
     }
 
@@ -265,21 +314,44 @@ bool LibraryManager::borrowBook(const QString &indexId, const QString &username,
     return false;
 }
 
+/**
+ * @brief 还书功能实现
+ *
+ * 功能流程：
+ * 1. 副本验证：检查副本ID是否存在
+ * 2. 权限验证：确保归还者与借阅者一致
+ * 3. 还书操作：调用副本管理器执行具体的还书操作
+ * 4. 状态更新：更新副本状态为可用
+ * 5. 信号发送：通知UI界面更新显示
+ *
+ * @param copyId 副本ID
+ * @param username 归还用户名
+ * @param error 错误信息输出参数（可选）
+ * @return 还书成功返回true，失败返回false
+ *
+ * 涉及的函数：
+ * - copyManager_.getCopyById(): 根据副本ID查找副本信息
+ * - copyManager_.returnCopy(): 执行副本归还操作
+ * - emit dataChanged(): 发送数据变更信号
+ */
 bool LibraryManager::returnBook(const QString &copyId, const QString &username, QString *error)
 {
+    // 副本验证：检查副本ID是否存在
     BookCopy copy = copyManager_.getCopyById(copyId);
     if (copy.copyId.isEmpty()) {
         if (error) *error = QStringLiteral("未找到副本 '%1'").arg(copyId);
         return false;
     }
 
+    // 权限验证：确保归还者与借阅者一致，防止误操作
     if (copy.borrowedBy != username) {
         if (error) *error = QStringLiteral("该副本不是由您借阅的");
         return false;
     }
 
+    // 还书操作：调用副本管理器执行具体的还书操作
     if (copyManager_.returnCopy(copyId)) {
-        emit dataChanged();
+        emit dataChanged();  // 通知UI更新
         return true;
     }
 
