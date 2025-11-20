@@ -1,10 +1,10 @@
 [
     {
-        "borrowDate": "",
-        "borrowedBy": "",
+        "borrowDate": "2025-11-20",
+        "borrowedBy": "111",
         "copyId": "CS001_1",
         "copyNumber": 1,
-        "dueDate": "",
+        "dueDate": "2025-12-20",
         "indexId": "CS001"
     },
     {
@@ -110,5 +110,2461 @@
         "copyNumber": 14,
         "dueDate": "",
         "indexId": "CS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS002_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS003_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS003_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS004_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS004_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS005_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS005_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT001_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT001_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT001_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT001_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT002_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT002_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT002_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT003_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT003_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT003_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT003_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT004_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT004_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT004_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT004_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT005_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT005_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT005_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS001_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS001_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS002_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS003_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS003_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS003_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "HIS003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS004_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS004_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS004_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI001_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI004_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG001_7",
+        "copyNumber": 7,
+        "dueDate": "",
+        "indexId": "ENG001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG002_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG002_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG002_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG002_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "ENG002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG002_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "ENG002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG003_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG003_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG003_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG004_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG004_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG004_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG004"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ART001_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ART001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ART001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ART001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ART002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ART002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ART002_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ART002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ART003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ART003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ART003_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ART003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI001_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "PHI001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI001_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "PHI001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI001_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "PHI001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI001_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "PHI001"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI002_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "PHI002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI002_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "PHI002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI002_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "PHI002"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI003_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "PHI003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI003_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "PHI003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "PHI003_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "PHI003"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS006_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT006_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT006_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG005_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG005_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT007_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT007_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT007_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI006_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI006_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI006_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "SCI006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI006_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "SCI006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI006_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "SCI006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS005_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS005_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS005_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS005"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG006_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG006_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG006_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG006_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG007_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG007_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG007_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG007_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG007_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "ENG007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG007_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "ENG007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT008_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT008_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI007_7",
+        "copyNumber": 7,
+        "dueDate": "",
+        "indexId": "SCI007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT009_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT009_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT010_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT010_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT010_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT010_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT011_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT011_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT011_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT011_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT011_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT011_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "LIT011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG008_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG008_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG008_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS006_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS006_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS006_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS006"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT012_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT012_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT012_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT012_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT012_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT013_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT013_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI008_7",
+        "copyNumber": 7,
+        "dueDate": "",
+        "indexId": "SCI008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT014_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT014_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT014_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT014_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT015_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT015_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT015_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG009_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG009_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG009_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG009_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS007_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS007_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS007_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS007_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "HIS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS007_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "HIS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT016_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT016"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT016_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT016"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI009_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI009_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI009_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "SCI009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI009_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "SCI009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI009_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "SCI009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI009_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "SCI009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT017_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT017_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT017_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT017_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT017_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT017_6",
+        "copyNumber": 6,
+        "dueDate": "",
+        "indexId": "LIT017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT018_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT018"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT018_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT018"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT019_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT019"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT019_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT019"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT019_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT019"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT020_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT020"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT020_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT020"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT020_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT020"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT020_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT020"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT020_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT020"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI010_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI010_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI010_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "SCI010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI010_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "SCI010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT021_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT021"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT021_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT021"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT021_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT021"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT022_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT022"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT022_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT022"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT022_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT022"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT022_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT022"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT022_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT022"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI011_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS007_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS007_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS007_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS007"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS008_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS008_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS008_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS008_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "CS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS009_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS009_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS010_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS010_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS010_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS010_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "CS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS010_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "CS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS011_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS011_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS011_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS012_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS012_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS012_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS013_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS013_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS014_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS014_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS014_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS015_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS015_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS016_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS016"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS016_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "CS016"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS016_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "CS016"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT023_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT023"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT023_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT023"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT023_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT023"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT023_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT023"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT024_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT024"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT024_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT024"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT024_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT024"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT024_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT024"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT025_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT025"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT025_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT025"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT025_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT025"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT025_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT025"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT025_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT025"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT026_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT026"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT026_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT026"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT026_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT026"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT026_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT026"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT027_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT027"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT027_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT027"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT027_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT027"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT028_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "LIT028"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT028_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "LIT028"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT028_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "LIT028"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT028_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "LIT028"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "LIT028_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "LIT028"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS008_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS008_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS008_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS008_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "HIS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS008_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "HIS008"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS009_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS009_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS009_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS009_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "HIS009"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS010_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS010_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS010_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS011_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS011_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS011_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS012_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "HIS012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS012_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "HIS012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "HIS012_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "HIS012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI012_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI012_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI012_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "SCI012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI013_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI013_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI014_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI014_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI015_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "SCI015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "SCI015_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "SCI015"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG010_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG010_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG010_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG010_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG010_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "ENG010"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG011_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG011_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG011_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG011_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG011"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG012_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG012_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG012_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG012_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG012"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG013_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG013_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG013_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG013_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG013_5",
+        "copyNumber": 5,
+        "dueDate": "",
+        "indexId": "ENG013"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG014_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "ENG014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG014_2",
+        "copyNumber": 2,
+        "dueDate": "",
+        "indexId": "ENG014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG014_3",
+        "copyNumber": 3,
+        "dueDate": "",
+        "indexId": "ENG014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "ENG014_4",
+        "copyNumber": 4,
+        "dueDate": "",
+        "indexId": "ENG014"
     }
 ]

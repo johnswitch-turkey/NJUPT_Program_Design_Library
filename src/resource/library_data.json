@@ -1,28 +1,28 @@
 [
     {
-        "author": "",
-        "borrowCount": 19,
+        "author": "钱能",
+        "borrowCount": 20,
         "category": "计算机科学",
         "inDate": "2025-11-20",
         "indexId": "CS001",
-        "location": "三牌楼",
+        "location": "三牌楼图书馆",
         "name": "C++程序设计教程",
         "price": 45.8,
-        "publisher": ""
+        "publisher": "清华大学出版社"
     },
     {
-        "author": "",
+        "author": "Mark Allen Weiss",
         "borrowCount": 8,
         "category": "计算机科学",
         "inDate": "2025-11-20",
         "indexId": "CS002",
-        "location": "三牌楼",
+        "location": "三牌楼图书馆",
         "name": "数据结构与算法分析",
         "price": 68.5,
-        "publisher": ""
+        "publisher": "机械工业出版社"
     },
     {
-        "author": "",
+        "author": "Abraham Silberschatz",
         "borrowCount": 15,
         "category": "计算机科学",
         "inDate": "2025-11-20",
@@ -30,10 +30,10 @@
         "location": "仙林图书馆",
         "name": "操作系统概念",
         "price": 89,
-        "publisher": ""
+        "publisher": "高等教育出版社"
     },
     {
-        "author": "",
+        "author": "谢希仁",
         "borrowCount": 9,
         "category": "计算机科学",
         "inDate": "2025-11-20",
@@ -41,10 +41,10 @@
         "location": "三牌楼图书馆",
         "name": "计算机网络",
         "price": 76.2,
-        "publisher": ""
+        "publisher": "电子工业出版社"
     },
     {
-        "author": "",
+        "author": "王珊",
         "borrowCount": 6,
         "category": "计算机科学",
         "inDate": "2025-11-20",
@@ -52,10 +52,10 @@
         "location": "仙林图书馆",
         "name": "数据库系统概论",
         "price": 92.5,
-        "publisher": ""
+        "publisher": "高等教育出版社"
     },
     {
-        "author": "",
+        "author": "曹雪芹",
         "borrowCount": 25,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -63,10 +63,10 @@
         "location": "三牌楼图书馆",
         "name": "红楼梦",
         "price": 35.6,
-        "publisher": ""
+        "publisher": "人民文学出版社"
     },
     {
-        "author": "",
+        "author": "加西亚·马尔克斯",
         "borrowCount": 18,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -74,10 +74,10 @@
         "location": "三牌楼图书馆",
         "name": "百年孤独",
         "price": 42.8,
-        "publisher": ""
+        "publisher": "南海出版公司"
     },
     {
-        "author": "",
+        "author": "余华",
         "borrowCount": 22,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -85,10 +85,10 @@
         "location": "三牌楼图书馆",
         "name": "活着",
         "price": 28.9,
-        "publisher": ""
+        "publisher": "作家出版社"
     },
     {
-        "author": "",
+        "author": "路遥",
         "borrowCount": 16,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -96,10 +96,10 @@
         "location": "三牌楼图书馆",
         "name": "平凡的世界",
         "price": 55,
-        "publisher": ""
+        "publisher": "北京十月文艺出版社"
     },
     {
-        "author": "",
+        "author": "钱钟书",
         "borrowCount": 14,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -107,10 +107,10 @@
         "location": "三牌楼图书馆",
         "name": "围城",
         "price": 38.5,
-        "publisher": ""
+        "publisher": "人民文学出版社"
     },
     {
-        "author": "",
+        "author": "吕思勉",
         "borrowCount": 11,
         "category": "历史",
         "inDate": "2025-11-20",
@@ -118,10 +118,10 @@
         "location": "仙林图书馆",
         "name": "中国通史",
         "price": 78,
-        "publisher": ""
+        "publisher": "中华书局"
     },
     {
-        "author": "",
+        "author": "威廉·麦克尼尔",
         "borrowCount": 7,
         "category": "历史",
         "inDate": "2025-11-20",
@@ -129,10 +129,10 @@
         "location": "三牌楼图书馆",
         "name": "世界文明史",
         "price": 85.5,
-        "publisher": ""
+        "publisher": "中信出版社"
     },
     {
-        "author": "",
+        "author": "当年明月",
         "borrowCount": 20,
         "category": "历史",
         "inDate": "2025-11-20",
@@ -140,10 +140,10 @@
         "location": "仙林图书馆",
         "name": "明朝那些事儿",
         "price": 48.8,
-        "publisher": ""
+        "publisher": "浙江人民出版社"
     },
     {
-        "author": "",
+        "author": "尤瓦尔·赫拉利",
         "borrowCount": 13,
         "category": "历史",
         "inDate": "2025-11-20",
@@ -151,10 +151,10 @@
         "location": "三牌楼图书馆",
         "name": "人类简史",
         "price": 65.2,
-        "publisher": ""
+        "publisher": "中信出版社"
     },
     {
-        "author": "",
+        "author": "史蒂芬·霍金",
         "borrowCount": 9,
         "category": "科学",
         "inDate": "2025-11-20",
@@ -162,10 +162,10 @@
         "location": "仙林图书馆",
         "name": "时间简史",
         "price": 52,
-        "publisher": ""
+        "publisher": "湖南科学技术出版社"
     },
     {
-        "author": "",
+        "author": "查尔斯·达尔文",
         "borrowCount": 5,
         "category": "科学",
         "inDate": "2025-11-20",
@@ -173,10 +173,10 @@
         "location": "三牌楼图书馆",
         "name": "物种起源",
         "price": 68.8,
-        "publisher": ""
+        "publisher": "商务印书馆"
     },
     {
-        "author": "",
+        "author": "阿尔伯特·爱因斯坦",
         "borrowCount": 3,
         "category": "科学",
         "inDate": "2025-11-20",
@@ -184,10 +184,10 @@
         "location": "仙林图书馆",
         "name": "相对论",
         "price": 75.5,
-        "publisher": ""
+        "publisher": "北京大学出版社"
     },
     {
-        "author": "",
+        "author": "狄拉克",
         "borrowCount": 4,
         "category": "科学",
         "inDate": "2025-11-20",
@@ -195,10 +195,10 @@
         "location": "仙林图书馆",
         "name": "量子力学原理",
         "price": 88,
-        "publisher": ""
+        "publisher": "科学出版社"
     },
     {
-        "author": "",
+        "author": "L. G. Alexander",
         "borrowCount": 35,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -206,10 +206,10 @@
         "location": "仙林图书馆",
         "name": "新概念英语",
         "price": 32.5,
-        "publisher": ""
+        "publisher": "外语教学与研究出版社"
     },
     {
-        "author": "",
+        "author": "俞敏洪",
         "borrowCount": 28,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -217,10 +217,10 @@
         "location": "三牌楼图书馆",
         "name": "托福词汇精选",
         "price": 45.8,
-        "publisher": ""
+        "publisher": "群言出版社"
     },
     {
-        "author": "",
+        "author": "剑桥大学考试委员会",
         "borrowCount": 19,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -228,10 +228,10 @@
         "location": "仙林图书馆",
         "name": "雅思考试指南",
         "price": 58.2,
-        "publisher": ""
+        "publisher": "剑桥大学出版社"
     },
     {
-        "author": "",
+        "author": "张继承",
         "borrowCount": 12,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -239,10 +239,10 @@
         "location": "三牌楼图书馆",
         "name": "商务英语",
         "price": 42,
-        "publisher": ""
+        "publisher": "外文出版社"
     },
     {
-        "author": "",
+        "author": "贡布里希",
         "borrowCount": 8,
         "category": "艺术",
         "inDate": "2025-11-20",
@@ -250,10 +250,10 @@
         "location": "仙林图书馆",
         "name": "西方美术史",
         "price": 72.5,
-        "publisher": ""
+        "publisher": "广西美术出版社"
     },
     {
-        "author": "",
+        "author": "欧阳中石",
         "borrowCount": 6,
         "category": "艺术",
         "inDate": "2025-11-20",
@@ -261,10 +261,10 @@
         "location": "仙林图书馆",
         "name": "中国书法艺术",
         "price": 55.8,
-        "publisher": ""
+        "publisher": "高等教育出版社"
     },
     {
-        "author": "",
+        "author": "李重光",
         "borrowCount": 10,
         "category": "艺术",
         "inDate": "2025-11-20",
@@ -272,10 +272,10 @@
         "location": "仙林图书馆",
         "name": "音乐理论基础",
         "price": 48,
-        "publisher": ""
+        "publisher": "人民音乐出版社"
     },
     {
-        "author": "",
+        "author": "孔子",
         "borrowCount": 17,
         "category": "哲学",
         "inDate": "2025-11-20",
@@ -283,10 +283,10 @@
         "location": "三牌楼图书馆",
         "name": "论语",
         "price": 25.8,
-        "publisher": ""
+        "publisher": "中华书局"
     },
     {
-        "author": "",
+        "author": "老子",
         "borrowCount": 14,
         "category": "哲学",
         "inDate": "2025-11-20",
@@ -294,10 +294,10 @@
         "location": "三牌楼图书馆",
         "name": "道德经",
         "price": 22.5,
-        "publisher": ""
+        "publisher": "中华书局"
     },
     {
-        "author": "",
+        "author": "乔斯坦·贾德",
         "borrowCount": 11,
         "category": "哲学",
         "inDate": "2025-11-20",
@@ -305,10 +305,10 @@
         "location": "三牌楼图书馆",
         "name": "苏菲的世界",
         "price": 38.8,
-        "publisher": ""
+        "publisher": "作家出版社"
     },
     {
-        "author": "",
+        "author": "王万良",
         "borrowCount": 3,
         "category": "计算机科学",
         "inDate": "2025-11-20",
@@ -316,10 +316,10 @@
         "location": "仙林图书馆",
         "name": "人工智能导论",
         "price": 95,
-        "publisher": ""
+        "publisher": "高等教育出版社"
     },
     {
-        "author": "",
+        "author": "乔治·奥威尔",
         "borrowCount": 7,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -327,10 +327,10 @@
         "location": "三牌楼图书馆",
         "name": "1984",
         "price": 36.5,
-        "publisher": ""
+        "publisher": "上海译文出版社"
     },
     {
-        "author": "",
+        "author": "张道真",
         "borrowCount": 9,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -338,21 +338,10 @@
         "location": "仙林图书馆",
         "name": "英语语法大全",
         "price": 52.8,
-        "publisher": ""
+        "publisher": "外语教学与研究出版社"
     },
     {
-        "author": "",
-        "borrowCount": 9,
-        "category": "外语",
-        "inDate": "2025-11-20",
-        "indexId": "ENG005",
-        "location": "仙林图书馆",
-        "name": "英语语法大全",
-        "price": 52.8,
-        "publisher": ""
-    },
-    {
-        "author": "",
+        "author": "沈从文",
         "borrowCount": 15,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -360,10 +349,10 @@
         "location": "仙林图书馆",
         "name": "边城",
         "price": 39.8,
-        "publisher": ""
+        "publisher": "北京十月文艺出版社"
     },
     {
-        "author": "",
+        "author": "吴军",
         "borrowCount": 23,
         "category": "科技",
         "inDate": "2025-11-20",
@@ -371,10 +360,10 @@
         "location": "仙林图书馆",
         "name": "浪潮之巅",
         "price": 89,
-        "publisher": ""
+        "publisher": "人民邮电出版社"
     },
     {
-        "author": "",
+        "author": "钱穆",
         "borrowCount": 11,
         "category": "历史",
         "inDate": "2025-11-20",
@@ -382,21 +371,21 @@
         "location": "仙林图书馆",
         "name": "中国历代政治得失",
         "price": 45,
-        "publisher": ""
+        "publisher": "生活·读书·新知三联书店"
     },
     {
-        "author": "",
+        "author": "俞敏洪",
         "borrowCount": 18,
         "category": "外语",
         "inDate": "2025-11-20",
         "indexId": "ENG006",
-        "location": "鼓楼图书馆",
+        "location": "仙林图书馆",
         "name": "GRE词汇精选",
         "price": 68,
-        "publisher": ""
+        "publisher": "群言出版社"
     },
     {
-        "author": "",
+        "author": "稻盛和夫",
         "borrowCount": 27,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -404,10 +393,10 @@
         "location": "三牌楼图书馆",
         "name": "活法",
         "price": 42,
-        "publisher": ""
+        "publisher": "东方出版社"
     },
     {
-        "author": "",
+        "author": "朱自清",
         "borrowCount": 9,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -415,21 +404,21 @@
         "location": "仙林图书馆",
         "name": "背影",
         "price": 32.8,
-        "publisher": ""
+        "publisher": "人民文学出版社"
     },
     {
-        "author": "",
+        "author": "史蒂芬·霍金",
         "borrowCount": 31,
         "category": "科学",
         "inDate": "2025-11-20",
         "indexId": "SCI007",
-        "location": "鼓楼图书馆",
+        "location": "仙林图书馆",
         "name": "时间简史",
         "price": 58,
-        "publisher": ""
+        "publisher": "湖南科学技术出版社"
     },
     {
-        "author": "",
+        "author": "张明楷",
         "borrowCount": 7,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -437,10 +426,10 @@
         "location": "仙林图书馆",
         "name": "刑法学",
         "price": 128,
-        "publisher": ""
+        "publisher": "法律出版社"
     },
     {
-        "author": "",
+        "author": "傅雷",
         "borrowCount": 16,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -448,32 +437,32 @@
         "location": "仙林图书馆",
         "name": "傅雷家书",
         "price": 49.8,
-        "publisher": ""
+        "publisher": "生活·读书·新知三联书店"
     },
     {
-        "author": "",
+        "author": "黄卫伟",
         "borrowCount": 29,
         "category": "文学",
         "inDate": "2025-11-20",
         "indexId": "LIT011",
-        "location": "鼓楼图书馆",
+        "location": "三牌楼图书馆",
         "name": "华为管理法",
         "price": 56,
-        "publisher": ""
+        "publisher": "中信出版社"
     },
     {
-        "author": "",
+        "author": "许渊冲",
         "borrowCount": 12,
         "category": "外语",
         "inDate": "2025-11-20",
         "indexId": "ENG008",
-        "location": "浦口图书馆",
+        "location": "仙林图书馆",
         "name": "唐诗三百首英译",
         "price": 78,
-        "publisher": ""
+        "publisher": "高等教育出版社"
     },
     {
-        "author": "",
+        "author": "黄仁宇",
         "borrowCount": 14,
         "category": "历史",
         "inDate": "2025-11-20",
@@ -481,10 +470,10 @@
         "location": "仙林图书馆",
         "name": "万历十五年",
         "price": 48,
-        "publisher": ""
+        "publisher": "中华书局"
     },
     {
-        "author": "",
+        "author": "雷军",
         "borrowCount": 22,
         "category": "文学",
         "inDate": "2025-11-20",
@@ -492,21 +481,21 @@
         "location": "仙林图书馆",
         "name": "小米创业思考",
         "price": 69,
-        "publisher": ""
+        "publisher": "中信出版社"
     },
     {
-        "author": "",
+        "author": "钱钟书",
         "borrowCount": 8,
         "category": "文学",
         "inDate": "2025-11-20",
         "indexId": "LIT013",
-        "location": "浦口图书馆",
+        "location": "三牌楼图书馆",
         "name": "围城",
         "price": 45,
-        "publisher": ""
+        "publisher": "人民文学出版社"
     },
     {
-        "author": "",
+        "author": "刘慈欣",
         "borrowCount": 35,
         "category": "科学",
         "inDate": "2025-11-20",
@@ -514,32 +503,32 @@
         "location": "仙林图书馆",
         "name": "三体",
         "price": 88,
-        "publisher": ""
+        "publisher": "重庆出版社"
     },
     {
-        "author": "",
+        "author": "曼昆",
         "borrowCount": 20,
         "category": "文学",
         "inDate": "2025-11-20",
-        "indexId": "LIT013",
+        "indexId": "LIT014",
         "location": "三牌楼图书馆",
         "name": "经济学原理",
         "price": 98,
-        "publisher": ""
+        "publisher": "北京大学出版社"
     },
     {
-        "author": "",
+        "author": "林清玄",
         "borrowCount": 13,
         "category": "文学",
         "inDate": "2025-11-20",
-        "indexId": "LIT014",
+        "indexId": "LIT015",
         "location": "仙林图书馆",
         "name": "林清玄散文精选",
         "price": 42.8,
-        "publisher": ""
+        "publisher": "作家出版社"
     },
     {
-        "author": "",
+        "author": "张培基",
         "borrowCount": 17,
         "category": "外语",
         "inDate": "2025-11-20",
@@ -547,32 +536,32 @@
         "location": "仙林图书馆",
         "name": "英汉翻译教程",
         "price": 59,
-        "publisher": ""
+        "publisher": "上海外语教育出版社"
     },
     {
-        "author": "",
+        "author": "易中天",
         "borrowCount": 24,
         "category": "历史",
         "inDate": "2025-11-20",
         "indexId": "HIS007",
-        "location": "鼓楼图书馆",
+        "location": "三牌楼图书馆",
         "name": "品三国",
         "price": 56,
-        "publisher": ""
+        "publisher": "上海文艺出版社"
     },
     {
-        "author": "",
+        "author": "汪曾祺",
         "borrowCount": 10,
         "category": "文学",
         "inDate": "2025-11-20",
-        "indexId": "LIT015",
+        "indexId": "LIT016",
         "location": "仙林图书馆",
         "name": "人间草木",
         "price": 38,
-        "publisher": ""
+        "publisher": "人民文学出版社"
     },
     {
-        "author": "",
+        "author": "卡尔·萨根",
         "borrowCount": 26,
         "category": "科学",
         "inDate": "2025-11-20",
@@ -580,54 +569,54 @@
         "location": "仙林图书馆",
         "name": "宇宙：时空之旅",
         "price": 79,
-        "publisher": ""
+        "publisher": "广西科学技术出版社"
     },
     {
-        "author": "",
+        "author": "余华",
         "borrowCount": 28,
-        "category": "文学",
-        "inDate": "2025-11-20",
-        "indexId": "LIT016",
-        "location": "仙林图书馆",
-        "name": "活着",
-        "price": 45,
-        "publisher": ""
-    },
-    {
-        "author": "",
-        "borrowCount": 6,
         "category": "文学",
         "inDate": "2025-11-20",
         "indexId": "LIT017",
         "location": "仙林图书馆",
-        "name": "考研英语真题解析",
-        "price": 68,
-        "publisher": ""
+        "name": "活着",
+        "price": 45,
+        "publisher": "作家出版社"
     },
     {
-        "author": "",
-        "borrowCount": 14,
+        "author": "张剑",
+        "borrowCount": 6,
         "category": "文学",
         "inDate": "2025-11-20",
         "indexId": "LIT018",
-        "location": "三牌楼图书馆",
-        "name": "乡土中国",
-        "price": 35,
-        "publisher": ""
+        "location": "仙林图书馆",
+        "name": "考研英语真题解析",
+        "price": 68,
+        "publisher": "外语教学与研究出版社"
     },
     {
-        "author": "",
-        "borrowCount": 21,
+        "author": "费孝通",
+        "borrowCount": 14,
         "category": "文学",
         "inDate": "2025-11-20",
         "indexId": "LIT019",
-        "location": "浦口图书馆",
-        "name": "挪威的森林",
-        "price": 52,
-        "publisher": ""
+        "location": "三牌楼图书馆",
+        "name": "乡土中国",
+        "price": 35,
+        "publisher": "人民出版社"
     },
     {
-        "author": "",
+        "author": "村上春树",
+        "borrowCount": 21,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT020",
+        "location": "仙林图书馆",
+        "name": "挪威的森林",
+        "price": 52,
+        "publisher": "上海译文出版社"
+    },
+    {
+        "author": "吴军",
         "borrowCount": 16,
         "category": "科技",
         "inDate": "2025-11-20",
@@ -635,39 +624,369 @@
         "location": "仙林图书馆",
         "name": "数学之美",
         "price": 59,
-        "publisher": ""
+        "publisher": "人民邮电出版社"
     },
     {
-        "author": "",
+        "author": "龙应台",
         "borrowCount": 12,
         "category": "文学",
         "inDate": "2025-11-20",
-        "indexId": "LIT020",
-        "location": "鼓楼图书馆",
+        "indexId": "LIT021",
+        "location": "三牌楼图书馆",
         "name": "目送",
         "price": 49.8,
-        "publisher": ""
+        "publisher": "生活·读书·新知三联书店"
     },
     {
-        "author": "",
+        "author": "薛兆丰",
         "borrowCount": 25,
         "category": "文学",
         "inDate": "2025-11-20",
-        "indexId": "LIT021",
-        "location": "浦口图书馆",
+        "indexId": "LIT022",
+        "location": "仙林图书馆",
         "name": "薛兆丰经济学讲义",
         "price": 88,
-        "publisher": ""
+        "publisher": "中信出版社"
     },
     {
-        "author": "",
+        "author": "卡尔·萨根",
         "borrowCount": 5,
         "category": "科学",
         "inDate": "2025-11-20",
-        "indexId": "SCI005",
+        "indexId": "SCI011",
         "location": "仙林图书馆",
         "name": "宇宙的奥秘",
         "price": 68,
-        "publisher": ""
+        "publisher": "海南出版社"
+    },
+    {
+        "author": "严蔚敏",
+        "borrowCount": 12,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS007",
+        "location": "三牌楼图书馆",
+        "name": "数据结构（C语言版）",
+        "price": 45,
+        "publisher": "清华大学出版社"
+    },
+    {
+        "author": "谭浩强",
+        "borrowCount": 18,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS008",
+        "location": "仙林图书馆",
+        "name": "C程序设计",
+        "price": 38.5,
+        "publisher": "清华大学出版社"
+    },
+    {
+        "author": "Eric S. Roberts",
+        "borrowCount": 9,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS009",
+        "location": "三牌楼图书馆",
+        "name": "C程序的科学和艺术",
+        "price": 65,
+        "publisher": "机械工业出版社"
+    },
+    {
+        "author": "Thomas H. Cormen",
+        "borrowCount": 22,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS010",
+        "location": "仙林图书馆",
+        "name": "算法导论",
+        "price": 128,
+        "publisher": "机械工业出版社"
+    },
+    {
+        "author": "Andrew S. Tanenbaum",
+        "borrowCount": 14,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS011",
+        "location": "三牌楼图书馆",
+        "name": "现代操作系统",
+        "price": 89,
+        "publisher": "机械工业出版社"
+    },
+    {
+        "author": "James F. Kurose",
+        "borrowCount": 11,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS012",
+        "location": "仙林图书馆",
+        "name": "计算机网络：自顶向下方法",
+        "price": 79,
+        "publisher": "机械工业出版社"
+    },
+    {
+        "author": "Hector Garcia-Molina",
+        "borrowCount": 8,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS013",
+        "location": "三牌楼图书馆",
+        "name": "数据库系统实现",
+        "price": 68,
+        "publisher": "机械工业出版社"
+    },
+    {
+        "author": "Stuart Russell",
+        "borrowCount": 13,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS014",
+        "location": "仙林图书馆",
+        "name": "人工智能：现代方法",
+        "price": 118,
+        "publisher": "人民邮电出版社"
+    },
+    {
+        "author": "William Stallings",
+        "borrowCount": 10,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS015",
+        "location": "三牌楼图书馆",
+        "name": "密码编码学与网络安全",
+        "price": 85,
+        "publisher": "电子工业出版社"
+    },
+    {
+        "author": "Robert Sedgewick",
+        "borrowCount": 15,
+        "category": "计算机科学",
+        "inDate": "2025-11-20",
+        "indexId": "CS016",
+        "location": "仙林图书馆",
+        "name": "算法（第4版）",
+        "price": 99,
+        "publisher": "人民邮电出版社"
+    },
+    {
+        "author": "莫言",
+        "borrowCount": 19,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT023",
+        "location": "三牌楼图书馆",
+        "name": "红高粱家族",
+        "price": 42,
+        "publisher": "作家出版社"
+    },
+    {
+        "author": "陈忠实",
+        "borrowCount": 16,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT024",
+        "location": "仙林图书馆",
+        "name": "白鹿原",
+        "price": 56,
+        "publisher": "人民文学出版社"
+    },
+    {
+        "author": "老舍",
+        "borrowCount": 23,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT025",
+        "location": "三牌楼图书馆",
+        "name": "骆驼祥子",
+        "price": 32,
+        "publisher": "人民文学出版社"
+    },
+    {
+        "author": "巴金",
+        "borrowCount": 17,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT026",
+        "location": "仙林图书馆",
+        "name": "家",
+        "price": 38,
+        "publisher": "人民文学出版社"
+    },
+    {
+        "author": "茅盾",
+        "borrowCount": 14,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT027",
+        "location": "三牌楼图书馆",
+        "name": "子夜",
+        "price": 45,
+        "publisher": "人民文学出版社"
+    },
+    {
+        "author": "鲁迅",
+        "borrowCount": 25,
+        "category": "文学",
+        "inDate": "2025-11-20",
+        "indexId": "LIT028",
+        "location": "仙林图书馆",
+        "name": "呐喊",
+        "price": 28,
+        "publisher": "人民文学出版社"
+    },
+    {
+        "author": "司马迁",
+        "borrowCount": 21,
+        "category": "历史",
+        "inDate": "2025-11-20",
+        "indexId": "HIS008",
+        "location": "三牌楼图书馆",
+        "name": "史记",
+        "price": 78,
+        "publisher": "中华书局"
+    },
+    {
+        "author": "司马光",
+        "borrowCount": 18,
+        "category": "历史",
+        "inDate": "2025-11-20",
+        "indexId": "HIS009",
+        "location": "仙林图书馆",
+        "name": "资治通鉴",
+        "price": 95,
+        "publisher": "中华书局"
+    },
+    {
+        "author": "樊树志",
+        "borrowCount": 12,
+        "category": "历史",
+        "inDate": "2025-11-20",
+        "indexId": "HIS010",
+        "location": "三牌楼图书馆",
+        "name": "国史概要",
+        "price": 65,
+        "publisher": "复旦大学出版社"
+    },
+    {
+        "author": "陈旭麓",
+        "borrowCount": 15,
+        "category": "历史",
+        "inDate": "2025-11-20",
+        "indexId": "HIS011",
+        "location": "仙林图书馆",
+        "name": "近代中国社会的新陈代谢",
+        "price": 48,
+        "publisher": "上海人民出版社"
+    },
+    {
+        "author": "蒋廷黻",
+        "borrowCount": 13,
+        "category": "历史",
+        "inDate": "2025-11-20",
+        "indexId": "HIS012",
+        "location": "三牌楼图书馆",
+        "name": "中国近代史",
+        "price": 36,
+        "publisher": "上海古籍出版社"
+    },
+    {
+        "author": "理查德·道金斯",
+        "borrowCount": 11,
+        "category": "科学",
+        "inDate": "2025-11-20",
+        "indexId": "SCI012",
+        "location": "仙林图书馆",
+        "name": "自私的基因",
+        "price": 58,
+        "publisher": "中信出版社"
+    },
+    {
+        "author": "布莱恩·格林",
+        "borrowCount": 9,
+        "category": "科学",
+        "inDate": "2025-11-20",
+        "indexId": "SCI013",
+        "location": "三牌楼图书馆",
+        "name": "宇宙的琴弦",
+        "price": 62,
+        "publisher": "湖南科学技术出版社"
+    },
+    {
+        "author": "薛定谔",
+        "borrowCount": 7,
+        "category": "科学",
+        "inDate": "2025-11-20",
+        "indexId": "SCI014",
+        "location": "仙林图书馆",
+        "name": "生命是什么",
+        "price": 45,
+        "publisher": "湖南科学技术出版社"
+    },
+    {
+        "author": "伽莫夫",
+        "borrowCount": 8,
+        "category": "科学",
+        "inDate": "2025-11-20",
+        "indexId": "SCI015",
+        "location": "三牌楼图书馆",
+        "name": "从一到无穷大",
+        "price": 42,
+        "publisher": "科学出版社"
+    },
+    {
+        "author": "新东方考试研究中心",
+        "borrowCount": 24,
+        "category": "外语",
+        "inDate": "2025-11-20",
+        "indexId": "ENG010",
+        "location": "仙林图书馆",
+        "name": "考研英语词汇",
+        "price": 52,
+        "publisher": "群言出版社"
+    },
+    {
+        "author": "王江涛",
+        "borrowCount": 19,
+        "category": "外语",
+        "inDate": "2025-11-20",
+        "indexId": "ENG011",
+        "location": "三牌楼图书馆",
+        "name": "考研英语高分写作",
+        "price": 38,
+        "publisher": "外语教学与研究出版社"
+    },
+    {
+        "author": "慎小嶷",
+        "borrowCount": 16,
+        "category": "外语",
+        "inDate": "2025-11-20",
+        "indexId": "ENG012",
+        "location": "仙林图书馆",
+        "name": "十天突破雅思写作",
+        "price": 45,
+        "publisher": "机械工业出版社"
+    },
+    {
+        "author": "刘洪波",
+        "borrowCount": 21,
+        "category": "外语",
+        "inDate": "2025-11-20",
+        "indexId": "ENG013",
+        "location": "三牌楼图书馆",
+        "name": "雅思阅读真经",
+        "price": 58,
+        "publisher": "中国人民大学出版社"
+    },
+    {
+        "author": "李笑来",
+        "borrowCount": 17,
+        "category": "外语",
+        "inDate": "2025-11-20",
+        "indexId": "ENG014",
+        "location": "仙林图书馆",
+        "name": "TOEFL核心词汇21天突破",
+        "price": 42,
+        "publisher": "外文出版社"
     }
 ]

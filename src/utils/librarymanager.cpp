@@ -401,6 +401,26 @@ void LibraryManager::sortByBorrowCount()
 bool LibraryManager::loadFromDatabase()
 {
     books_ = dbManager_.getAllBooks();
+
+    // 确保每本书都有副本，如果没有则创建默认副本
+    for (const Book& book : books_) {
+        QVector<BookCopy> existingCopies = copyManager_.getCopiesByIndexId(book.indexId);
+        if (existingCopies.isEmpty()) {
+            // 没有副本，创建默认副本
+            BookCopy copy;
+            copy.copyId = book.indexId + "_1";
+            copy.indexId = book.indexId;
+            copy.copyNumber = 1;
+            copyManager_.addCopy(copy);
+
+            // 根据借阅次数创建额外副本
+            int extraCopies = qMax(0, (book.borrowCount - 1) / 5); // 每5次借阅增加一个副本
+            if (extraCopies > 0) {
+                addBookCopies(book.indexId, extraCopies);
+            }
+        }
+    }
+
     emit dataChanged();
     return true;
 }
@@ -464,10 +484,16 @@ bool LibraryManager::importSampleData()
     for (const Book& book : sampleBooks) {
         if (addBook(book)) {
             addedCount++;
+
+            // 根据借阅次数添加额外副本
+            int extraCopies = qMax(0, (book.borrowCount - 1) / 5); // 每5次借阅增加一个副本
+            if (extraCopies > 0) {
+                addBookCopies(book.indexId, extraCopies);
+            }
         }
     }
 
-    qDebug() << "Imported" << addedCount << "sample books";
+    qDebug() << "Imported" << addedCount << "sample books with appropriate copy counts";
     return addedCount > 0;
 }
 

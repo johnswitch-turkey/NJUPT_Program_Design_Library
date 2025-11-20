@@ -1,0 +1,46 @@
+[
+    {
+        "indexId": "TEST001",
+        "name": "算法导论",
+        "author": "Thomas H. Cormen",
+        "publisher": "机械工业出版社",
+        "location": "仙林图书馆",
+        "category": "计算机科学",
+        "price": 88.00,
+        "inDate": "2023-05-15",
+        "borrowCount": 25
+    },
+    {
+        "indexId": "TEST002",
+        "name": "人工智能：一种现代方法",
+        "author": "Stuart Russell",
+        "publisher": "清华大学出版社",
+        "location": "三牌楼图书馆",
+        "category": "计算机科学",
+        "price": 128.00,
+        "inDate": "2023-06-20",
+        "borrowCount": 18
+    },
+    {
+        "indexId": "TEST003",
+        "name": "深度学习",
+        "author": "Ian Goodfellow",
+        "publisher": "人民邮电出版社",
+        "location": "仙林图书馆",
+        "category": "计算机科学",
+        "price": 168.00,
+        "inDate": "2023-07-10",
+        "borrowCount": 8
+    },
+    {
+        "indexId": "TEST004",
+        "name": "机器学习实战",
+        "author": "Peter Harrington",
+        "publisher": "电子工业出版社",
+        "location": "三牌楼图书馆",
+        "category": "计算机科学",
+        "price": 58.00,
+        "inDate": "2023-08-05",
+        "borrowCount": 3
+    }
+]

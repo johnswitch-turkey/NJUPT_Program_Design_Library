@@ -395,6 +395,10 @@ bool DatabaseManager::importFromJson(const QString& filePath)
         if (!exists) {
             books_.append(book);
             addedCount++;
+
+            // 根据借阅次数添加适当数量的副本
+            // 这里只是添加到内存中的books_，实际副本需要在LibraryManager中处理
+            qDebug() << "Imported book:" << book.indexId << "with borrow count:" << book.borrowCount;
         }
     }
 

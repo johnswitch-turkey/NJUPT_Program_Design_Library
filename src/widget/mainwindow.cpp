@@ -5,6 +5,7 @@
 #include "../utils/librarymanager.h"
 #include "copymanagementdialog.h"
 #include "bookdetaildialog.h"
+#include "borrowdialog.h"
 
 #include <QMenu>
 #include <QAction>
@@ -165,11 +166,12 @@ void MainWindow::refreshTable()
         int totalCopies = library_.getTotalCopyCount(b.indexId);
         int availableCopies = library_.getAvailableCopyCount(b.indexId);
 
+        // 修复筛选逻辑
         if (statusFilter_ == "available" && availableCopies <= 0) {
-            continue;
+            continue; // 只显示有可用副本的图书
         }
         if (statusFilter_ == "borrowed" && availableCopies >= totalCopies) {
-            continue;
+            continue; // 只显示没有可用副本的图书（即全部被借走）
         }
 
         QList<QStandardItem *> rowItems;
@@ -229,37 +231,45 @@ void MainWindow::onBorrow()
     QString indexId = model_->item(row, 0)->text();
     QString bookName = model_->item(row, 1)->text();
 
+    const Book *book = library_.findByIndexId(indexId);
+    if (!book) {
+        QMessageBox::warning(this, "错误", "找不到选中的图书信息！");
+        return;
+    }
+
     // 检查该学生是否已借过此书
     QVector<BookCopy> borrowedCopies = library_.getUserBorrowedCopies(currentUsername_);
     for (const BookCopy &copy : borrowedCopies) {
         if (copy.indexId == indexId) {
-            QMessageBox::warning(this, "借书失败", "你已经借过该图书，请先归还再借。");
+            QMessageBox::warning(this, "借书失败",
+                QStringLiteral("你已经借过《%1》的副本%2，请先归还再借。")
+                .arg(bookName, QString::number(copy.copyNumber)));
             return;
         }
     }
 
-    // 检查是否有可用副本
-    if (library_.getAvailableCopyCount(indexId) <= 0) {
-        QMessageBox::warning(this, "借书失败", "该图书已无剩余可借数量！");
+    // 获取可用副本
+    QVector<BookCopy> availableCopies = library_.getAvailableCopies(indexId);
+    if (availableCopies.isEmpty()) {
+        QMessageBox::warning(this, "借书失败", "该图书暂无可借副本！");
         return;
     }
 
-    // 弹出输入框，让用户输入归还日期
-    bool ok;
-    QDate dueDate = QDate::fromString(
-        QInputDialog::getText(this, "借书", "请输入归还日期 (yyyy-MM-dd):",
-                             QLineEdit::Normal, QDate::currentDate().addDays(30).toString("yyyy-MM-dd"), &ok),
-        "yyyy-MM-dd");
-
-    if (!ok || !dueDate.isValid()) {
+    // 显示借书对话框
+    BorrowDialog dialog(*book, availableCopies, this);
+    if (dialog.exec() != QDialog::Accepted) {
         return;
     }
+
+    BookCopy selectedCopy = dialog.getSelectedCopy();
+    QDate dueDate = dialog.getDueDate();
 
     QString error;
     if (library_.borrowBook(indexId, currentUsername_, dueDate, &error)) {
         refreshTable();
         QMessageBox::information(this, "成功",
-                                 QStringLiteral("成功借阅图书《%1》，归还日期为 %2").arg(bookName, dueDate.toString("yyyy-MM-dd")));
+            QStringLiteral("成功借阅《%1》的副本%2，归还日期：%3")
+            .arg(bookName, QString::number(selectedCopy.copyNumber), dueDate.toString("yyyy-MM-dd")));
     } else {
         QMessageBox::warning(this, "失败", "借阅失败：" + error);
     }
@@ -279,15 +289,30 @@ void MainWindow::onReturn()
         return;
     }
 
-    // 创建选择对话框
+    // 创建选择对话框，按到期日期排序
+    std::sort(borrowedCopies.begin(), borrowedCopies.end(), [](const BookCopy &a, const BookCopy &b) {
+        return a.dueDate < b.dueDate; // 最先到期的排在前面
+    });
+
     QStringList copyNames;
     for (const BookCopy &copy : borrowedCopies) {
         const Book *book = library_.findByIndexId(copy.indexId);
         if (book) {
-            copyNames.append(QStringLiteral("《%1》 - 副本%2 (应还: %3)")
+            QString statusText;
+            QDate currentDate = QDate::currentDate();
+            if (copy.dueDate < currentDate) {
+                statusText = QStringLiteral(" (已过期 %1 天)")
+                              .arg(currentDate.daysTo(copy.dueDate));
+            } else {
+                statusText = QStringLiteral(" (剩余 %1 天)")
+                              .arg(currentDate.daysTo(copy.dueDate));
+            }
+
+            copyNames.append(QStringLiteral("《%1》 - 副本%2 (应还: %3)%4")
                             .arg(book->name)
                             .arg(copy.copyNumber)
-                            .arg(copy.dueDate.toString("yyyy-MM-dd")));
+                            .arg(copy.dueDate.toString("yyyy-MM-dd"))
+                            .arg(statusText));
         }
     }
 
@@ -306,8 +331,10 @@ void MainWindow::onReturn()
     const Book *book = library_.findByIndexId(selectedCopyObj.indexId);
 
     auto reply = QMessageBox::question(this, "确认还书",
-                                       QStringLiteral("确定要归还图书《%1》的副本%2吗？")
-                                       .arg(book->name).arg(selectedCopyObj.copyNumber),
+                                       QStringLiteral("确定要归还《%1》的副本%2吗？\n应还日期：%3")
+                                       .arg(book->name)
+                                       .arg(selectedCopyObj.copyNumber)
+                                       .arg(selectedCopyObj.dueDate.toString("yyyy-MM-dd")),
                                        QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::No) {
         return;
@@ -316,8 +343,8 @@ void MainWindow::onReturn()
     QString error;
     if (library_.returnBook(selectedCopyObj.copyId, currentUsername_, &error)) {
         refreshTable();
-        QMessageBox::information(this, "成功",
-                                 QStringLiteral("成功归还图书《%1》的副本%2")
+        QMessageBox::information(this, "还书成功",
+                                 QStringLiteral("成功归还《%1》的副本%2\n感谢您的使用！")
                                  .arg(book->name).arg(selectedCopyObj.copyNumber));
     } else {
         QMessageBox::warning(this, "失败", "归还失败：" + error);
@@ -1016,6 +1043,14 @@ void MainWindow::applyTheme(bool isDark)
     }
     if (sortMenu_) {
         sortMenu_->setStyleSheet(menuStyles);
+    }
+
+    // 更新左侧功能栏容器的背景色
+    if (toolBarScrollArea_) {
+        QWidget *toolContainer = toolBarScrollArea_->widget();
+        if (toolContainer) {
+            toolContainer->setStyleSheet(QString("background-color: %1;").arg(isDark ? "#22333B" : "#FEEFF1"));
+        }
     }
 }
 
@@ -1969,7 +2004,62 @@ void MainWindow::onShowMyBorrows()
         QMessageBox::information(this, "提示", "请以学生账号登录后查看自己的借阅信息。");
         return;
     }
-    QMessageBox::information(this, "我的借阅", borrowRecordsForCurrentUserText());
+
+    QVector<BookCopy> borrowedCopies = library_.getUserBorrowedCopies(currentUsername_);
+    if (borrowedCopies.isEmpty()) {
+        QMessageBox::information(this, "我的借阅", "你当前没有借阅任何图书！");
+        return;
+    }
+
+    // 按到期日期排序
+    std::sort(borrowedCopies.begin(), borrowedCopies.end(), [](const BookCopy &a, const BookCopy &b) {
+        return a.dueDate < b.dueDate; // 最先到期的排在前面
+    });
+
+    QString borrowText = QStringLiteral("📚 我的借阅记录 (共 %1 本)\n\n").arg(borrowedCopies.size());
+
+    for (const BookCopy &copy : borrowedCopies) {
+        const Book *book = library_.findByIndexId(copy.indexId);
+        if (book) {
+            QString statusIcon;
+            QDate currentDate = QDate::currentDate();
+            int daysDiff = currentDate.daysTo(copy.dueDate);
+
+            if (daysDiff < 0) {
+                statusIcon = "🔴"; // 已过期
+            } else if (daysDiff <= 3) {
+                statusIcon = "🟡"; // 即将到期
+            } else {
+                statusIcon = "🟢"; // 正常
+            }
+
+            borrowText += QStringLiteral("%1 《%2》\n")
+                           .arg(statusIcon)
+                           .arg(book->name);
+            borrowText += QStringLiteral("   📖 索引号：%1 | 副本：%2\n")
+                           .arg(copy.indexId)
+                           .arg(copy.copyNumber);
+            borrowText += QStringLiteral("   📅 借出：%1 | 应还：%2\n")
+                           .arg(copy.borrowDate.toString("yyyy-MM-dd"))
+                           .arg(copy.dueDate.toString("yyyy-MM-dd"));
+
+            if (daysDiff < 0) {
+                borrowText += QStringLiteral("   ⚠️ 已过期 %1 天！请尽快归还\n")
+                               .arg(-daysDiff);
+            } else if (daysDiff <= 3) {
+                borrowText += QStringLiteral("   ⏰ 剩余 %1 天，即将到期\n")
+                               .arg(daysDiff);
+            } else {
+                borrowText += QStringLiteral("   ✅ 剩余 %1 天\n")
+                               .arg(daysDiff);
+            }
+
+            borrowText += QStringLiteral("   📋 副本ID：%1\n\n")
+                           .arg(copy.copyId);
+        }
+    }
+
+    QMessageBox::information(this, "我的借阅", borrowText);
 }
 
 void MainWindow::onShowBookBorrowHistory()
@@ -1989,10 +2079,73 @@ void MainWindow::onShowBookBorrowHistory()
     QString indexId = model_->item(row, 0)->text();
     QString bookName = model_->item(row, 1)->text();
 
-    QString text = borrowHistoryForBookText(indexId);
-    QMessageBox::information(this,
-                             QStringLiteral("《%1》的借阅记录").arg(bookName),
-                             text);
+    // 获取所有副本
+    QVector<BookCopy> allCopies = library_.getBookCopies(indexId);
+    if (allCopies.isEmpty()) {
+        QMessageBox::information(this, "借阅记录", "该图书暂无副本信息。");
+        return;
+    }
+
+    QString historyText = QStringLiteral("📚 《%1》(索引号: %2) 借阅记录\n\n").arg(bookName, indexId);
+    historyText += QStringLiteral("📊 副本总数：%1 本\n").arg(allCopies.size());
+
+    int borrowedCount = 0;
+    int availableCount = 0;
+    QVector<BookCopy> borrowedCopies;
+
+    for (const BookCopy &copy : allCopies) {
+        if (copy.isAvailable()) {
+            availableCount++;
+        } else {
+            borrowedCount++;
+            borrowedCopies.append(copy);
+        }
+    }
+
+    historyText += QStringLiteral("✅ 可借：%1 本\n").arg(availableCount);
+    historyText += QStringLiteral("❌ 已借：%1 本\n\n").arg(borrowedCount);
+
+    // 显示当前借阅详情
+    if (!borrowedCopies.isEmpty()) {
+        historyText += QStringLiteral("🔍 当前借阅详情：\n");
+        for (const BookCopy &copy : borrowedCopies) {
+            historyText += QStringLiteral("   📋 副本%1 (ID: %2)\n")
+                           .arg(copy.copyNumber)
+                           .arg(copy.copyId);
+            historyText += QStringLiteral("   👤 借阅者：%1\n").arg(copy.borrowedBy);
+            historyText += QStringLiteral("   📅 借出：%1 | 应还：%2\n")
+                           .arg(copy.borrowDate.toString("yyyy-MM-dd"))
+                           .arg(copy.dueDate.toString("yyyy-MM-dd"));
+
+            QDate currentDate = QDate::currentDate();
+            int daysDiff = currentDate.daysTo(copy.dueDate);
+            if (daysDiff < 0) {
+                historyText += QStringLiteral("   ⚠️ 已过期 %1 天！\n")
+                               .arg(-daysDiff);
+            } else if (daysDiff <= 3) {
+                historyText += QStringLiteral("   ⏰ 剩余 %1 天，即将到期\n")
+                               .arg(daysDiff);
+            } else {
+                historyText += QStringLiteral("   ✅ 剩余 %1 天\n")
+                               .arg(daysDiff);
+            }
+            historyText += "\n";
+        }
+    }
+
+    // 显示可用副本
+    if (availableCount > 0) {
+        historyText += QStringLiteral("✅ 可用副本列表：\n");
+        for (const BookCopy &copy : allCopies) {
+            if (copy.isAvailable()) {
+                historyText += QStringLiteral("   📋 副本%1 (ID: %2) - 可借\n")
+                               .arg(copy.copyNumber)
+                               .arg(copy.copyId);
+            }
+        }
+    }
+
+    QMessageBox::information(this, "借阅记录", historyText);
 }
 
 // ============================================================================
@@ -2067,11 +2220,12 @@ void MainWindow::performFuzzySearch(const QString &keyword, const QString &searc
         if (!locationFilter_.isEmpty() && book.location != locationFilter_) {
             continue;
         }
+        // 修复筛选逻辑
         if (statusFilter_ == "available" && availableCopies <= 0) {
-            continue;
+            continue; // 只显示有可用副本的图书
         }
         if (statusFilter_ == "borrowed" && availableCopies >= totalCopies) {
-            continue;
+            continue; // 只显示没有可用副本的图书（即全部被借走）
         }
 
         // 其他列
