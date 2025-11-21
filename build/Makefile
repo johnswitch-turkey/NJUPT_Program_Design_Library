@@ -353,6 +353,30 @@ src/widget/bookdetaildialog.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.s
 .PHONY : src/widget/bookdetaildialog.cpp.s
 
+src/widget/borrowdialog.obj: src/widget/borrowdialog.cpp.obj
+.PHONY : src/widget/borrowdialog.obj
+
+# target to build an object file
+src/widget/borrowdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj
+.PHONY : src/widget/borrowdialog.cpp.obj
+
+src/widget/borrowdialog.i: src/widget/borrowdialog.cpp.i
+.PHONY : src/widget/borrowdialog.i
+
+# target to preprocess a source file
+src/widget/borrowdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.i
+.PHONY : src/widget/borrowdialog.cpp.i
+
+src/widget/borrowdialog.s: src/widget/borrowdialog.cpp.s
+.PHONY : src/widget/borrowdialog.s
+
+# target to generate assembly for a file
+src/widget/borrowdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.s
+.PHONY : src/widget/borrowdialog.cpp.s
+
 src/widget/copymanagementdialog.obj: src/widget/copymanagementdialog.cpp.obj
 .PHONY : src/widget/copymanagementdialog.obj
 
@@ -461,6 +485,9 @@ help:
 	@echo ... src/widget/bookdetaildialog.obj
 	@echo ... src/widget/bookdetaildialog.i
 	@echo ... src/widget/bookdetaildialog.s
+	@echo ... src/widget/borrowdialog.obj
+	@echo ... src/widget/borrowdialog.i
+	@echo ... src/widget/borrowdialog.s
 	@echo ... src/widget/copymanagementdialog.obj
 	@echo ... src/widget/copymanagementdialog.i
 	@echo ... src/widget/copymanagementdialog.s

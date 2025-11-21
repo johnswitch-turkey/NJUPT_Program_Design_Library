@@ -237,6 +237,27 @@ bool BookCopyManager::returnCopy(const QString &copyId)
     return false;
 }
 
+bool BookCopyManager::renewCopy(const QString &copyId, int extendDays)
+{
+    for (int i = 0; i < copies_.size(); ++i) {
+        if (copies_[i].copyId == copyId) {
+            // 检查副本是否被借阅
+            if (copies_[i].borrowedBy.isEmpty()) {
+                return false;  // 副本未被借阅，无法续借
+            }
+
+            // 延长归还日期
+            QDate newDueDate = copies_[i].dueDate.isValid() ?
+                              copies_[i].dueDate.addDays(extendDays) :
+                              QDate::currentDate().addDays(extendDays);
+
+            copies_[i].dueDate = newDueDate;
+            return saveToFile();
+        }
+    }
+    return false;
+}
+
 QVector<BookCopy> BookCopyManager::getBorrowedCopies(const QString &username) const
 {
     QVector<BookCopy> result;

@@ -5,5 +5,6 @@
 #include "VSCBVMNR7M/moc_librarymanager.cpp"
 #include "VSCBVMNR7M/moc_log.cpp"
 #include "WFD7YQQOTJ/moc_bookdetaildialog.cpp"
+#include "WFD7YQQOTJ/moc_borrowdialog.cpp"
 #include "WFD7YQQOTJ/moc_copymanagementdialog.cpp"
 #include "WFD7YQQOTJ/moc_mainwindow.cpp"

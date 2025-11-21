@@ -1,6 +1,19 @@
+/**
+ * @file bookdetaildialog.cpp
+ * @brief 图书详情对话框实现文件
+ *
+ * 本文件实现了图书详情对话框类，提供了完整的图书信息显示功能。
+ * 包括内容简介、基本信息和副本信息的展示，支持滚动浏览和现代化UI设计。
+ *
+ * @author 开发团队
+ * @date 2023-2024
+ * @version 1.0
+ */
+
 #include "bookdetaildialog.h"
 #include "../utils/bookcopymanager.h"
 
+// Qt核心UI组件
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -11,56 +24,120 @@
 #include <QFont>
 #include <QPixmap>
 
+/**
+ * @brief BookDetailDialog构造函数
+ *
+ * 创建图书详情对话框并初始化所有UI组件和数据。
+ * 构造函数会按顺序调用各个设置函数来建立完整的用户界面。
+ *
+ * @param book 要显示详情的图书对象常量引用
+ * @param parent 父窗口指针，默认为nullptr，表示顶级窗口
+ *
+ * @note 构造函数会自动调用setupUI()、setupDescription()、setupBookInfo()和setupCopiesInfo()
+ * @note 对话框设置为模态对话框，用户必须关闭后才能操作其他窗口
+ */
 BookDetailDialog::BookDetailDialog(const Book &book, QWidget *parent)
     : QDialog(parent), book_(book)
 {
-    setupUI();
-    setupBookInfo();
-    setupCopiesInfo();
+    // 按顺序初始化各个UI组件
+    setupUI();           // 设置主要UI结构和布局
+    setupDescription();  // 设置内容简介显示
+    setupBookInfo();     // 设置基本信息显示
+    setupCopiesInfo();   // 设置副本信息显示
 }
 
+/**
+ * @brief 设置用户界面布局
+ *
+ * 初始化对话框的主要UI结构，创建滚动区域、信息组和按钮布局。
+ * 该方法负责建立对话框的整体框架，包括：
+ * - 设置对话框的基本属性（标题、大小）
+ * - 创建支持滚动的区域
+ * - 建立三个主要信息组的容器
+ * - 配置关闭按钮和事件连接
+ *
+ * 布局结构：
+ * ┌─────────────────────────────┐
+ * │        滚动区域             │
+ * │  ┌───────────────────────┐  │
+ * │  │     内容简介组        │  │
+ * │  ├───────────────────────┤  │
+ * │  │     基本信息组        │  │
+ * │  ├───────────────────────┤  │
+ * │  │     副本信息组        │  │
+ * │  └───────────────────────┘  │
+ * ├─────────────────────────────┤
+ * │        关闭按钮             │
+ * └─────────────────────────────┘
+ */
 void BookDetailDialog::setupUI()
 {
-    setWindowTitle(QStringLiteral("图书详情"));
-    setMinimumSize(600, 400);
-    resize(650, 500);
+    // 设置对话框基本属性
+    setWindowTitle(QStringLiteral("图书详情"));      ///< 设置窗口标题
+    setMinimumSize(600, 400);                       ///< 设置最小尺寸，确保UI正常显示
+    resize(650, 500);                               ///< 设置默认窗口大小
 
+    // 创建主布局管理器
     mainLayout_ = new QVBoxLayout(this);
 
-    // 创建滚动区域
+    // 创建滚动区域以支持内容超出窗口时的滚动显示
     scrollArea_ = new QScrollArea(this);
-    scrollArea_->setWidgetResizable(true);
-    scrollArea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    scrollArea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea_->setWidgetResizable(true);                                            ///< 允许内容 widget 自动调整大小
+    scrollArea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);                ///< 水平滚动条：需要时显示
+    scrollArea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);                  ///< 垂直滚动条：需要时显示
 
+    // 创建内容容器 widget，包含所有信息组
     contentWidget_ = new QWidget();
     QVBoxLayout *contentLayout = new QVBoxLayout(contentWidget_);
 
-    // 图书信息组
+    // 创建内容简介组容器
+    descriptionGroup_ = new QGroupBox(QStringLiteral("内容简介"), contentWidget_);
+    descriptionLayout_ = new QVBoxLayout(descriptionGroup_);
+    contentLayout->addWidget(descriptionGroup_);
+
+    // 创建基本信息组容器
     bookInfoGroup_ = new QGroupBox(QStringLiteral("基本信息"), contentWidget_);
     bookInfoLayout_ = new QVBoxLayout(bookInfoGroup_);
     contentLayout->addWidget(bookInfoGroup_);
 
-    // 副本信息组
+    // 创建副本信息组容器
     copiesGroup_ = new QGroupBox(QStringLiteral("副本信息"), contentWidget_);
     copiesLayout_ = new QVBoxLayout(copiesGroup_);
     contentLayout->addWidget(copiesGroup_);
 
+    // 添加弹性空间，推动内容向上对齐
     contentLayout->addStretch();
 
+    // 将内容 widget 设置为滚动区域的子控件
     scrollArea_->setWidget(contentWidget_);
     mainLayout_->addWidget(scrollArea_);
 
-    // 关闭按钮
+    // 创建并配置关闭按钮
     closeButton_ = new QPushButton(QStringLiteral("关闭"), this);
     QHBoxLayout *buttonLayout = new QHBoxLayout();
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(closeButton_);
-    mainLayout_->addLayout(buttonLayout);
+    buttonLayout->addStretch();                        ///< 左侧添加弹性空间，使按钮右对齐
+    buttonLayout->addWidget(closeButton_);             ///< 添加关闭按钮
+    mainLayout_->addLayout(buttonLayout);             ///< 将按钮布局添加到主布局
 
+    // 连接关闭按钮的点击信号到对话框的 accept 槽
     connect(closeButton_, &QPushButton::clicked, this, &QDialog::accept);
 
     // 设置样式
+    descriptionGroup_->setStyleSheet(
+        "QGroupBox {"
+        "   font-weight: bold;"
+        "   border: 2px solid #cccccc;"
+        "   border-radius: 5px;"
+        "   margin-top: 10px;"
+        "   padding-top: 10px;"
+        "}"
+        "QGroupBox::title {"
+        "   subcontrol-origin: margin;"
+        "   left: 10px;"
+        "   padding: 0 5px 0 5px;"
+        "}"
+    );
+
     bookInfoGroup_->setStyleSheet(
         "QGroupBox {"
         "   font-weight: bold;"
@@ -295,4 +372,35 @@ void BookDetailDialog::setupCopiesInfo()
     statsLayout->addWidget(borrowedLabel);
 
     copiesLayout_->addLayout(statsLayout);
+}
+
+void BookDetailDialog::setupDescription()
+{
+    // 清除现有内容
+    QLayoutItem *item;
+    while ((item = descriptionLayout_->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+
+    // 创建内容简介显示
+    QString descriptionText = book_.description.isEmpty() ?
+        QStringLiteral("暂无内容简介") : book_.description;
+
+    descriptionLabel_ = new QLabel(descriptionText);
+    descriptionLabel_->setWordWrap(true);
+    descriptionLabel_->setStyleSheet(
+        "QLabel {"
+        "   color: #333333;"
+        "   padding: 15px;"
+        "   background-color: #f9f9f9;"
+        "   border-radius: 5px;"
+        "   line-height: 1.5;"
+        "}"
+    );
+
+    // 设置最小高度以确保显示区域合适
+    descriptionLabel_->setMinimumHeight(60);
+
+    descriptionLayout_->addWidget(descriptionLabel_);
 }

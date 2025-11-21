@@ -38,6 +38,7 @@ public:
     // 借阅相关
     bool borrowCopy(const QString &copyId, const QString &username, const QDate &dueDate);
     bool returnCopy(const QString &copyId);
+    bool renewCopy(const QString &copyId, int extendDays = 30);  // 新增：续借功能，默认续借30天
     QVector<BookCopy> getBorrowedCopies(const QString &username) const;
     QVector<BookCopy> getDueSoonCopies(int days) const;
 

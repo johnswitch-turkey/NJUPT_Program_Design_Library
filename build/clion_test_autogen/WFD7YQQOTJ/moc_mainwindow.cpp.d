@@ -134,6 +134,7 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/WFD7YQQOTJ/moc_mai
   D:/Qt/6.9.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qtextstream.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qtformat_impl.h \
+  D:/Qt/6.9.3/mingw_64/include/QtCore/qtimezone.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -170,6 +171,7 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/WFD7YQQOTJ/moc_mai
   D:/Qt/6.9.3/mingw_64/include/QtGui/qkeysequence.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qpaintdevice.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qpalette.h \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/qpen.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qpixelformat.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qpixmap.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qpolygon.h \
@@ -177,6 +179,10 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/WFD7YQQOTJ/moc_mai
   D:/Qt/6.9.3/mingw_64/include/QtGui/qrgb.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qrgba64.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qstandarditemmodel.h \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/qtextcursor.h \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/qtextdocument.h \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/qtextformat.h \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/qtextoption.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qtgui-config.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qtguiexports.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qtguiglobal.h \
@@ -184,21 +190,37 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/WFD7YQQOTJ/moc_mai
   D:/Qt/6.9.3/mingw_64/include/QtGui/qvalidator.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QCheckBox \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QComboBox \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QDateEdit \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QDialog \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QDialogButtonBox \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QFormLayout \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QLayout \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QLineEdit \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QMenu \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QPushButton \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QTableView \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractbutton.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractitemview.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractslider.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qcheckbox.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qcombobox.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qdatetimeedit.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qformlayout.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qframe.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qgridlayout.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qlayout.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qlineedit.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qmainwindow.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qmenu.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qpushbutton.h \
@@ -210,6 +232,7 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/WFD7YQQOTJ/moc_mai
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtabbar.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtableview.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtabwidget.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtextedit.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -476,6 +499,7 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/WFD7YQQOTJ/moc_mai
   D:/Work_Space/QT_Projects/clion_test/src/utils/book.h \
   D:/Work_Space/QT_Projects/clion_test/src/utils/bookcopy.h \
   D:/Work_Space/QT_Projects/clion_test/src/utils/bookcopymanager.h \
+  D:/Work_Space/QT_Projects/clion_test/src/utils/bookdisplay.h \
   D:/Work_Space/QT_Projects/clion_test/src/utils/databasemanager.h \
   D:/Work_Space/QT_Projects/clion_test/src/utils/librarymanager.h \
   D:/Work_Space/QT_Projects/clion_test/src/widget/bookdetaildialog.h

@@ -58,8 +58,6 @@
         "username": "222"
     },
     {
-        "allowedCategories": [
-        ],
         "borrows": [
         ],
         "password": "123",
@@ -67,8 +65,6 @@
         "username": "B24010616"
     },
     {
-        "allowedCategories": [
-        ],
         "borrows": [
         ],
         "password": "123",
@@ -76,10 +72,6 @@
         "username": "B24010608"
     },
     {
-        "allowedCategories": [
-            "计算机科学",
-            "外语"
-        ],
         "borrows": [
         ],
         "password": "123",
@@ -87,10 +79,6 @@
         "username": "S24010001"
     },
     {
-        "allowedCategories": [
-            "文学",
-            "历史"
-        ],
         "borrows": [
         ],
         "password": "123",
@@ -98,8 +86,6 @@
         "username": "S24010002"
     },
     {
-        "allowedCategories": [
-        ],
         "borrows": [
         ],
         "password": "444",
@@ -107,8 +93,6 @@
         "username": "444"
     },
     {
-        "allowedCategories": [
-        ],
         "borrows": [
         ],
         "password": "555",

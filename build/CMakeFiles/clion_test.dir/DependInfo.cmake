@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Work_Space/QT_Projects/clion_test/src/utils/librarymanager.cpp" "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/librarymanager.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/utils/log.cpp" "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/widget/bookdetaildialog.cpp" "CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj.d"
+  "D:/Work_Space/QT_Projects/clion_test/src/widget/borrowdialog.cpp" "CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/widget/copymanagementdialog.cpp" "CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/widget/mainwindow.cpp" "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj.d"
   "D:/Work_Space/QT_Projects/clion_test/src/widget/ui_mainwindow.cpp" "CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj" "gcc" "CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj.d"

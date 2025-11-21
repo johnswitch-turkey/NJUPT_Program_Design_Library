@@ -6,7 +6,6 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/VSCBVMNR7M/moc_log
   D:/Qt/6.9.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.9.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.9.3/mingw_64/include/QtCore/QString \
-  D:/Qt/6.9.3/mingw_64/include/QtCore/QStringList \
   D:/Qt/6.9.3/mingw_64/include/QtCore/q17memory.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/q20iterator.h \

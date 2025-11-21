@@ -512,6 +512,115 @@ void MainWindow::onReturn()
     }
 }
 
+/**
+ * @brief 续借功能实现
+ *
+ * 功能流程：
+ * 1. 权限验证：只有学生用户可以续借
+ * 2. 数据获取：获取当前用户所有已借的副本
+ * 3. 智能排序：按到期日期排序，最先到期的排在前面
+ * 4. 状态显示：为每个借阅记录显示剩余天数或已过期天数
+ * 5. 用户选择：显示借阅列表，让用户选择要续借的图书
+ * 6. 确认操作：显示确认对话框，默认续借一个月
+ * 7. 业务处理：调用LibraryManager的renewBook方法执行续借操作
+ * 8. 界面更新：刷新表格显示，显示续借成功/失败信息
+ */
+void MainWindow::onRenew()
+{
+    // 权限验证：只有学生用户可以续借
+    if (currentUsername_.isEmpty() || isAdminMode_) {
+        QMessageBox::warning(this, "续借失败", "只有学生用户可以续借，请使用学生账号登录。");
+        return;
+    }
+
+    // 数据获取：获取当前用户所有已借的副本
+    QVector<BookCopy> borrowedCopies = library_.getUserBorrowedCopies(currentUsername_);
+    if (borrowedCopies.isEmpty()) {
+        QMessageBox::information(this, "提示", "你当前没有借阅任何图书！");
+        return;
+    }
+
+    // 智能排序：按到期日期排序，最先到期的排在前面，方便用户优先续借紧急的图书
+    std::sort(borrowedCopies.begin(), borrowedCopies.end(), [](const BookCopy &a, const BookCopy &b) {
+        return a.dueDate < b.dueDate;
+    });
+
+    // 状态显示：为每个借阅记录创建显示文本，包含状态信息
+    QStringList copyNames;
+    for (const BookCopy &copy : borrowedCopies) {
+        const Book *book = library_.findByIndexId(copy.indexId);
+        if (book) {
+            QString statusText;
+            QDate currentDate = QDate::currentDate();
+
+            // 计算剩余天数或已过期天数
+            if (copy.dueDate < currentDate) {
+                statusText = QStringLiteral(" (已过期 %1 天)")
+                              .arg(currentDate.daysTo(copy.dueDate));
+            } else {
+                statusText = QStringLiteral(" (剩余 %1 天)")
+                              .arg(currentDate.daysTo(copy.dueDate));
+            }
+
+            // 创建显示文本，包含书名、副本号、应还日期和状态
+            copyNames.append(QStringLiteral("《%1》 - 副本%2 (应还: %3)%4")
+                            .arg(book->name)
+                            .arg(copy.copyNumber)
+                            .arg(copy.dueDate.toString("yyyy-MM-dd"))
+                            .arg(statusText));
+        }
+    }
+
+    // 用户选择：显示借阅列表，让用户选择要续借的图书
+    bool ok;
+    QString selectedCopy = QInputDialog::getItem(this, "续借", "请选择要续借的图书:",
+                                               copyNames, 0, false, &ok);
+
+    if (!ok || selectedCopy.isEmpty()) {
+        return;  // 用户取消续借
+    }
+
+    // 获取用户选择的副本信息
+    int selectedIndex = copyNames.indexOf(selectedCopy);
+    if (selectedIndex < 0) return;
+
+    const BookCopy &selectedCopyObj = borrowedCopies[selectedIndex];
+    const Book *book = library_.findByIndexId(selectedCopyObj.indexId);
+
+    // 计算续借后的新到期日期（默认续借30天）
+    QDate newDueDate = selectedCopyObj.dueDate.addDays(30);
+
+    // 确认操作：显示确认对话框，显示续借信息
+    auto reply = QMessageBox::question(this, "确认续借",
+                                       QStringLiteral("确定要续借《%1》的副本%2吗？\n"
+                                                   "当前应还日期：%3\n"
+                                                   "续借后应还日期：%4\n"
+                                                   "续借时长：30天")
+                                       .arg(book->name)
+                                       .arg(selectedCopyObj.copyNumber)
+                                       .arg(selectedCopyObj.dueDate.toString("yyyy-MM-dd"))
+                                       .arg(newDueDate.toString("yyyy-MM-dd")),
+                                       QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::No) {
+        return;  // 用户取消操作
+    }
+
+    // 业务处理：执行续借操作
+    QString error;
+    if (library_.renewBook(selectedCopyObj.copyId, currentUsername_, 30, &error)) {
+        refreshTable();  // 刷新表格显示
+        QMessageBox::information(this, "续借成功",
+                                 QStringLiteral("成功续借《%1》的副本%2\n"
+                                             "新应还日期：%3\n"
+                                             "请按时归还！")
+                                 .arg(book->name)
+                                 .arg(selectedCopyObj.copyNumber)
+                                 .arg(newDueDate.toString("yyyy-MM-dd")));
+    } else {
+        QMessageBox::warning(this, "续借失败", "续借失败：" + error);
+    }
+}
+
 void MainWindow::onWarn()
 {
     isWarn = !isWarn; // 切换状态
@@ -677,13 +786,13 @@ void MainWindow::onSortChanged(QAction *action)
     updateHeaderLabels();
 }
 
-void MainWindow::onSwitchMode()
-{
-    isEditMode_ = !isEditMode_;
-    setWindowTitle(isEditMode_ ? QStringLiteral("图书管理系统 (编辑模式)") : QStringLiteral("图书管理系统 (只读模式)"));
-    QMessageBox::information(this, "模式切换",
-                             isEditMode_ ? "已切换到编辑模式" : "已切换到只读模式");
-}
+// void MainWindow::onSwitchMode()
+// {
+//     isEditMode_ = !isEditMode_;
+//     setWindowTitle(isEditMode_ ? QStringLiteral("图书管理系统 (编辑模式)") : QStringLiteral("图书管理系统 (只读模式)"));
+//     QMessageBox::information(this, "模式切换",
+//                              isEditMode_ ? "已切换到编辑模式" : "已切换到只读模式");
+// }
 
 /**
  * @brief 搜索功能槽函数
@@ -746,8 +855,6 @@ void MainWindow::onSearch()
 
     // 搜索完成恢复：重新启用搜索按钮
     searchButton_->setEnabled(true);
-
-    qDebug() << "Search completed";
 }
 
 /**
@@ -1086,7 +1193,7 @@ void MainWindow::setupActions()
     toolContainerLayout->addStretch();
 
     toolContainer->setFixedWidth(150);
-    toolContainer->setMinimumHeight(800);
+    toolContainer->setMinimumHeight(900);
     toolBarScrollArea_->setWidget(toolContainer);
     toolBarScrollArea_->setFixedWidth(150);
     toolBarScrollArea_->setMaximumHeight(QWIDGETSIZE_MAX);
@@ -1102,6 +1209,7 @@ void MainWindow::setupActions()
     // --- 创建所有按钮 ---
     borrowAct_ = actionToolBar_->addAction(QStringLiteral("📖 借书"));
     returnAct_ = actionToolBar_->addAction(QStringLiteral("📤 还书"));
+    renewAct_ = actionToolBar_->addAction(QStringLiteral("🔄 续借"));
     warnAct_ = actionToolBar_->addAction(QStringLiteral("⏰ 到期提醒"));
     myBorrowAct_ = actionToolBar_->addAction(QStringLiteral("📚 我的借阅"));
     allAct_ = actionToolBar_->addAction(QStringLiteral("📋 显示全部"));
@@ -1122,6 +1230,7 @@ void MainWindow::setupActions()
     // --- 连接信号 ---
     connect(borrowAct_, &QAction::triggered, this, &MainWindow::onBorrow);
     connect(returnAct_, &QAction::triggered, this, &MainWindow::onReturn);
+    connect(renewAct_, &QAction::triggered, this, &MainWindow::onRenew);
     connect(warnAct_, &QAction::triggered, this, &MainWindow::onWarn);
     connect(myBorrowAct_, &QAction::triggered, this, &MainWindow::onShowMyBorrows);
     connect(allAct_, &QAction::triggered, this, &MainWindow::onShowAll);
@@ -1255,6 +1364,8 @@ void MainWindow::updateActionsVisibility()
         borrowAct_->setVisible(isStudent);
     if (returnAct_)
         returnAct_->setVisible(isStudent);
+    if (renewAct_)
+        renewAct_->setVisible(isStudent);
     if (warnAct_)
         warnAct_->setVisible(isStudent);
     if (myBorrowAct_)
@@ -1284,7 +1395,7 @@ void MainWindow::updateActionsVisibility()
 
     // 切换布局按钮对所有用户可见
     if (toggleOrientationAct_)
-        toggleOrientationAct_->setVisible(true);
+        toggleOrientationAct_->setVisible(false);
 }
 
 void MainWindow::toggleToolBarOrientation()
@@ -2373,27 +2484,6 @@ bool MainWindow::saveUsersJson(const QJsonArray &array) const
     return true;
 }
 
-QStringList MainWindow::getCurrentUserAllowedCategories() const
-{
-    QStringList result;
-    if (currentUsername_.isEmpty())
-        return result;
-
-    QJsonArray array = loadUsersJson();
-    for (const QJsonValue &value : array) {
-        if (!value.isObject())
-            continue;
-        QJsonObject obj = value.toObject();
-        if (obj.value("username").toString() == currentUsername_) {
-            QJsonArray cats = obj.value("allowedCategories").toArray();
-            for (const QJsonValue &v : cats) {
-                result << v.toString();
-            }
-            break;
-        }
-    }
-    return result;
-}
 
 bool MainWindow::currentUserHasBorrowed(const QString &indexId) const
 {
@@ -2765,7 +2855,6 @@ void MainWindow::onShowBookBorrowHistory()
  */
 void MainWindow::performFuzzySearch(const QString &keyword, const QString &searchMode)
 {
-    qDebug() << "Starting search with keyword:" << keyword << "mode:" << searchMode;
 
     // 搜索准备：清空现有表格，准备显示搜索结果
     model_->removeRows(0, model_->rowCount());
@@ -2776,8 +2865,6 @@ void MainWindow::performFuzzySearch(const QString &keyword, const QString &searc
 
     // 关键词预处理：转换为小写以实现不区分大小写的搜索
     QString lowerKeyword = keyword.toLower();
-
-    qDebug() << "Total books to search:" << allBooks.size();
 
     // 搜索匹配：遍历所有图书，根据搜索模式进行匹配
     for (const Book &book : allBooks) {
@@ -2809,11 +2896,8 @@ void MainWindow::performFuzzySearch(const QString &keyword, const QString &searc
         // 添加匹配结果：如果匹配则添加到结果列表
         if (match) {
             matchedBooks.append(book);
-            qDebug() << "Found match:" << book.name << book.indexId;
         }
     }
-
-    qDebug() << "Total matched books:" << matchedBooks.size();
 
     // 排序应用：根据当前的排序设置对搜索结果进行排序
     if (currentSortType_ == "borrowCount") {
@@ -2890,7 +2974,6 @@ void MainWindow::performFuzzySearch(const QString &keyword, const QString &searc
     // 更新表头以显示当前排序状态
     updateHeaderLabels();
 
-    qDebug() << "Search completed successfully";
 }
 
 /**
@@ -2928,55 +3011,54 @@ void MainWindow::performFuzzySearch(const QString &keyword, const QString &searc
  * @param keyword 搜索关键词
  * @param item 要应用高亮效果的表格项
  */
-void MainWindow::highlightMatchingText(const QString &text, const QString &keyword, QStandardItem *item)
-{
-    // 参数验证：关键词为空或表格项无效时直接返回
-    if (keyword.isEmpty() || !item) {
-        return;
-    }
+// void MainWindow::highlightMatchingText(const QString &text, const QString &keyword, QStandardItem *item)
+// {
+//     // 参数验证：关键词为空或表格项无效时直接返回
+//     if (keyword.isEmpty() || !item) {
+//         return;
+//     }
+//
+//     // 文本预处理：转换为小写进行不区分大小写的匹配
+//     QString lowerText = text.toLower();
+//     QString lowerKeyword = keyword.toLower();
+//
+//     // 匹配检测：检查文本是否包含关键词
+//     if (lowerText.contains(lowerKeyword)) {
+//         // 视觉高亮处理：简化实现，避免复杂的HTML文本处理
+//
+//         // 字体样式设置：将匹配文本加粗显示
+//         QFont font = item->font();
+//         font.setBold(true);
+//         item->setFont(font);
+//
+//         // 背景色设置：使用金色背景突出显示匹配项
+//         item->setBackground(QColor("#FFD700")); // 金色背景
+//
+//         // 数据存储：保持原始文本完整性
+//         item->setData(text, Qt::DisplayRole);                                    // 存储原始显示文本
+//         item->setData(QString("匹配: %1").arg(text), Qt::ToolTipRole);           // 存储工具提示文本
+//     }
+// }
 
-    // 文本预处理：转换为小写进行不区分大小写的匹配
-    QString lowerText = text.toLower();
-    QString lowerKeyword = keyword.toLower();
 
-    // 匹配检测：检查文本是否包含关键词
-    if (lowerText.contains(lowerKeyword)) {
-        // 视觉高亮处理：简化实现，避免复杂的HTML文本处理
-
-        // 字体样式设置：将匹配文本加粗显示
-        QFont font = item->font();
-        font.setBold(true);
-        item->setFont(font);
-
-        // 背景色设置：使用金色背景突出显示匹配项
-        item->setBackground(QColor("#FFD700")); // 金色背景
-
-        // 数据存储：保持原始文本完整性
-        item->setData(text, Qt::DisplayRole);                                    // 存储原始显示文本
-        item->setData(QString("匹配: %1").arg(text), Qt::ToolTipRole);           // 存储工具提示文本
-    }
-}
-    }
-}
-
-QVector<BookCopy> MainWindow::searchCopiesByKeyword(const QString &keyword)
-{
-    QVector<BookCopy> result;
-    QString lowerKeyword = keyword.toLower();
-
-    const QVector<Book> &allBooks = library_.getAll();
-    for (const Book &book : allBooks) {
-        QVector<BookCopy> copies = library_.getBookCopies(book.indexId);
-        for (const BookCopy &copy : copies) {
-            if (copy.copyId.toLower().contains(lowerKeyword) ||
-                copy.indexId.toLower().contains(lowerKeyword)) {
-                result.append(copy);
-            }
-        }
-    }
-
-    return result;
-}
+// QVector<BookCopy> MainWindow::searchCopiesByKeyword(const QString &keyword)
+// {
+//     QVector<BookCopy> result;
+//     QString lowerKeyword = keyword.toLower();
+//
+//     const QVector<Book> &allBooks = library_.getAll();
+//     for (const Book &book : allBooks) {
+//         QVector<BookCopy> copies = library_.getBookCopies(book.indexId);
+//         for (const BookCopy &copy : copies) {
+//             if (copy.copyId.toLower().contains(lowerKeyword) ||
+//                 copy.indexId.toLower().contains(lowerKeyword)) {
+//                 result.append(copy);
+//             }
+//         }
+//     }
+//
+//     return result;
+// }
 
 void MainWindow::onTableDoubleClicked(const QModelIndex &index)
 {

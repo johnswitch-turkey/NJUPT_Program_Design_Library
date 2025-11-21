@@ -47,8 +47,7 @@ Log::Log(QWidget *parent)
     // 管理员：B24010616 / B24010608，密码 123
     auto ensureUser = [this](const QString &username,
                              const QString &password,
-                             const QString &role,
-                             const QStringList &allowedCategories = {}) {
+                             const QString &role) {
         // 检查是否已经存在
         for (const QJsonValue &value : std::as_const(usersArray_)) {
             if (!value.isObject()) continue;
@@ -56,13 +55,6 @@ Log::Log(QWidget *parent)
             if (obj.value("username").toString() == username) {
                 // 已存在则只补充缺失字段
                 if (!obj.contains("role")) obj["role"] = role;
-                if (!obj.contains("allowedCategories")) {
-                    QJsonArray cats;
-                    for (const auto &c : allowedCategories) {
-                        cats.append(c);
-                    }
-                    obj["allowedCategories"] = cats;
-                }
                 // 确保密码为指定值（方便调试）
                 obj["password"] = password;
 
@@ -83,11 +75,6 @@ Log::Log(QWidget *parent)
         newUser["username"] = username;
         newUser["password"] = password;
         newUser["role"] = role;
-        QJsonArray cats;
-        for (const auto &c : allowedCategories) {
-            cats.append(c);
-        }
-        newUser["allowedCategories"] = cats;
         newUser["borrows"] = QJsonArray(); // 预留借阅信息
         usersArray_.append(newUser);
     };
@@ -95,15 +82,9 @@ Log::Log(QWidget *parent)
     // 两个管理员
     ensureUser(QStringLiteral("B24010616"), QStringLiteral("123"), QStringLiteral("admin"));
     ensureUser(QStringLiteral("B24010608"), QStringLiteral("123"), QStringLiteral("admin"));
-    // 两个虚拟学生账号，密码 123，给不同的可借类别
-    ensureUser(QStringLiteral("S24010001"),
-               QStringLiteral("123"),
-               QStringLiteral("student"),
-               QStringList{QStringLiteral("计算机科学"), QStringLiteral("外语")});
-    ensureUser(QStringLiteral("S24010002"),
-               QStringLiteral("123"),
-               QStringLiteral("student"),
-               QStringList{QStringLiteral("文学"), QStringLiteral("历史")});
+    // 两个虚拟学生账号，密码 123
+    ensureUser(QStringLiteral("S24010001"), QStringLiteral("123"), QStringLiteral("student"));
+    ensureUser(QStringLiteral("S24010002"), QStringLiteral("123"), QStringLiteral("student"));
 
     // 保存可能更新后的用户数据
     saveUsers();
@@ -475,12 +456,11 @@ void Log::performRegister()
         return;
     }
 
-    // 添加新用户，默认学生角色，初始可借所有类别
+    // 添加新用户，默认学生角色
     QJsonObject newUser;
     newUser["username"] = username;
     newUser["password"] = password; // 注意：实际应用中应该对密码进行加密
     newUser["role"] = QStringLiteral("student");
-    newUser["allowedCategories"] = QJsonArray(); // 空表示不限制
     newUser["borrows"] = QJsonArray();
     usersArray_.append(newUser);
 
@@ -508,7 +488,9 @@ void Log::performRegister()
         usersArray_.removeAt(usersArray_.size() - 1);
     }
 }
-
+//先判断路径是否存在
+//不存在则创建路径
+//然后获取读者的数组
 bool Log::loadUsers()
 {
     QFile file(usersFilePath_);
@@ -533,7 +515,7 @@ bool Log::loadUsers()
         usersArray_ = QJsonArray();
         return false;
     }
-
+    //获取并更新用户数组
     usersArray_ = doc.array();
     return true;
 }

@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/clion_test.dir/src/utils/log.cpp.obj.d"
   "CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj"
   "CMakeFiles/clion_test.dir/src/widget/bookdetaildialog.cpp.obj.d"
+  "CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj"
+  "CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj.d"
   "CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj"
   "CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj.d"
   "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj"

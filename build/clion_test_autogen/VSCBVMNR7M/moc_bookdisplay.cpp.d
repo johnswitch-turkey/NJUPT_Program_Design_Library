@@ -182,8 +182,10 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/VSCBVMNR7M/moc_boo
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QFormLayout \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QLayout \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/QLineEdit \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractbutton.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractslider.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qboxlayout.h \
@@ -205,6 +207,7 @@ D:/Work_Space/QT_Projects/clion_test/build/clion_test_autogen/VSCBVMNR7M/moc_boo
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qstyleoption.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtabbar.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtabwidget.h \
+  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtextedit.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   D:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

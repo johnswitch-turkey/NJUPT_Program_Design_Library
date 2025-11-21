@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmake:*)",
+      "Bash(./clion_test.exe:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

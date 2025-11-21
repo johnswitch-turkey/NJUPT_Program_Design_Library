@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QApplication>
+#include "bookcopymanager.h"
 
 // 单例实例
 DatabaseManager& DatabaseManager::instance()
@@ -155,6 +156,7 @@ Book DatabaseManager::bookFromJson(const QJsonObject& obj)
     }
 
     book.borrowCount = obj.value("borrowCount").toInt();
+    book.description = obj.value("description").toString();
 
     return book;
 }
@@ -174,6 +176,7 @@ QJsonObject DatabaseManager::bookToJson(const Book& book)
     obj["inDate"] = book.inDate.isValid() ? book.inDate.toString(Qt::ISODate) : QDate::currentDate().toString(Qt::ISODate);
 
     obj["borrowCount"] = book.borrowCount;
+    obj["description"] = book.description;
 
     return obj;
 }
@@ -343,16 +346,31 @@ bool DatabaseManager::exportToJson(const QString& filePath)
         return false;
     }
 
+    BookCopyManager &copyManager = BookCopyManager::instance();
     QJsonArray jsonArray;
+
     for (const Book &book : books_) {
-        jsonArray.append(bookToJson(book));
+        QJsonObject bookObj = bookToJson(book);
+
+        // 获取该图书的所有副本信息
+        QVector<BookCopy> copies = copyManager.getCopiesByIndexId(book.indexId);
+        QJsonArray copiesArray;
+
+        for (const BookCopy &copy : copies) {
+            copiesArray.append(copy.toJson());
+        }
+
+        // 将副本信息添加到图书对象中
+        bookObj["copies"] = copiesArray;
+
+        jsonArray.append(bookObj);
     }
 
     QJsonDocument doc(jsonArray);
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
 
-    qDebug() << "Exported" << books_.size() << "books to" << filePath;
+    qDebug() << "Exported" << books_.size() << "books with copies to" << filePath;
     return true;
 }
 
@@ -373,11 +391,36 @@ bool DatabaseManager::importFromJson(const QString& filePath)
         return false;
     }
 
+    BookCopyManager &copyManager = BookCopyManager::instance();
     QVector<Book> importedBooks;
     QJsonArray jsonArray = doc.array();
+
     for (const QJsonValue &value : jsonArray) {
         if (value.isObject()) {
-            importedBooks.append(bookFromJson(value.toObject()));
+            QJsonObject bookObj = value.toObject();
+
+            // 导入图书基本信息
+            Book book = bookFromJson(bookObj);
+            importedBooks.append(book);
+
+            // 检查是否有副本信息
+            if (bookObj.contains("copies") && bookObj["copies"].isArray()) {
+                QJsonArray copiesArray = bookObj["copies"].toArray();
+
+                // 导入副本信息
+                for (const QJsonValue &copyValue : copiesArray) {
+                    if (copyValue.isObject()) {
+                        BookCopy copy = BookCopy::fromJson(copyValue.toObject());
+
+                        // 检查副本是否已存在，如果不存在则添加
+                        BookCopy existingCopy = copyManager.getCopyById(copy.copyId);
+                        if (existingCopy.copyId.isEmpty()) {
+                            copyManager.addCopy(copy);
+                            qDebug() << "Imported copy:" << copy.copyId << "for book:" << book.indexId;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -395,9 +438,6 @@ bool DatabaseManager::importFromJson(const QString& filePath)
         if (!exists) {
             books_.append(book);
             addedCount++;
-
-            // 根据借阅次数添加适当数量的副本
-            // 这里只是添加到内存中的books_，实际副本需要在LibraryManager中处理
             qDebug() << "Imported book:" << book.indexId << "with borrow count:" << book.borrowCount;
         }
     }

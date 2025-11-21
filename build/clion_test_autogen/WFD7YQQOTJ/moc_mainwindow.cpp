@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "../../../src/widget/mainwindow.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -48,9 +49,9 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onDeleteBook",
         "onBorrow",
         "onReturn",
+        "onRenew",
         "onWarn",
         "onShowAll",
-        "onSwitchMode",
         "onHeaderSectionClicked",
         "section",
         "onSortByBorrowCount",
@@ -93,11 +94,11 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onReturn'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onWarn'
+        // Slot 'onRenew'
         QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onShowAll'
+        // Slot 'onWarn'
         QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSwitchMode'
+        // Slot 'onShowAll'
         QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onHeaderSectionClicked'
         QtMocHelpers::SlotData<void(int)>(13, 2, QMC::AccessPrivate, QMetaType::Void, {{
@@ -178,9 +179,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->onDeleteBook(); break;
         case 6: _t->onBorrow(); break;
         case 7: _t->onReturn(); break;
-        case 8: _t->onWarn(); break;
-        case 9: _t->onShowAll(); break;
-        case 10: _t->onSwitchMode(); break;
+        case 8: _t->onRenew(); break;
+        case 9: _t->onWarn(); break;
+        case 10: _t->onShowAll(); break;
         case 11: _t->onHeaderSectionClicked((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 12: _t->onSortByBorrowCount(); break;
         case 13: _t->onSortDefault(); break;

@@ -1,4 +1,15 @@
-// mainwindow.h
+/**
+ * @file mainwindow.h
+ * @brief 图书管理系统主窗口头文件
+ *
+ * 本文件定义了图书管理系统的主窗口类MainWindow，提供完整的图书管理界面。
+ * 包括图书列表显示、搜索功能、添加编辑删除功能、管理员权限控制等核心功能。
+ *
+ * @author 开发团队
+ * @date 2023-2024
+ * @version 1.0
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -12,7 +23,9 @@
 #include "../utils/librarymanager.h"
 #include "../utils/bookcopy.h"
 #include "bookdetaildialog.h"
+#include "../utils/bookdisplay.h"
 
+// Qt组件前向声明，减少编译依赖
 QT_BEGIN_NAMESPACE
 class QToolBar;
 class QScrollArea;
@@ -23,6 +36,33 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+/**
+ * @class MainWindow
+ * @brief 图书管理系统主窗口类
+ *
+ * 该类是图书管理系统的主界面，集成了所有的图书管理功能。
+ * 提供了图书的增删改查、搜索过滤、详情查看、副本管理等核心功能。
+ * 支持管理员和普通用户两种权限模式，提供不同的功能访问级别。
+ *
+ * 主要功能模块：
+ * - 图书列表显示：以表格形式展示所有图书信息
+ * - 搜索功能：支持按书名、作者、索引号等多种方式搜索
+ * - 图书管理：添加、编辑、删除图书信息
+ * - 详情查看：双击查看图书的详细信息和副本状态
+ * - 副本管理：管理图书的借阅副本信息
+ * - 权限控制：管理员模式提供完整功能，普通用户模式受限
+ * - 主题切换：支持深色/浅色主题切换
+ *
+ * UI布局：
+ * - 顶部：工具栏包含常用操作按钮
+ * - 中部：搜索栏和图书列表表格
+ * - 左侧：工具导航栏
+ * - 状态栏：显示系统状态和统计信息
+ *
+ * @note 需要管理员权限才能进行添加、编辑、删除操作
+ * @note 支持键盘快捷键和右键菜单操作
+ * @note 数据变更会自动保存到本地存储
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -46,9 +86,10 @@ private slots:
     // 核心业务功能
     void onBorrow();
     void onReturn();
+    void onRenew();              // 新增：续借功能
     void onWarn();
     void onShowAll();
-    void onSwitchMode();
+    // void onSwitchMode();
     void onHeaderSectionClicked(int section);
     void onSortByBorrowCount();
     void onSortDefault();
@@ -98,8 +139,8 @@ private:
 
     // 搜索功能增强
     void performFuzzySearch(const QString &keyword, const QString &searchMode);
-    void highlightMatchingText(const QString &text, const QString &keyword, QStandardItem *item);
-    QVector<BookCopy> searchCopiesByKeyword(const QString &keyword);
+    // void highlightMatchingText(const QString &text, const QString &keyword, QStandardItem *item);
+    // QVector<BookCopy> searchCopiesByKeyword(const QString &keyword);
 
     // UI更新
     void updateStatusBar();
@@ -108,7 +149,6 @@ private:
     // 用户与借阅相关的辅助函数
     QJsonArray loadUsersJson() const;
     bool saveUsersJson(const QJsonArray &array) const;
-    QStringList getCurrentUserAllowedCategories() const;
     bool currentUserHasBorrowed(const QString &indexId) const;
     void addBorrowRecordForCurrentUser(const Book &book, const QDate &borrowDate, const QDate &dueDate);
     void markBorrowRecordReturnedForCurrentUser(const QString &indexId, const QDate &returnDate);
@@ -152,11 +192,11 @@ private:
     QString currentUsername_;
     bool isAdminMode_ = false;      // 是否以管理员模式登录
     QString usersFilePath_;         // 用户数据文件路径
-    QStringList allowedCategories_; // 当前学生可借类别，空表示不限制
 
     // 按钮引用，用于控制显示/隐藏
     QAction *borrowAct_ = nullptr;
     QAction *returnAct_ = nullptr;
+    QAction *renewAct_ = nullptr;       // 新增：续借按钮
     QAction *warnAct_ = nullptr;
     QAction *myBorrowAct_ = nullptr;
     QAction *allAct_ = nullptr;

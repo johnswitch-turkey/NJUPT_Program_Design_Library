@@ -135,7 +135,7 @@ void BorrowDialog::validateInput()
         statusText = "❌ 归还日期必须晚于当前日期";
     } else if (dueDateEdit_->date() > QDate::currentDate().addDays(90)) {
         isValid = false;
-        statusText = "❌ 归还日期不能超过90天";
+        statusText = "❌ 归还日期不能超过30天";
     } else {
         statusText = QString("✅ 已选择副本 %1，归还日期：%2")
                      .arg(selectedCopy_.copyNumber)
