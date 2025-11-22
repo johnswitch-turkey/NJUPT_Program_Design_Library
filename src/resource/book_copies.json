@@ -1,10 +1,10 @@
 [
     {
-        "borrowDate": "2025-11-21",
-        "borrowedBy": "111",
+        "borrowDate": "",
+        "borrowedBy": "",
         "copyId": "CS001_1",
         "copyNumber": 1,
-        "dueDate": "2025-12-21",
+        "dueDate": "",
         "indexId": "CS001"
     },
     {
@@ -16,11 +16,11 @@
         "indexId": "CS001"
     },
     {
-        "borrowDate": "2025-11-21",
+        "borrowDate": "",
         "borrowedBy": "555",
         "copyId": "CS001_3",
         "copyNumber": 3,
-        "dueDate": "2025-12-21",
+        "dueDate": "",
         "indexId": "CS001"
     },
     {
@@ -113,7 +113,7 @@
     },
     {
         "borrowDate": "",
-        "borrowedBy": "",
+        "borrowedBy": "111",
         "copyId": "CS002_1",
         "copyNumber": 1,
         "dueDate": "",
@@ -129,7 +129,7 @@
     },
     {
         "borrowDate": "",
-        "borrowedBy": "",
+        "borrowedBy": "111",
         "copyId": "CS003_1",
         "copyNumber": 1,
         "dueDate": "",
@@ -153,7 +153,7 @@
     },
     {
         "borrowDate": "",
-        "borrowedBy": "",
+        "borrowedBy": "111",
         "copyId": "CS004_1",
         "copyNumber": 1,
         "dueDate": "",
@@ -296,11 +296,11 @@
         "indexId": "LIT003"
     },
     {
-        "borrowDate": "",
-        "borrowedBy": "",
+        "borrowDate": "2025-11-22",
+        "borrowedBy": "111",
         "copyId": "LIT004_1",
         "copyNumber": 1,
-        "dueDate": "",
+        "dueDate": "2025-12-22",
         "indexId": "LIT004"
     },
     {

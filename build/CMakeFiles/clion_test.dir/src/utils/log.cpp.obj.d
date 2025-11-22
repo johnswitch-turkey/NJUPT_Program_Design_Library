@@ -500,4 +500,6 @@ CMakeFiles/clion_test.dir/src/utils/log.cpp.obj: \
  D:/Qt/6.9.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.9.3/mingw_64/include/QtGui/qguiapplication_platform.h \
  D:/Qt/6.9.3/mingw_64/include/QtCore/QStandardPaths \
- D:/Qt/6.9.3/mingw_64/include/QtCore/qstandardpaths.h
+ D:/Qt/6.9.3/mingw_64/include/QtCore/qstandardpaths.h \
+ D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon \
+ D:/Qt/6.9.3/mingw_64/include/QtGui/qicon.h

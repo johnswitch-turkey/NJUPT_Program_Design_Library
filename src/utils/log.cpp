@@ -2,6 +2,7 @@
 #include "log.h"
 #include <QApplication>
 #include <QStandardPaths>
+#include <QIcon>
 
 Log::Log(QWidget *parent)
     : QDialog(parent)
@@ -96,6 +97,9 @@ Log::Log(QWidget *parent)
     setWindowTitle("登录");
     setModal(true);
     setFixedSize(300, 330);
+
+    // 设置窗口图标（使用ICO格式用于Windows标题栏）
+    setWindowIcon(QIcon(":/library.ico"));
 }
 
 Log::~Log()

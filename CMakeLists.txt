@@ -23,6 +23,12 @@ file(GLOB_RECURSE SOURCES
         ${SRC_DIR}/*.h
 )
 
+# Windows平台特定资源文件
+if(WIN32)
+    # 添加Windows资源文件用于应用图标
+    set(RESOURCE_FILE ${SRC_DIR}/resource/app_icon.rc)
+endif()
+
 # 创建可执行文件
 add_executable(clion_test ${SOURCES}
         src/widget/ui_mainwindow.cpp
@@ -30,6 +36,7 @@ add_executable(clion_test ${SOURCES}
         src/widget/bookdetaildialog.h    # 确保这行存在
         src/widget/borrowdialog.cpp      # 新增借书对话框
         src/widget/borrowdialog.h        # 新增借书对话框头文件
+        ${RESOURCE_FILE}                 # Windows资源文件
 )
 
 # 链接Qt库

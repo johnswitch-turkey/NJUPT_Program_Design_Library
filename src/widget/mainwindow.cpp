@@ -86,6 +86,9 @@ MainWindow::MainWindow(QWidget *parent)
     // UI基础设置：加载Qt Designer设计的界面布局
     ui->setupUi(this);
 
+    // 设置窗口图标（使用ICO格式用于Windows标题栏）
+    setWindowIcon(QIcon(":/library.ico"));
+
     // 1. 数据视图搭建：创建表格视图和数据模型，定义表格结构
     setupTable();
 
@@ -1203,7 +1206,16 @@ void MainWindow::setupActions()
     // 4. 创建 DockWidget 并将包含工具栏的 ScrollArea 放入其中
     toolBarDockWidget_ = createDockWidgetFromScrollArea(toolBarScrollArea_);
 
-    // 5. 将整个 DockWidget 添加到主窗口
+    // 5. 设置DockWidget属性，允许移动和停靠到所有位置
+    toolBarDockWidget_->setFeatures(QDockWidget::DockWidgetMovable |
+                                   QDockWidget::DockWidgetFloatable |
+                                   QDockWidget::DockWidgetClosable);
+    toolBarDockWidget_->setAllowedAreas(Qt::AllDockWidgetAreas);
+
+    // 6. 连接停靠位置变化信号，实现自适应布局
+    connect(toolBarDockWidget_, &QDockWidget::dockLocationChanged, this, &MainWindow::onToolBarDockLocationChanged);
+
+    // 7. 将整个 DockWidget 添加到主窗口
     addDockWidget(Qt::LeftDockWidgetArea, toolBarDockWidget_);
 
     // --- 创建所有按钮 ---
@@ -1450,6 +1462,137 @@ void MainWindow::toggleToolBarOrientation()
     statusBar()->showMessage(
         isToolBarVertical_ ? "已切换到竖向布局（左边）" : "已切换到横向布局（顶部）",
         2000);
+}
+
+/**
+ * @brief 工具栏停靠位置变化时的自适应处理
+ *
+ * 根据工具栏停靠的位置自动调整布局方向和样式。
+ * 当工具栏移动到顶部或底部时，自动切换为横向布局；
+ * 当工具栏移动到左侧或右侧时，自动切换为竖向布局。
+ *
+ * @param area 新的停靠区域
+ */
+void MainWindow::onToolBarDockLocationChanged(Qt::DockWidgetArea area)
+{
+    if (!actionToolBar_ || !toolBarDockWidget_ || !toolBarScrollArea_) {
+        return;
+    }
+
+    // 根据停靠位置确定布局方向
+    bool shouldBeVertical = (area == Qt::LeftDockWidgetArea || area == Qt::RightDockWidgetArea);
+
+    // 如果方向没有变化，不需要调整
+    if (shouldBeVertical == isToolBarVertical_) {
+        return;
+    }
+
+    // 更新状态
+    isToolBarVertical_ = shouldBeVertical;
+
+    // 获取工具栏容器的指针
+    QWidget *toolContainer = toolBarScrollArea_->widget();
+    QVBoxLayout *toolContainerLayout = nullptr;
+    if (toolContainer) {
+        toolContainerLayout = qobject_cast<QVBoxLayout*>(toolContainer->layout());
+    }
+
+    if (isToolBarVertical_) {
+        // 切换到竖向布局（左侧或右侧）
+        setupVerticalToolBarLayout();
+
+        // 调整容器布局为竖向
+        if (toolContainer && toolContainerLayout) {
+            toolContainer->setFixedWidth(150);
+            toolContainer->setMinimumHeight(900);
+            toolContainer->setMaximumHeight(QWIDGETSIZE_MAX);
+            toolContainerLayout->setDirection(QBoxLayout::TopToBottom);
+        }
+
+        statusBar()->showMessage("功能栏已调整为竖向布局", 1500);
+    } else {
+        // 切换到横向布局（顶部或底部）
+        setupHorizontalToolBarLayout();
+
+        // 调整容器布局为横向
+        if (toolContainer && toolContainerLayout) {
+            toolContainer->setFixedHeight(80);  // 与滚动区域保持一致
+            toolContainer->setMinimumWidth(300); // 设置最小宽度确保按钮有足够空间
+            toolContainer->setMaximumWidth(QWIDGETSIZE_MAX);
+            toolContainerLayout->setDirection(QBoxLayout::LeftToRight);
+            toolContainerLayout->setContentsMargins(8, 8, 8, 8);  // 增加边距
+            toolContainerLayout->setSpacing(20);  // 增加按钮间距
+        }
+
+        statusBar()->showMessage("功能栏已调整为横向布局", 1500);
+    }
+}
+
+/**
+ * @brief 设置竖向工具栏布局
+ *
+ * 配置工具栏为竖向布局，适用于左侧或右侧停靠。
+ */
+void MainWindow::setupVerticalToolBarLayout()
+{
+    // 设置工具栏为竖向
+    actionToolBar_->setOrientation(Qt::Vertical);
+    actionToolBar_->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    actionToolBar_->setMinimumWidth(110);
+    actionToolBar_->setMinimumHeight(0);
+    actionToolBar_->setMaximumHeight(QWIDGETSIZE_MAX);
+
+    // 调整滚动区域为竖向
+    toolBarScrollArea_->setWidgetResizable(false);
+    toolBarScrollArea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    toolBarScrollArea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    toolBarScrollArea_->setFixedWidth(130);
+    toolBarScrollArea_->setMinimumHeight(100);
+    toolBarScrollArea_->setMaximumHeight(QWIDGETSIZE_MAX);
+
+    // 设置DockWidget为竖向
+    toolBarDockWidget_->setFixedWidth(130);
+    toolBarDockWidget_->setMinimumWidth(130);
+    toolBarDockWidget_->setMaximumWidth(130);
+    toolBarDockWidget_->setMinimumHeight(0);
+    toolBarDockWidget_->setMaximumHeight(QWIDGETSIZE_MAX);
+
+    // 设置允许的停靠区域为左右两侧
+    toolBarDockWidget_->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+}
+
+/**
+ * @brief 设置横向工具栏布局
+ *
+ * 配置工具栏为横向布局，适用于顶部或底部停靠。
+ */
+void MainWindow::setupHorizontalToolBarLayout()
+{
+    // 设置工具栏为横向
+    actionToolBar_->setOrientation(Qt::Horizontal);
+    actionToolBar_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    actionToolBar_->setFixedHeight(70);  // 显著增加高度
+    actionToolBar_->setMinimumWidth(300); // 设置最小宽度确保按钮可见
+    actionToolBar_->setMaximumWidth(QWIDGETSIZE_MAX);
+
+    // 调整滚动区域为横向
+    toolBarScrollArea_->setWidgetResizable(true);  // 允许widget调整大小
+    toolBarScrollArea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    toolBarScrollArea_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    toolBarScrollArea_->setMinimumHeight(100);  // 增加最小高度
+    toolBarScrollArea_->setMaximumHeight(100);  // 设置固定高度
+    toolBarScrollArea_->setMinimumWidth(300);  // 设置最小宽度
+    toolBarScrollArea_->setMaximumWidth(QWIDGETSIZE_MAX);
+    toolBarScrollArea_->setFixedHeight(80);    // 固定高度
+
+    // 设置DockWidget为横向
+    toolBarDockWidget_->setMinimumHeight(100);
+    toolBarDockWidget_->setMaximumHeight(100);
+    toolBarDockWidget_->setMinimumWidth(300);
+    toolBarDockWidget_->setMaximumWidth(QWIDGETSIZE_MAX);
+
+    // 设置允许的停靠区域为顶部和底部
+    toolBarDockWidget_->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 }
 
 void MainWindow::onImportUsers()

@@ -251,6 +251,11 @@ CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.s"
 	D:\Qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Work_Space\QT_Projects\clion_test\src\widget\ui_mainwindow.cpp -o CMakeFiles\clion_test.dir\src\widget\ui_mainwindow.cpp.s
 
+CMakeFiles/clion_test.dir/src/resource/app_icon.rc.obj: CMakeFiles/clion_test.dir/flags.make
+CMakeFiles/clion_test.dir/src/resource/app_icon.rc.obj: D:/Work_Space/QT_Projects/clion_test/src/resource/app_icon.rc
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building RC object CMakeFiles/clion_test.dir/src/resource/app_icon.rc.obj"
+	D:\Qt\Tools\mingw1310_64\bin\windres.exe -O coff $(RC_DEFINES) $(RC_INCLUDES) $(RC_FLAGS) D:\Work_Space\QT_Projects\clion_test\src\resource\app_icon.rc CMakeFiles\clion_test.dir\src\resource\app_icon.rc.obj
+
 # Object files for target clion_test
 clion_test_OBJECTS = \
 "CMakeFiles/clion_test.dir/clion_test_autogen/mocs_compilation.cpp.obj" \
@@ -264,7 +269,8 @@ clion_test_OBJECTS = \
 "CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj" \
 "CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj" \
 "CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj" \
-"CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj"
+"CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj" \
+"CMakeFiles/clion_test.dir/src/resource/app_icon.rc.obj"
 
 # External object files for target clion_test
 clion_test_EXTERNAL_OBJECTS =
@@ -281,6 +287,7 @@ clion_test.exe: CMakeFiles/clion_test.dir/src/widget/borrowdialog.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/widget/copymanagementdialog.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/widget/mainwindow.cpp.obj
 clion_test.exe: CMakeFiles/clion_test.dir/src/widget/ui_mainwindow.cpp.obj
+clion_test.exe: CMakeFiles/clion_test.dir/src/resource/app_icon.rc.obj
 clion_test.exe: CMakeFiles/clion_test.dir/build.make
 clion_test.exe: D:/Qt/6.9.3/mingw_64/lib/libQt6Widgets.a
 clion_test.exe: D:/Qt/6.9.3/mingw_64/lib/libQt6Gui.a
@@ -288,7 +295,7 @@ clion_test.exe: D:/Qt/6.9.3/mingw_64/lib/libQt6Core.a
 clion_test.exe: CMakeFiles/clion_test.dir/linkLibs.rsp
 clion_test.exe: CMakeFiles/clion_test.dir/objects1.rsp
 clion_test.exe: CMakeFiles/clion_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable clion_test.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Work_Space\QT_Projects\clion_test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable clion_test.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\clion_test.dir\link.txt --verbose=$(VERBOSE)
 	D:\Programs\CMake\bin\cmake.exe -E make_directory D:/Work_Space/QT_Projects/clion_test/build/plugins/platforms/
 	D:\Programs\CMake\bin\cmake.exe -E copy D:/Qt/6.9.3/mingw_64/plugins/platforms/qwindows.dll D:/Work_Space/QT_Projects/clion_test/build/plugins/platforms/

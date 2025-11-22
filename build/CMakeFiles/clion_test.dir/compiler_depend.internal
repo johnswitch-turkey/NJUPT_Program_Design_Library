@@ -724,6 +724,7 @@ CMakeFiles/clion_test.dir/src/main.cpp.obj
  D:/Qt/6.9.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.9.3/mingw_64/include/QtCore/qyieldcpu.h
  D:/Qt/6.9.3/mingw_64/include/QtGui/QActionGroup
+ D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon
  D:/Qt/6.9.3/mingw_64/include/QtGui/QStandardItemModel
  D:/Qt/6.9.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.9.3/mingw_64/include/QtGui/qactiongroup.h
@@ -3078,6 +3079,7 @@ CMakeFiles/clion_test.dir/src/utils/log.cpp.obj
  D:/Qt/6.9.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.9.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.9.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon
  D:/Qt/6.9.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.9.3/mingw_64/include/QtGui/qbitmap.h
  D:/Qt/6.9.3/mingw_64/include/QtGui/qbrush.h

@@ -120,6 +120,9 @@ private:
     void setupActions();
     void updateActionsVisibility();  // 根据用户角色更新按钮显示
     void toggleToolBarOrientation(); // 切换工具栏方向（竖向/横向）
+    void onToolBarDockLocationChanged(Qt::DockWidgetArea area); // 工具栏停靠位置变化时的自适应处理
+    void setupVerticalToolBarLayout(); // 设置竖向工具栏布局
+    void setupHorizontalToolBarLayout(); // 设置横向工具栏布局
     void setupThemeToggle();
     void setupStyles();
     void applyTheme(bool isDark);

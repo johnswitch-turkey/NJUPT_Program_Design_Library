@@ -722,6 +722,7 @@ CMakeFiles/clion_test.dir/src/main.cpp.obj: D:/Work_Space/QT_Projects/clion_test
   D:/Qt/6.9.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qyieldcpu.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/QActionGroup \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon \
   D:/Qt/6.9.3/mingw_64/include/QtGui/QStandardItemModel \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qactiongroup.h \
@@ -3071,6 +3072,7 @@ CMakeFiles/clion_test.dir/src/utils/log.cpp.obj: D:/Work_Space/QT_Projects/clion
   D:/Qt/6.9.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.9.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.9.3/mingw_64/include/QtGui/qbrush.h \
@@ -6614,6 +6616,8 @@ D:/Qt/6.9.3/mingw_64/include/QtCore/qeventloop.h:
 
 D:/Qt/6.9.3/mingw_64/include/QtCore/qnativeinterface.h:
 
+D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon:
+
 D:/Qt/6.9.3/mingw_64/include/QtGui/qinputmethod.h:
 
 D:/Qt/6.9.3/mingw_64/include/QtWidgets/QApplication:
@@ -6649,8 +6653,6 @@ D:/Qt/6.9.3/mingw_64/include/QtCore/QSet:
 D:/Qt/6.9.3/mingw_64/include/QtCore/QVariant:
 
 D:/Qt/6.9.3/mingw_64/include/QtGui/QAction:
-
-D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon:
 
 D:/Qt/6.9.3/mingw_64/include/QtGui/QTextCharFormat:
 

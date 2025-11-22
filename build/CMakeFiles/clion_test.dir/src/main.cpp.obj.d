@@ -442,6 +442,8 @@ CMakeFiles/clion_test.dir/src/main.cpp.obj: \
  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qdialog.h \
  D:/Qt/6.9.3/mingw_64/include/QtCore/QTimer \
  D:/Qt/6.9.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.9.3/mingw_64/include/QtGui/QIcon \
+ D:/Qt/6.9.3/mingw_64/include/QtGui/qicon.h \
  D:/Work_Space/QT_Projects/clion_test/src/widget/mainwindow.h \
  D:/Qt/6.9.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.9.3/mingw_64/include/QtWidgets/qmainwindow.h \

@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QDialog> // 包含 QDialog 头文件
 #include <QTimer>   // 用于延迟关闭登录窗口
+#include <QIcon>    // 用于设置应用图标
 
 // 包含你的头文件
 #include "./widget/mainwindow.h"
@@ -23,6 +24,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    // 设置应用图标（使用ICO格式用于Windows任务栏和标题栏）
+    a.setWindowIcon(QIcon(":/library.ico"));
 
     // --- 创建并显示登录对话框 ---
     Log log;

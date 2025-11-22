@@ -209,6 +209,14 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/resource/app_icon.obj: src/resource/app_icon.rc.obj
+.PHONY : src/resource/app_icon.obj
+
+# target to build an object file
+src/resource/app_icon.rc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\clion_test.dir\build.make CMakeFiles/clion_test.dir/src/resource/app_icon.rc.obj
+.PHONY : src/resource/app_icon.rc.obj
+
 src/utils/bookcopymanager.obj: src/utils/bookcopymanager.cpp.obj
 .PHONY : src/utils/bookcopymanager.obj
 
@@ -467,6 +475,7 @@ help:
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
+	@echo ... src/resource/app_icon.obj
 	@echo ... src/utils/bookcopymanager.obj
 	@echo ... src/utils/bookcopymanager.i
 	@echo ... src/utils/bookcopymanager.s

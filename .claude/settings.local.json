@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(cmake:*)",
-      "Bash(./clion_test.exe:*)"
+      "Bash(./clion_test.exe:*)",
+      "Bash(python create_icon.py)",
+      "Bash(python create_simple_icon.py)"
     ],
     "deny": [],
     "ask": []
