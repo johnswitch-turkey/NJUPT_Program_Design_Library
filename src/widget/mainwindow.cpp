@@ -102,7 +102,6 @@ MainWindow::MainWindow(QWidget *parent)
     refreshTable();
 
     // UI组件初始化：设置各个功能区域
-    setupMenuBar();      // 菜单栏设置
     setupActions();      // 工具栏和功能按钮
     setupSearchBar();    // 搜索区域
     setupThemeToggle();  // 主题切换按钮
@@ -789,14 +788,6 @@ void MainWindow::onSortChanged(QAction *action)
     updateHeaderLabels();
 }
 
-// void MainWindow::onSwitchMode()
-// {
-//     isEditMode_ = !isEditMode_;
-//     setWindowTitle(isEditMode_ ? QStringLiteral("图书管理系统 (编辑模式)") : QStringLiteral("图书管理系统 (只读模式)"));
-//     QMessageBox::information(this, "模式切换",
-//                              isEditMode_ ? "已切换到编辑模式" : "已切换到只读模式");
-// }
-
 /**
  * @brief 搜索功能槽函数
  *
@@ -1026,147 +1017,6 @@ void MainWindow::onExport()
     onSave();  // 直接调用导出功能的实现函数
 }
 
-/**
- * @brief 数据刷新功能
- *
- * 功能说明：
- * 1. 数据重新加载：从数据库文件重新加载所有图书数据
- * 2. 菜单重建：重新构建筛选菜单，反映最新的数据分布
- * 3. 界面刷新：更新表格显示，确保界面与数据同步
- * 4. 用户反馈：显示刷新成功的提示消息
- *
- * 使用场景：
- * - 数据文件被外部程序修改后需要重新加载
- * - 系统运行时间较长后需要刷新数据状态
- * - 多用户操作时需要同步最新数据
- * - 排查数据相关问题时需要重置数据状态
- *
- * 刷新特点：
- * - 完整重载：不仅刷新显示，还重新从文件加载数据
- * - 状态同步：确保内存中的数据与文件中的数据完全一致
- * - UI同步：同时更新筛选菜单和表格显示
- *
- * 注意事项：
- * - 此操作会丢失当前未保存的任何修改
- * - 刷新过程中可能会有短暂的界面停顿
- * - 大量数据时刷新时间可能较长
- */
-void MainWindow::onRefresh()
-{
-    // 数据重新加载：从数据库文件重新读取所有图书和副本数据
-    library_.loadFromDatabase();
-
-    // 菜单重建：重新构建筛选菜单，更新类别、位置等筛选选项
-    rebuildFilterMenus();
-
-    // 界面刷新：更新表格显示，反映最新的数据状态
-    refreshTable();
-
-    // 用户反馈：显示刷新成功提示
-    QMessageBox::information(this, "成功", "数据已刷新！");
-}
-
-/**
- * @brief 类别筛选变更处理函数
- *
- * 功能说明：
- * 1. 参数验证：检查传入的动作对象是否有效
- * 2. 筛选值获取：从动作对象中获取类别筛选条件
- * 3. 状态更新：更新当前类别筛选条件
- * 4. 界面刷新：应用新的筛选条件并更新表格显示
- *
- * 筛选机制：
- * - 动作对象的data()存储了具体的类别值
- * - 空字符串表示"全部"，不进行类别筛选
- * - 非空字符串表示特定的图书类别（如"计算机科学"、"文学"等）
- *
- * 触发场景：
- * - 用户点击了类别筛选菜单中的某个选项
- * - 程序代码中调用了相应动作的trigger()方法
- *
- * 数据流：
- * QAction -> 获取data() -> 更新categoryFilter_ -> refreshTable() -> 更新显示
- */
-void MainWindow::onCategoryFilterChanged(QAction *action)
-{
-    // 参数验证：确保传入的动作对象有效
-    if (action) {
-        // 筛选条件更新：获取并更新当前类别筛选条件
-        categoryFilter_ = action->data().toString();
-
-        // 界面刷新：应用新的筛选条件并更新表格显示
-        refreshTable();
-    }
-}
-
-/**
- * @brief 状态筛选变更处理函数
- *
- * 功能说明：
- * 1. 参数验证：检查传入的动作对象是否有效
- * 2. 筛选值获取：从动作对象中获取状态筛选条件
- * 3. 状态更新：更新当前状态筛选条件
- * 4. 界面刷新：应用新的筛选条件并更新表格显示
- *
- * 筛选类型：
- * - 空字符串或"all"：显示全部图书，不进行状态筛选
- * - "available"：仅显示有可用副本的图书
- * - "borrowed"：仅显示所有副本都被借出的图书
- *
- * 业务逻辑：
- * - available筛选：图书至少有一个副本可借
- * - borrowed筛选：图书所有副本都被借出
- * - 全部显示：不考虑图书的可借状态
- *
- * 数据流：
- * QAction -> 获取data() -> 更新statusFilter_ -> refreshTable() -> 更新显示
- */
-void MainWindow::onStatusFilterChanged(QAction *action)
-{
-    // 参数验证：确保传入的动作对象有效
-    if (action) {
-        // 筛选条件更新：获取并更新当前状态筛选条件
-        statusFilter_ = action->data().toString();
-
-        // 界面刷新：应用新的筛选条件并更新表格显示
-        refreshTable();
-    }
-}
-
-/**
- * @brief 位置筛选变更处理函数
- *
- * 功能说明：
- * 1. 参数验证：检查传入的动作对象是否有效
- * 2. 筛选值获取：从动作对象中获取位置筛选条件
- * 3. 状态更新：更新当前位置筛选条件
- * 4. 界面刷新：应用新的筛选条件并更新表格显示
- *
- * 筛选选项：
- * - 空字符串或"all"：显示全部位置的图书
- * - "三牌楼图书馆"：仅显示三牌楼校区的图书
- * - "仙林图书馆"：仅显示仙林校区的图书
- * - 其他位置：根据实际数据中的location字段动态生成
- *
- * 地理信息：
- * - 支持多校区图书馆管理
- * - 便于用户按位置查找和管理图书
- * - 统计分析各校区的藏书分布
- *
- * 数据流：
- * QAction -> 获取data() -> 更新locationFilter_ -> refreshTable() -> 更新显示
- */
-void MainWindow::onLocationFilterChanged(QAction *action)
-{
-    // 参数验证：确保传入的动作对象有效
-    if (action) {
-        // 筛选条件更新：获取并更新当前位置筛选条件
-        locationFilter_ = action->data().toString();
-
-        // 界面刷新：应用新的筛选条件并更新表格显示
-        refreshTable();
-    }
-}
 
 // ============================================================================
 // UI设置和其他辅助函数
@@ -1256,15 +1106,10 @@ void MainWindow::setupActions()
     connect(exportBookAct_, &QAction::triggered, this, &MainWindow::onExport);
     connect(importUsersAct_, &QAction::triggered, this, &MainWindow::onImportUsers);
     connect(exportUsersAct_, &QAction::triggered, this, &MainWindow::onExportUsers);
-    connect(toggleOrientationAct_, &QAction::triggered, this, &MainWindow::toggleToolBarOrientation);
+
 
     // --- 初始状态 ---
     updateActionsVisibility();
-}
-
-void MainWindow::setupMenuBar()
-{
-    // 菜单栏可以暂时留空，或者添加一些与工具栏重复的功能
 }
 
 void MainWindow::setupSearchBar()
@@ -1410,59 +1255,7 @@ void MainWindow::updateActionsVisibility()
         toggleOrientationAct_->setVisible(false);
 }
 
-void MainWindow::toggleToolBarOrientation()
-{
-    if (!actionToolBar_ || !toolBarDockWidget_ || !toolBarScrollArea_) {
-        return;
-    }
 
-    isToolBarVertical_ = !isToolBarVertical_;
-
-    removeDockWidget(toolBarDockWidget_);
-
-    if (isToolBarVertical_) {
-        actionToolBar_->setOrientation(Qt::Vertical);
-        actionToolBar_->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-        actionToolBar_->setMinimumWidth(110);
-        actionToolBar_->setMinimumHeight(0);
-        actionToolBar_->setMaximumHeight(QWIDGETSIZE_MAX);
-
-        toolBarScrollArea_->setWidgetResizable(false);
-        toolBarScrollArea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        toolBarScrollArea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        toolBarScrollArea_->setFixedWidth(130);
-        toolBarScrollArea_->setMinimumHeight(100);
-        toolBarScrollArea_->setMaximumHeight(QWIDGETSIZE_MAX);
-        toolBarDockWidget_->setFixedWidth(130);
-
-        toolBarDockWidget_->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-        addDockWidget(Qt::LeftDockWidgetArea, toolBarDockWidget_);
-    } else {
-        actionToolBar_->setOrientation(Qt::Horizontal);
-        actionToolBar_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-        actionToolBar_->setFixedHeight(45);
-        actionToolBar_->setMinimumWidth(0);
-        actionToolBar_->setMaximumWidth(QWIDGETSIZE_MAX);
-
-        toolBarScrollArea_->setWidgetResizable(false);
-        toolBarScrollArea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        toolBarScrollArea_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        toolBarScrollArea_->setMinimumHeight(50);
-        toolBarScrollArea_->setMaximumHeight(50);
-        toolBarScrollArea_->setMinimumWidth(200);
-        toolBarScrollArea_->setMaximumWidth(QWIDGETSIZE_MAX);
-        toolBarDockWidget_->setMinimumWidth(0);
-        toolBarDockWidget_->setMaximumWidth(QWIDGETSIZE_MAX);
-        toolBarScrollArea_->setMinimumWidth(200);
-
-        toolBarDockWidget_->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-        addDockWidget(Qt::TopDockWidgetArea, toolBarDockWidget_);
-    }
-
-    statusBar()->showMessage(
-        isToolBarVertical_ ? "已切换到竖向布局（左边）" : "已切换到横向布局（顶部）",
-        2000);
-}
 
 /**
  * @brief 工具栏停靠位置变化时的自适应处理

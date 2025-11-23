@@ -101,12 +101,8 @@ private slots:
     void onSave();
     void onImport();
     void onExport();
-    void onRefresh();
     void onManageCopies();
     // 筛选菜单
-    void onCategoryFilterChanged(QAction *action);
-    void onStatusFilterChanged(QAction *action);
-    void onLocationFilterChanged(QAction *action);
     void onShowMyBorrows();         // 学生查看自己的借阅信息
     void onShowBookBorrowHistory(); // 管理员查看某本书的借阅记录
     void onImportUsers();           // 导入学生数据
@@ -115,11 +111,9 @@ private slots:
 private:
     // UI设置
     void setupTable();
-    void setupMenuBar();
     void setupSearchBar();
     void setupActions();
     void updateActionsVisibility();  // 根据用户角色更新按钮显示
-    void toggleToolBarOrientation(); // 切换工具栏方向（竖向/横向）
     void onToolBarDockLocationChanged(Qt::DockWidgetArea area); // 工具栏停靠位置变化时的自适应处理
     void setupVerticalToolBarLayout(); // 设置竖向工具栏布局
     void setupHorizontalToolBarLayout(); // 设置横向工具栏布局
