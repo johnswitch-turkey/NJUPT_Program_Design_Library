@@ -3,13 +3,13 @@
 
 # compile CXX with D:/Qt/Tools/mingw1310_64/bin/g++.exe
 # compile RC with D:/Qt/Tools/mingw1310_64/bin/windres.exe
-CXX_DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+CXX_DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
 
 CXX_INCLUDES = @CMakeFiles/clion_test.dir/includes_CXX.rsp
 
-CXX_FLAGS = -std=gnu++20 -Wall -Wextra -Wpedantic
+CXX_FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
 
-RC_DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+RC_DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
 
 RC_INCLUDES = -I D:\Work_Space\QT_Projects\clion_test\src -I D:\Work_Space\QT_Projects\clion_test\build\clion_test_autogen\include -I D:\Qt\6.9.3\mingw_64\include\QtCore -I D:\Qt\6.9.3\mingw_64\include -I D:\Qt\6.9.3\mingw_64\mkspecs\win32-g++ -I D:\Qt\6.9.3\mingw_64\include\QtGui -I D:\Qt\6.9.3\mingw_64\include\QtWidgets
 

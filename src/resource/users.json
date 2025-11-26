@@ -98,5 +98,12 @@
         "password": "555",
         "role": "student",
         "username": "555"
+    },
+    {
+        "borrows": [
+        ],
+        "password": "123",
+        "role": "student",
+        "username": "123"
     }
 ]

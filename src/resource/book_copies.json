@@ -1,10 +1,10 @@
 [
     {
-        "borrowDate": "",
-        "borrowedBy": "",
+        "borrowDate": "2025-11-26",
+        "borrowedBy": "123",
         "copyId": "CS001_1",
         "copyNumber": 1,
-        "dueDate": "",
+        "dueDate": "2025-12-26",
         "indexId": "CS001"
     },
     {
@@ -17,7 +17,7 @@
     },
     {
         "borrowDate": "",
-        "borrowedBy": "555",
+        "borrowedBy": "",
         "copyId": "CS001_3",
         "copyNumber": 3,
         "dueDate": "",
@@ -169,7 +169,7 @@
     },
     {
         "borrowDate": "",
-        "borrowedBy": "",
+        "borrowedBy": "123",
         "copyId": "CS005_1",
         "copyNumber": 1,
         "dueDate": "",
@@ -296,11 +296,11 @@
         "indexId": "LIT003"
     },
     {
-        "borrowDate": "2025-11-22",
+        "borrowDate": "",
         "borrowedBy": "111",
         "copyId": "LIT004_1",
         "copyNumber": 1,
-        "dueDate": "2025-12-22",
+        "dueDate": "",
         "indexId": "LIT004"
     },
     {

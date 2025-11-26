@@ -129,7 +129,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-std=gnu++20"
+					"fragment" : "-g -std=gnu++20"
 				},
 				{
 					"backtrace" : 15,
@@ -157,10 +157,6 @@
 				{
 					"backtrace" : 2,
 					"define" : "QT_GUI_LIB"
-				},
-				{
-					"backtrace" : 2,
-					"define" : "QT_NO_DEBUG"
 				},
 				{
 					"backtrace" : 2,
@@ -271,10 +267,6 @@
 				},
 				{
 					"backtrace" : 2,
-					"define" : "QT_NO_DEBUG"
-				},
-				{
-					"backtrace" : 2,
 					"define" : "QT_WIDGETS_LIB"
 				},
 				{
@@ -361,6 +353,10 @@
 	{
 		"commandFragments" : 
 		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
 			{
 				"backtrace" : 2,
 				"fragment" : "D:\\Qt\\6.9.3\\mingw_64\\lib\\libQt6Widgets.a",
