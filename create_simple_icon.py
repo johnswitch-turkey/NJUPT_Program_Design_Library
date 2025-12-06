@@ -40,15 +40,15 @@ def create_simple_ico(ico_file):
 
         # 保存ICO文件
         img.save(ico_file, format='ICO', sizes=[(16,16), (32,32), (48,48), (64,64), (128,128), (256,256)])
-        print(f"✅ 成功创建ICO文件: {ico_file}")
+        print(f"成功创建ICO文件: {ico_file}")
         return True
 
     except Exception as e:
-        print(f"❌ 创建ICO文件失败: {e}")
+        print(f"创建ICO文件失败: {e}")
         return False
 
 if __name__ == "__main__":
     ico_file = "src/resource/library.ico"
 
-    print(f"🔄 正在创建ICO文件: {ico_file}")
+    print(f"正在创建ICO文件: {ico_file}")
     create_simple_ico(ico_file)

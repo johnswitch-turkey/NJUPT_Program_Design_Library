@@ -1,10 +1,10 @@
 [
     {
-        "borrowDate": "2025-11-26",
+        "borrowDate": "",
         "borrowedBy": "123",
         "copyId": "CS001_1",
         "copyNumber": 1,
-        "dueDate": "2025-12-26",
+        "dueDate": "",
         "indexId": "CS001"
     },
     {
@@ -2566,5 +2566,21 @@
         "copyNumber": 4,
         "dueDate": "",
         "indexId": "ENG014"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS017_1",
+        "copyNumber": 1,
+        "dueDate": "",
+        "indexId": "CS017"
+    },
+    {
+        "borrowDate": "",
+        "borrowedBy": "",
+        "copyId": "CS001_15",
+        "copyNumber": 15,
+        "dueDate": "",
+        "indexId": "CS001"
     }
 ]
